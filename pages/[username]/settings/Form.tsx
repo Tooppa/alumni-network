@@ -21,7 +21,7 @@ const SettingsForm = ({ data }: any) => {
     return (
         <div className="flex w-full justify-center">
             <form onSubmit={registerUser} className="flex flex-col w-full max-w-3xl  border border-solid border-gray-900 p-7">
-                <div>
+                <div className="flex justify-between m-2">
                     <label htmlFor="name">Name</label>
                     <input
                         id="name"
@@ -32,7 +32,7 @@ const SettingsForm = ({ data }: any) => {
                         className="border border-solid border-gray-900"
                     />
                 </div>
-                <div>
+                <div className="flex justify-between m-2">
                     <label htmlFor="workStatus">WorkStatus</label>
                     <input
                         id="workStatus"
@@ -43,7 +43,7 @@ const SettingsForm = ({ data }: any) => {
                         className="border border-solid border-gray-900"
                     />
                 </div>
-                <div>
+                <div className="flex justify-between m-2">
                     <label htmlFor="bio">Bio</label>
                     <input
                         id="bio"
@@ -54,7 +54,7 @@ const SettingsForm = ({ data }: any) => {
                         className="border border-solid border-gray-900"
                     />
                 </div>
-                <div>
+                <div className="flex justify-between m-2">
                     <label htmlFor="funFact">FunFact</label>
                     <input
                         id="funFact"
