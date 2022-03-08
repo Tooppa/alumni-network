@@ -1,14 +1,17 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import Details from './detail'
 
 const Profile: NextPage = () => {
     const router = useRouter()
     const { username } = router.query
-    console.log(username);
+    const fakeUser = {
+        name: "Test"
+    }
     
     return (
         <>
-            <h1 className="text-3xl font-bold underline">profile page {username}</h1>
+            <Details user={fakeUser}/>
         </>
     )
 }
