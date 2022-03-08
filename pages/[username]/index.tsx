@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import Details from './detail'
+import Details from './Details'
 
 const Profile: NextPage = () => {
     const router = useRouter()
