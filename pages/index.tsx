@@ -16,8 +16,6 @@ const Home: NextPage = () => {
         <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet"></link>
       </Head>
 
-      <Navbar />
-
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
@@ -71,7 +69,7 @@ const Home: NextPage = () => {
           </span>
         </a>
       </footer>
-      <Footer />
+
     </div>
   )
 }
