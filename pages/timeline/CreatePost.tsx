@@ -3,7 +3,7 @@ import React from 'react';
 
 const CreatePost = () => {
     return (
-        <div className="container mx-auto my-6 max-w-screen-md p-4 bg-white shadow-md rounded-lg">
+        <div className="my-6 p-4 bg-white shadow-md rounded-lg">
             <div className="px-4 py-2">
                 <div className="flex mb-4">
                     <div className="flex items-center justify-center w-8 h-8 rounded-full mx-2 bg-blue-400">
