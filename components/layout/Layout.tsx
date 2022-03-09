@@ -14,9 +14,7 @@ export default function Layout({ children }: LayoutProps) {
             <Container>
                 <Navbar />
                 <Content>
-                    <main className="flex-grow">
-                        {children}
-                    </main>
+                    {children}
                 </Content>
                 <Footer />
             </Container>

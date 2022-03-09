@@ -7,7 +7,7 @@ type ContentProps = {
 export default function Content({ children }: ContentProps) {
     return (
         <>
-            <div className="container mx-auto max-w-screen-md">
+            <div className="container mx-auto max-w-screen-md flex-grow">
                 {children}
             </div>
         </>

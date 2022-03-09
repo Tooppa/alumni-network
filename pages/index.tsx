@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Post from '../Components/post/Post'
 import styles from '../styles/Home.module.css'
 import CreatePost from './timeline/CreatePost'
 
