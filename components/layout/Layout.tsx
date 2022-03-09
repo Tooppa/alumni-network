@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../footer/Footer';
 import Navbar from '../navbar/Navbar';
+import Container from '../container/Container'
 
 type LayoutProps = {
     children: React.ReactNode
@@ -9,11 +10,13 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
     return (
         <>
-            <Navbar />
-            <main>
-                {children}
-            </main>
-            <Footer />
+            <Container>
+                <Navbar />
+                <main className="flex-grow">
+                    {children}
+                </main>
+                <Footer />
+            </Container>
         </>
     )
 }
