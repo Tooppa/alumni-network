@@ -1,4 +1,6 @@
 import '../styles/globals.css'
+import type { AppProps } from 'next/app'
+import Layout from '../Components/layout/Layout'
 import Layout from '../Components/layout/Layout'
 import cookie from 'cookie'
 import * as React from 'react'
