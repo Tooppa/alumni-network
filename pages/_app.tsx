@@ -18,10 +18,18 @@ interface InitialProps {
 }
 
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
+  
+  const initOptions = {
+    /*
+    onLoad: 'login-required',
+    checkLoginIframe: false
+    */
+  }
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
       persistor={SSRCookies(cookies)}
+      initOptions={initOptions}
     >
       <Layout>
         <Component {...pageProps} />
