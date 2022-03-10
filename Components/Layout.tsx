@@ -1,14 +1,14 @@
 import React from 'react';
-import Footer from '../footer/Footer';
-import Navbar from '../navbar/Navbar';
-import Container from '../container/Container'
-import Content from '../content/Content';
+import Footer from './Footer';
+import Navbar from './Navbar';
+import Container from './Container'
+import Content from './Content';
 
 type LayoutProps = {
     children: React.ReactNode
 };
 
-export default function Layout({ children }: LayoutProps): React.ReactElement{
+export default function Layout({ children }: LayoutProps){
     return (
         <>
             <Container>

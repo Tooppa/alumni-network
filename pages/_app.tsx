@@ -1,13 +1,11 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import Layout from '../Components/layout/Layout'
-import Layout from '../Components/layout/Layout'
 import cookie from 'cookie'
 import * as React from 'react'
 import type { IncomingMessage } from 'http'
 import type { AppProps, AppContext } from 'next/app'
 import settings from '../keycloak.json'
 import { SSRKeycloakProvider, SSRCookies } from '@react-keycloak/ssr'
+import Layout from '../Components/Layout'
 
 const keycloakCfg = {
   realm: settings.realm,
