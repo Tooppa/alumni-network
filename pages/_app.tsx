@@ -7,6 +7,7 @@ import settings from '../keycloak.json'
 import { SSRKeycloakProvider, SSRCookies } from '@react-keycloak/ssr'
 import Layout from '../Components/Layout'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const keycloakCfg = {
   realm: settings.realm,
@@ -36,6 +37,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        <ReactQueryDevtools/>
       </QueryClientProvider>
     </SSRKeycloakProvider>
   )

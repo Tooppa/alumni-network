@@ -1,8 +1,15 @@
 import type { NextPage } from 'next'
+import { useQuery, useQueryClient } from 'react-query'
 import Post from '../../Components/Post'
 import CreatePost from './CreatePost'
+import { getGroups } from '../../Queries/Group'
 
 const Timeline: NextPage = () => {
+   const queryClient = useQueryClient()
+   const {data, status} = useQuery('group', getGroups)
+
+   if(status === 'success')
+    console.log(data);
 
     const fakeUser = {
         name: "horsegirl02"
