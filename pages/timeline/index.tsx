@@ -10,7 +10,8 @@ const Timeline: NextPage = () => {
 
     const fakePost = {
         title: "this is a test",
-        text: "this is some random text for the post this is some random text for the post this is some random text for the post this is some random text for the post"
+        text: "this is some random text for the post this is some random text for the post this is some random text for the post this is some random text for the post",
+        time: "March 11, 2022"
     }
 
     const fakeComment = {
