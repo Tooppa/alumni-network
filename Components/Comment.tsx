@@ -5,10 +5,10 @@ const Comment = () =>{
         <div className="text-sm mb-4 text-gray-800">
             <Link href="/">
                 <a className="font-semibold hover:underline">
-                    {"test"}
+                    {"HorseGirl02"}
                 </a>
             </Link>
-            <div className="ml-2">{"test"}</div>
+            <div className="ml-2">{"Great post bro"}</div>
         </div>
     )
 }

@@ -1,11 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useQuery} from 'react-query'
+import { getUser } from '../Queries/User'
 import Comment from './Comment'
 
 const Post = ({ post }: any) => {
     const [commentsVisible, setCommentsVisible] = useState(false);
+    const { data, status } = useQuery(['user', post.senderId], () => getUser(post.senderId))
 
+    if(status === "success")
     return (
         <div className="bg-white mb-6 p-4 rounded-lg shadow-md">
             <div className="px-4 py-2">
@@ -19,7 +23,7 @@ const Post = ({ post }: any) => {
                     </div>
                     <div>
                         <h1 className="text-xl text-gray-800">{post.title}</h1>
-                        <p className="text-xs text-gray-600">Posted by {post.senderId} · {post.time}</p>
+                        <p className="text-xs text-gray-600">Posted by {data.name} · {post.time}</p>
                     </div>
                 </div>
                 <div className="mb-8">
@@ -37,6 +41,7 @@ const Post = ({ post }: any) => {
                         <div className="mt-6">
                             <hr className="border-gray-300" />
                             <div className="ml-2 my-6">
+                                {/**in the future make a comment list also */}
                                 <Comment/>
                             </div>
                             <div className="flex">
@@ -53,6 +58,7 @@ const Post = ({ post }: any) => {
             </div>
         </div>
     )
+    return <></>
 }
 
 export default Post
