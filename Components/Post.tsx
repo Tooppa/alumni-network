@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import Comment from './Comment'
 
-const Post = ({ user, post, comment }: any) => {
+const Post = ({ post }: any) => {
     const [commentsVisible, setCommentsVisible] = useState(false);
 
     return (
@@ -18,7 +19,7 @@ const Post = ({ user, post, comment }: any) => {
                     </div>
                     <div>
                         <h1 className="text-xl text-gray-800">{post.title}</h1>
-                        <p className="text-xs text-gray-600">Posted by {user.name} · {post.time}</p>
+                        <p className="text-xs text-gray-600">Posted by {post.senderId} · {post.time}</p>
                     </div>
                 </div>
                 <div className="mb-8">
@@ -36,30 +37,7 @@ const Post = ({ user, post, comment }: any) => {
                         <div className="mt-6">
                             <hr className="border-gray-300" />
                             <div className="ml-2 my-6">
-                                <div className="text-sm mb-4 text-gray-800">
-                                    <Link href="/">
-                                        <a className="font-semibold hover:underline">
-                                            {user.name}
-                                        </a>
-                                    </Link>
-                                    <div className="ml-2">{comment.text}</div>
-                                </div>
-                                <div className="text-sm mb-4 text-gray-800">
-                                    <Link href="/">
-                                        <a className="font-semibold hover:underline">
-                                            {user.name}
-                                        </a>
-                                    </Link>
-                                    <div className="ml-2">{comment.text}</div>
-                                </div>
-                                <div className="text-sm mb-4 text-gray-800">
-                                    <Link href="/">
-                                        <a className="font-semibold hover:underline">
-                                            {user.name}
-                                        </a>
-                                    </Link>
-                                    <div className="ml-2">{comment.text}</div>
-                                </div>
+                                <Comment/>
                             </div>
                             <div className="flex">
                                 <input type="text" placeholder="Comment..." className="border border-gray-200 w-full rounded-md px-2 py-1 text-gray-600 text-sm focus:outline-none focus:border-gray-300" />
