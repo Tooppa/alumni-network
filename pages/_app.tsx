@@ -6,6 +6,7 @@ import type { AppProps, AppContext } from 'next/app'
 import settings from '../keycloak.json'
 import { SSRKeycloakProvider, SSRCookies } from '@react-keycloak/ssr'
 import Layout from '../Components/Layout'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 const keycloakCfg = {
   realm: settings.realm,
@@ -18,7 +19,7 @@ interface InitialProps {
 }
 
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
-  
+  const queryClient = new QueryClient()
   const initOptions = {
     /*
     onLoad: 'login-required',
@@ -31,9 +32,11 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
       persistor={SSRCookies(cookies)}
       initOptions={initOptions}
     >
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <QueryClientProvider client={queryClient}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </QueryClientProvider>
     </SSRKeycloakProvider>
   )
 }
