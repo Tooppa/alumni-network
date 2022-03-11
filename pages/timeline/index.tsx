@@ -5,11 +5,11 @@ import CreatePost from './CreatePost'
 import { getGroups } from '../../Queries/Group'
 
 const Timeline: NextPage = () => {
-   const queryClient = useQueryClient()
-   const {data, status} = useQuery('group', getGroups)
-
-   if(status === 'success')
-    console.log(data);
+    //testing group fetching
+    const queryClient = useQueryClient()
+    const { data, status } = useQuery('group', getGroups)
+    if (status === 'success')
+        console.log(data);
 
     const fakeUser = {
         name: "horsegirl02"
@@ -28,7 +28,7 @@ const Timeline: NextPage = () => {
     return (
         <>
             <CreatePost />
-            <Post user={fakeUser} post={fakePost} comment={fakeComment}/>
+            <Post user={fakeUser} post={fakePost} comment={fakeComment} />
         </>
     )
 }
