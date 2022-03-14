@@ -1,10 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { useQuery} from 'react-query'
+import { getUser } from '../Queries/User'
+import { PostType } from '../Types/Data'
+import Comment from './Comment'
 
-const Post = ({ user, post, comment }: any) => {
+const Post: React.FC<{post: PostType}> = ({ post }) => {
     const [commentsVisible, setCommentsVisible] = useState(false);
+    const { data, status } = useQuery(['user', post.senderId], () => getUser(post.senderId))
 
+    if(status === "success")
     return (
         <div className="bg-white mb-6 p-4 rounded-lg shadow-md">
             <div className="px-4 py-2">
@@ -17,12 +23,12 @@ const Post = ({ user, post, comment }: any) => {
                         </Link>
                     </div>
                     <div>
-                        <h1 className="text-xl text-green-500">{post.title}</h1>
-                        <p className="text-xs text-gray-600">Posted by {user.name} · {post.time}</p>
+                        <h1 className="text-xl text-gray-800">{post.title}</h1>
+                        <p className="text-xs text-gray-600">Posted by {data.name} · {post.timestamp}</p>
                     </div>
                 </div>
                 <div className="mb-8">
-                    <p className="text-sm text-gray-800">{post.text}</p>
+                    <p className="text-sm text-gray-800">{post.body}</p>
                 </div>
                 
                 <div>
@@ -36,30 +42,8 @@ const Post = ({ user, post, comment }: any) => {
                         <div className="mt-6">
                             <hr className="border-gray-300" />
                             <div className="ml-2 my-6">
-                                <div className="text-sm mb-4 text-gray-800">
-                                    <Link href="/">
-                                        <a className="font-semibold hover:underline">
-                                            {user.name}
-                                        </a>
-                                    </Link>
-                                    <div className="ml-2">{comment.text}</div>
-                                </div>
-                                <div className="text-sm mb-4 text-gray-800">
-                                    <Link href="/">
-                                        <a className="font-semibold hover:underline">
-                                            {user.name}
-                                        </a>
-                                    </Link>
-                                    <div className="ml-2">{comment.text}</div>
-                                </div>
-                                <div className="text-sm mb-4 text-gray-800">
-                                    <Link href="/">
-                                        <a className="font-semibold hover:underline">
-                                            {user.name}
-                                        </a>
-                                    </Link>
-                                    <div className="ml-2">{comment.text}</div>
-                                </div>
+                                {/**in the future make a comment list also */}
+                                <Comment/>
                             </div>
                             <div className="flex">
                                 <input type="text" placeholder="Comment..." className="border border-gray-200 w-full rounded-md px-2 py-1 text-gray-600 text-sm focus:outline-none focus:border-gray-300" />
@@ -75,6 +59,7 @@ const Post = ({ user, post, comment }: any) => {
             </div>
         </div>
     )
+    return <></>
 }
 
 export default Post
