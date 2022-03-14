@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useQuery} from 'react-query'
 import { getUser } from '../Queries/User'
+import { PostType } from '../Types/Data'
 import Comment from './Comment'
 
-const Post = ({ post }: any) => {
+const Post: React.FC<{post: PostType}> = ({ post }) => {
     const [commentsVisible, setCommentsVisible] = useState(false);
     const { data, status } = useQuery(['user', post.senderId], () => getUser(post.senderId))
 
@@ -23,11 +24,11 @@ const Post = ({ post }: any) => {
                     </div>
                     <div>
                         <h1 className="text-xl text-gray-800">{post.title}</h1>
-                        <p className="text-xs text-gray-600">Posted by {data.name} · {post.time}</p>
+                        <p className="text-xs text-gray-600">Posted by {data.name} · {post.timestamp}</p>
                     </div>
                 </div>
                 <div className="mb-8">
-                    <p className="text-sm text-gray-800">{post.text}</p>
+                    <p className="text-sm text-gray-800">{post.body}</p>
                 </div>
                 
                 <div>
