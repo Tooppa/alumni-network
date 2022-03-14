@@ -1,22 +1,20 @@
 import { useKeycloak } from '@react-keycloak/ssr'
-import { KeycloakInstance } from 'keycloak-js'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import CreatePost from './timeline/CreatePost'
 import { ParsedToken } from '../Types/Token'
 
 
 const Home: NextPage = () => {
-  const { keycloak } = useKeycloak<KeycloakInstance>();
-  const parsedToken: ParsedToken | undefined = keycloak?.tokenParsed;
+  const { keycloak } = useKeycloak()
+  const parsedToken: string | undefined = keycloak?.token
 
   const welcomeMessage =
     keycloak?.authenticated || (keycloak && parsedToken)
-      ? `Welcome back ${parsedToken?.preferred_username ?? ""}!`
+      ? "you are logged in"
       : "Welcome visitor. Please login to continue.";
   return (
-    <div className={styles.container}>
+    <div className="">
       
       <Head>
         <title>Create Next App</title>
@@ -27,12 +25,12 @@ const Home: NextPage = () => {
 
       <CreatePost />
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
+      <main className="">
+        <h1 className="">
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
+        <p className="">
           {welcomeMessage}
         </p>
       </main>

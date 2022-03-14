@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const queryClient = new QueryClient()
   const env = process.env.NODE_ENV
   let initOptions = {}
-  if (env == "production")
+  if (env === "production")
     initOptions = {
       onLoad: 'login-required',
       checkLoginIframe: false
