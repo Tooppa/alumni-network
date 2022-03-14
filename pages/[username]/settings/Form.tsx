@@ -24,7 +24,10 @@ const SettingsForm = ({ data }: any) => {
             <form onSubmit={registerUser} className="grid grid-cols-4">
                 <div className="col-span-1 p-6">
                     <div className="rounded-full ring-2 ring-green-400 flex">
-                        <Image src="/vercel.svg" alt="Profile pic" width={200} height={200} />
+                        <label htmlFor="image-upload" className="cursor-pointer hover:opacity-50">
+                            <Image src="/vercel.svg" alt="Profile pic" width={200} height={200} />
+                        </label>
+                        <input id="image-upload" type="file" className="hidden" />
                     </div>
                 </div>
                 <div className="col-span-3 p-6">
