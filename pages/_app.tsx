@@ -21,12 +21,13 @@ interface InitialProps {
 
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const queryClient = new QueryClient()
-  const initOptions = {
-    /*
-    onLoad: 'login-required',
-    checkLoginIframe: false
-    */
-  }
+  const env = process.env.NODE_ENV
+  let initOptions = {}
+  if (env == "production")
+    initOptions = {
+      onLoad: 'login-required',
+      checkLoginIframe: false
+    }
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
@@ -37,7 +38,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
-        <ReactQueryDevtools/>
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </SSRKeycloakProvider>
   )
