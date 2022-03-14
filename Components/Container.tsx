@@ -7,7 +7,7 @@ type ContainerProps = {
 export default function Container({ children }: ContainerProps) {
     return (
         <>
-            <div className="flex flex-col min-h-screen">
+            <div className="flex flex-col min-h-screen bg-gray-50">
                 {children}
             </div>
         </>
