@@ -28,6 +28,12 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
       onLoad: 'login-required',
       checkLoginIframe: false
     }
+  else {
+    initOptions = {
+      onLoad: '',
+      checkLoginIframe: false
+    }
+  }
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
