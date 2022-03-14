@@ -26,7 +26,6 @@ const Dashboard: NextPage = () => {
         <>
             <Details user={fakeUser}/>
             <Buttons/>
-            <Post data={fakePost}/>
         </>
     )
 }
