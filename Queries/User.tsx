@@ -3,7 +3,9 @@ export const getUsers = () =>
         res => res.json()
     );
 
-export const getUser = ( id: number ) =>  
-    fetch(`https://alumni-network-api.azurewebsites.net/api/v1/user/${id}`).then(
+export const getUser = ( id: number, token: string = "" ) =>  
+    fetch(`https://alumni-network-api.azurewebsites.net/api/v1/user/${id}`, {
+        headers: { Authentication: `Bearer ${token}` }
+    }).then(
         res => res.json()
     );

@@ -22,7 +22,6 @@ interface InitialProps {
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const queryClient = new QueryClient()
   const env = process.env.NODE_ENV
-  console.log(env);
 
   let initOptions = {}
   if (env === "production")
