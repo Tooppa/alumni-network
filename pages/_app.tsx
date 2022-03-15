@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
     fetch('https://alumni-network-api.azurewebsites.net/api/v1/user/login', {
       headers: { Authentication: `Bearer ${token}` }
     })
-  })
+  },[token])
 
   let initOptions = {}
   if (env === "production")
