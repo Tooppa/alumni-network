@@ -41,6 +41,11 @@ const Post: React.FC<{post: PostType}> = ({ post }) => {
                             <div className="ml-2 my-6">
                                 {post.replies.map((id: number) => <Comment key={id} id={id} />)}
                             </div>
+                            {post.replies.length <= 0 &&
+                                <div className="flex my-6 justify-center items-center">
+                                    <p className="text-sm text-gray-500">No comments yet</p>
+                                </div>
+                            }
                             <div className="flex">
                                 <input type="text" placeholder="Comment..." className="border border-gray-200 w-full rounded-sm px-2 py-1 text-gray-600 text-sm focus:outline-none focus:border-gray-300" />
                                 <button type="submit" className="button text-white bg-green-400 rounded-full shadow text-center inline-flex items-center p-2 ml-2 hover:bg-green-300">
