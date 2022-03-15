@@ -4,10 +4,11 @@ import * as React from 'react'
 import type { IncomingMessage } from 'http'
 import type { AppProps, AppContext } from 'next/app'
 import settings from '../keycloak.json'
-import { SSRKeycloakProvider, SSRCookies } from '@react-keycloak/ssr'
+import { SSRKeycloakProvider, SSRCookies, useKeycloak } from '@react-keycloak/ssr'
 import Layout from '../Components/Layout'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { useEffect } from 'react'
 
 const keycloakCfg = {
   realm: settings.realm,
@@ -22,6 +23,14 @@ interface InitialProps {
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const queryClient = new QueryClient()
   const env = process.env.NODE_ENV
+  const { keycloak } = useKeycloak()
+  const token: string | undefined = keycloak?.token
+
+  useEffect(() => {
+    fetch('https://alumni-network-api.azurewebsites.net/api/v1/user/login', {
+      headers: { Authentication: `Bearer ${token}` }
+    })
+  },[token])
 
   let initOptions = {}
   if (env === "production")
@@ -29,7 +38,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
       onLoad: 'login-required',
       checkLoginIframe: false
     }
-  else initOptions = {onLoad: ''}
+  else initOptions = { onLoad: '' }
 
   return (
     <SSRKeycloakProvider
