@@ -5,7 +5,7 @@ import { login } from "../Queries/User"
 const LoginManager = () =>{
     const { keycloak } = useKeycloak()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery('posts', () => login(token), { enabled: !!token })
+    useQuery('login', () => login(token), { enabled: !!token })
     return <></>
 }
 
