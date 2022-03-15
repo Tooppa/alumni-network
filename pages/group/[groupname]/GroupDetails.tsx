@@ -1,5 +1,3 @@
-import { groupCollapsed } from "console"
-
 const GroupDetails = ({ group }: any) => {
     return (
         <div className="bg-white my-6 p-4 shadow-lg rounded-sm">
