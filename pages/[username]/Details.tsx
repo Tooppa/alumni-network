@@ -3,14 +3,14 @@ import Link from 'next/link'
 
 const Details = ({user}: any) => {
     return (
-        <div className="bg-white mb-6 p-4 rounded-sm shadow-lg">
+        <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
             <div className="grid grid-cols-4">
                 <div className="col-span-1 p-6">
                     <div className="rounded-full ring-2 ring-green-400 flex">
                         <Image src={user.profilePic} alt="Profile pic" width={200} height={200} />
                     </div>
                     <div className="flex justify-center mt-4">
-                        <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-md text-sm px-5 py-1 text-center">
+                        <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-sm text-sm px-5 py-1 text-center">
                             <Link href="/settings">
                                 Edit profile
                             </Link>
