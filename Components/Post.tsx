@@ -1,3 +1,4 @@
+import { useKeycloak } from '@react-keycloak/ssr'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -8,7 +9,9 @@ import Comment from './Comment'
 
 const Post: React.FC<{post: PostType}> = ({ post }) => {
     const [commentsVisible, setCommentsVisible] = useState(false);
-    const { data, status } = useQuery(['user', post.senderId], () => getUser(post.senderId))
+    const { keycloak } = useKeycloak()
+    const token: string | undefined = keycloak?.token
+    const { data, status } = useQuery(['user', post.senderId], () => getUser(post.senderId, token), {enabled: !!token})
 
     if (status === "success")
         return (
