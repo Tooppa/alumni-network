@@ -8,14 +8,13 @@ import { getUser } from "../Queries/User"
 const Comment: React.FC<{id: number}>= ({id}) =>{
     const { keycloak } = useKeycloak()
     const token: string | undefined = keycloak?.token
-    const { data: post } = useQuery(['comment', id], () => getPost(id, token), {enabled: !!token})
-    const { data: user, status } = useQuery(['user', post?.senderId], () => getUser(post?.senderId, token), {enabled: !!post})
+    const { data: post, status } = useQuery(['comment', id], () => getPost(id, token), {enabled: !!token})
     if (status === "success")
         return (
             <div className="text-sm mb-4 text-gray-800">
                 <Link href="/">
                     <a className="font-semibold hover:underline">
-                        {user.name}
+                        {post.senderName}
                     </a>
                 </Link>
                 <div className="ml-2">{post.body}</div>
