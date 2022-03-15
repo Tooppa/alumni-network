@@ -10,7 +10,6 @@ const Home: NextPage = () => {
   const token: string | undefined = keycloak?.token
   console.log(token);
   
-
   const welcomeMessage =
     keycloak?.authenticated
       ? "you are logged in"
