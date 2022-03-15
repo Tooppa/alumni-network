@@ -6,9 +6,10 @@ import type { AppProps, AppContext } from 'next/app'
 import settings from '../keycloak.json'
 import { SSRKeycloakProvider, SSRCookies, useKeycloak } from '@react-keycloak/ssr'
 import Layout from '../Components/Layout'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { useEffect } from 'react'
+import { login } from '../Queries/User'
 
 const keycloakCfg = {
   realm: settings.realm,
@@ -24,13 +25,10 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const queryClient = new QueryClient()
   const env = process.env.NODE_ENV
   const { keycloak } = useKeycloak()
-  const token: string | undefined = keycloak?.token
 
   useEffect(() => {
-    fetch('https://alumni-network-api.azurewebsites.net/api/v1/user/login', {
-      headers: { Authentication: `Bearer ${token}` }
-    })
-  },[token])
+    async () => login(await keycloak?.token)
+  })
 
   let initOptions = {}
   if (env === "production")
