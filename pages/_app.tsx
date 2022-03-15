@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { useEffect } from 'react'
 import { login } from '../Queries/User'
+import LoginManager from '../Components/LoginManager'
 
 const keycloakCfg = {
   realm: settings.realm,
@@ -24,11 +25,6 @@ interface InitialProps {
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const queryClient = new QueryClient()
   const env = process.env.NODE_ENV
-  const { keycloak } = useKeycloak()
-
-  useEffect(() => {
-    async () => login(await keycloak?.token)
-  })
 
   let initOptions = {}
   if (env === "production")
@@ -45,6 +41,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
       initOptions={initOptions}
     >
       <QueryClientProvider client={queryClient}>
+        <LoginManager/>
         <Layout>
           <Component {...pageProps} />
         </Layout>
