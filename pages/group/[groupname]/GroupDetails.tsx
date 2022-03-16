@@ -1,14 +1,15 @@
 import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
-import React from "react"
+import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { getUser } from "../../../Queries/User"
 import { GroupType, UserType } from "../../../Types/Data"
 
 const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
+    const [isJoined, setIsjoined] = useState(false)
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('group', () => getUser(token), {enabled: !!token})
+    const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
 
     if (status === "success")
         return (
@@ -40,20 +41,20 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
                     <div className="text-sm text-gray-800">
                         {group.description}
                     </div>
-                    {/*group.isPrivate === true &&
-                    <div className="mt-6">
-                        {group.isJoined === false &&
-                            <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
-                                Join group
-                            </button>
-                        }
-                        {group.isJoined === true &&
-                            <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
-                                Leave group
-                            </button>
-                        }
-                    </div>
-                */}
+                    {group.isPrivate === true &&
+                        <div className="mt-6">
+                            {isJoined === false &&
+                                <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                                    Join group
+                                </button>
+                            }
+                            {isJoined === true &&
+                                <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                    Leave group
+                                </button>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         )
