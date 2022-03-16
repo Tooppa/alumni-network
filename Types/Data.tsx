@@ -21,3 +21,6 @@ export type GroupType = {
     "users": Array<number>,
     "posts": Array<number>
 }
+export type UserType = {
+  
+}
