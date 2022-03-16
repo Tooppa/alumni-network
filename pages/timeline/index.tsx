@@ -6,12 +6,12 @@ import { getPosts } from '../../Queries/Post'
 import PostList from '../../Components/PostList'
 import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
+import { PostType } from '../../Types/Data'
 
 const Timeline: NextPage = () => {
-    const queryClient = useQueryClient()
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery('posts', () => getPosts(token), {enabled: !!token})
+    const { data, status } = useQuery<Array<PostType>>('posts', () => getPosts(token), {enabled: !!token})
 
     if (status === 'success')
         return (
