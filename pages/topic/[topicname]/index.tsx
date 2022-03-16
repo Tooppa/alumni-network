@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import TopicDetails from "./TopicDetails";
 
 const Topic: NextPage = () => {
     const router = useRouter()
@@ -26,7 +27,7 @@ const Topic: NextPage = () => {
 
     return (
         <>
-            Topic index
+            <TopicDetails topic={fakeTopic} />
         </>
     )
 }
