@@ -32,11 +32,13 @@ const Topic: NextPage = () => {
         ]
     }
 
-    return (
-        <>
-            <TopicDetails topic={data} />
-        </>
-    )
+    if (status === "success")
+        return (
+            <>
+                <TopicDetails topic={data} />
+            </>
+        )
+    else return <></>
 }
 
 export default Topic
