@@ -28,11 +28,18 @@ const GroupDetails = ({ group }: any) => {
                 <div className="text-sm text-gray-800">
                     {group.description}
                 </div>
-                {group.isPrivate === false &&
+                {group.isPrivate === true &&
                     <div className="mt-6">
-                        <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
-                            Join group
-                        </button>
+                        {group.isJoined === false &&
+                            <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                                Join group
+                            </button>
+                        }
+                        {group.isJoined === true &&
+                            <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                Leave group
+                            </button>
+                        }
                     </div>
                 }
             </div>
