@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { getTopic } from "../../../Queries/Topic";
+import { TopicType } from "../../../Types/Data";
 import TopicDetails from "./TopicDetails";
 
 const Topic: NextPage = () => {
@@ -11,7 +12,7 @@ const Topic: NextPage = () => {
     const { topicname } = router.query
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery('topic', () => getTopic(Number(topicname), token), {enabled: !!token})
+    const { data, status } = useQuery<TopicType>('topic', () => getTopic(Number(topicname), token), {enabled: !!token})
 
     const fakeTopic = {
         name: "Front end problems",

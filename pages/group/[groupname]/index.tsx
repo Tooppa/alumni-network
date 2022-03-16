@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { getGroup, getGroups } from "../../../Queries/Group";
+import { GroupType } from "../../../Types/Data";
 import GroupDetails from "./GroupDetails";
 
 const Group: NextPage = () => {
@@ -11,7 +12,7 @@ const Group: NextPage = () => {
     const { groupname } = router.query
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery('group', () => getGroup(Number(groupname), token), {enabled: !!token})
+    const { data, status } = useQuery<GroupType>('group', () => getGroup(Number(groupname), token), {enabled: !!token})
 
     
     const fakeGroup = {

@@ -1,4 +1,7 @@
-const GroupDetails = ({ group }: any) => {
+import React from "react"
+import { GroupType } from "../../../Types/Data"
+
+const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     return (
         <div className="bg-white my-6 p-4 shadow-lg rounded-sm">
             <div className="p-6">
@@ -28,7 +31,7 @@ const GroupDetails = ({ group }: any) => {
                 <div className="text-sm text-gray-800">
                     {group.description}
                 </div>
-                {group.isPrivate === true &&
+                {/*group.isPrivate === true &&
                     <div className="mt-6">
                         {group.isJoined === false &&
                             <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
@@ -41,7 +44,7 @@ const GroupDetails = ({ group }: any) => {
                             </button>
                         }
                     </div>
-                }
+                */}
             </div>
         </div>
     )
