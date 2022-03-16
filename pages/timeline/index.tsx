@@ -5,10 +5,11 @@ import CreatePost from './CreatePost'
 import { getPosts } from '../../Queries/Post'
 import PostList from '../../Components/PostList'
 import { useKeycloak } from '@react-keycloak/ssr'
+import { KeycloakInstance } from 'keycloak-js'
 
 const Timeline: NextPage = () => {
     const queryClient = useQueryClient()
-    const { keycloak } = useKeycloak()
+    const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery('posts', () => getPosts(token), {enabled: !!token})
 
