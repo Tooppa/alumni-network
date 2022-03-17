@@ -1,7 +1,19 @@
-import React from "react"
-import { GroupType } from "../../../Types/Data"
+import { useKeycloak } from "@react-keycloak/ssr"
+import { KeycloakInstance } from "keycloak-js"
+import React, { useState } from "react"
+import { useQuery } from "react-query"
+import { getUser } from "../../../Queries/User"
+import { GroupType, UserType } from "../../../Types/Data"
 
 const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
+    const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)
+    const { keycloak } = useKeycloak<KeycloakInstance>()
+    const token: string | undefined = keycloak?.token
+    const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
+
+    if(status === "success" && isJoined != undefined)
+        setIsjoined(!!data.groups.find(g=> g == group.id))
+
     return (
         <div className="bg-white my-6 p-4 shadow-lg rounded-sm">
             <div className="p-6">
@@ -31,20 +43,20 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
                 <div className="text-sm text-gray-800">
                     {group.description}
                 </div>
-                {/*group.isPrivate === true &&
+                {group.isPrivate === true &&
                     <div className="mt-6">
-                        {group.isJoined === false &&
+                        {isJoined === false &&
                             <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                                 Join group
                             </button>
                         }
-                        {group.isJoined === true &&
+                        {isJoined === true &&
                             <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
                                 Leave group
                             </button>
                         }
                     </div>
-                */}
+                }
             </div>
         </div>
     )

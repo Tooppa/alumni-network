@@ -14,32 +14,18 @@ const Group: NextPage = () => {
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery<GroupType>('group', () => getGroup(Number(groupname), token), {enabled: !!token})
 
-    
-    const fakeGroup = {
-        name: "Amazing group",
-        description: "Both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.",
-        isPrivate: true,
-        isJoined: false,
-        users: [
-            {
-                username: "Batman"
-            },
-            {
-                username: "Spiderman"
-            }
-        ],
-        posts: [
-            {
-                title: "This is test post"
-            }
-        ]
-    }
-    if (status === "success")
+    if (status === "success"){
+        //if there is no corresponding group query prints out a string 
+        if(typeof(data) != "object")
+            return <>
+                <p>{data}</p>
+            </>
         return (
             <>
                 <GroupDetails group={data} />
             </>
         )
+    }
     else return <></>
 }
 

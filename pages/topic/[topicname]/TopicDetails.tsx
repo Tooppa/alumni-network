@@ -1,18 +1,30 @@
-import React from "react"
-import { TopicType } from "../../../Types/Data"
+import { useKeycloak } from "@react-keycloak/ssr"
+import { KeycloakInstance } from "keycloak-js"
+import React, { useState } from "react"
+import { useQuery } from "react-query"
+import { getUser } from "../../../Queries/User"
+import { TopicType, UserType } from "../../../Types/Data"
 
 const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
+    const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
+    const { keycloak } = useKeycloak<KeycloakInstance>()
+    const token: string | undefined = keycloak?.token
+    const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
+
+    if(status === "success" && isSubscribed != undefined)
+        setIsSubscribed(!!data.topics.find(g=> g == topic.id))
+    
     return (
         <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
             <div className="p-6">
                 <p className="text-xs text-gray-500">Topic</p>
                 <div className="flex mb-1 items-center">
                     <h1 className="text-2xl font-base text-gray-800 mr-6">{topic.name}</h1>
-                    {/*topic.isSubscribed === true &&
+                    {isSubscribed === true &&
                         <div className="border border-green-300 rounded-xl flex items-center h-4 py-2 px-3 justify-center bg-green-400">
                             <p className="text-xs text-white">subscribed</p>
                         </div>
-                    */}
+                    }
                 </div>
                 <div className="flex ml-2 mb-6">
                     <div className="flex items-center mr-4">
@@ -34,16 +46,16 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
                     {topic.description}
                 </div>
                 <div className="mt-6">
-                    {/*topic.isSubscribed === false &&
+                    {isSubscribed === false &&
                         <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                             Subscribe
                         </button>
-                    */}
-                    {/*topic.isSubscribed === true &&
+                    }
+                    {isSubscribed === true &&
                         <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
                             Unsubscribe
                         </button>
-                    */}
+                    }
                 </div>
             </div>
         </div>
