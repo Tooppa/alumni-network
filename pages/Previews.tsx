@@ -47,7 +47,7 @@ const Previews = () => {
                         <TopicPreview topicPreview={fakeTopicPreview} />
                     </div>
                     <div className="ml-3">
-                        <Link href="/">
+                        <Link href="/topic">
                             <a className="text-sm text-gray-800 hover:underline">
                                 View all topics →
                             </a>
@@ -67,7 +67,7 @@ const Previews = () => {
                         <GroupPreview groupPreview={fakeGroupPreview} />
                     </div>
                     <div className="ml-3">
-                        <Link href="/">
+                        <Link href="/group">
                             <a className="text-sm text-gray-800 hover:underline">
                                 View all groups →
                             </a>

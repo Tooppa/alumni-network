@@ -15,7 +15,6 @@ const Timeline: NextPage = () => {
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery<Array<PostType>>('posts', () => getPosts(token), { enabled: !!token })
-    console.log(token);
 
     if (status === 'success')
         return (
