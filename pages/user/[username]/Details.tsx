@@ -1,13 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import React from 'react'
+import { UserType } from '../../../Types/Data'
 
-const Details = ({user}: any) => {
+const Details: React.FC<{user: UserType}> = ({user}) => {
     return (
         <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
             <div className="grid grid-cols-4">
                 <div className="col-span-1 p-6">
                     <div className="rounded-full ring-2 ring-green-400 flex">
-                        <Image src={user.profilePic} alt="Profile pic" width={200} height={200} />
+                        <Image src={`/api/imagefetcher?url=${encodeURIComponent(user.pictureURL)}`} alt="Profile pic" width={200} height={200} />
                     </div>
                     <div className="flex justify-center mt-4">
                         <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-sm text-sm px-5 py-1 text-center">
@@ -20,7 +22,7 @@ const Details = ({user}: any) => {
                 <div className="col-span-3 p-6">
                     <div className="mb-6">
                         <h1 className="text-2xl font-base text-gray-800">{user.name}</h1>
-                        <h3 className="text-md text-gray-500 font-light">{user.workStatus}</h3>
+                        <h3 className="text-md text-gray-500 font-light">{user.status}</h3>
                     </div>
                     <div className="text-gray-800 text-sm mb-6">
                         <p className="font-bold text-md mb-2">Bio:</p>
