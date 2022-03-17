@@ -6,14 +6,20 @@ const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
     const [name, setName] = useState(user.name)
     const [bio, setBio] = useState(user.bio)
     const [fact, setFact] = useState(user.funFact)
+    const [status, setStatus] = useState(user.status)
+
     const registerUser = async (event: FormEvent) => {
         event.preventDefault()
-        console.log({
-            name:name,
-            bio:bio,
-            fact:fact
-        });
+        const newUser = {
+            name: name,
+            bio: bio,
+            funFact: fact,
+            pictureURL: user.pictureURL,
+            status: status,
+        };
+        //post
     }
+    
     return (
         <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
                 <div className="text-gray-800 text-2xl font-base text-center">
@@ -33,6 +39,8 @@ const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
                     <div className="">
                         <label className="text-sm p-1">Name:</label>
                         <input onChange={e => setName(e.target.value)} value={name} type="text" className="w-full border border-gray-200 rounded-sm mb-3 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300"/>
+                        <label className="text-sm p-1">Status:</label>
+                        <input onChange={e => setStatus(e.target.value)} value={status} type="text" className="w-full border border-gray-200 rounded-sm mb-3 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300"/>
                         <label className="text-sm p-1">Bio:</label>
                         <textarea onChange={e => setBio(e.target.value)} value={bio} rows={2} className="border border-gray-200 w-full mb-2 px-2 py-1 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"/>
                         <label className="text-sm p-1">Fun fact:</label>

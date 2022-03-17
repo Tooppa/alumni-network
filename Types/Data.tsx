@@ -23,6 +23,7 @@ export type GroupType = {
   posts: Array<number>
 }
 export type UserType = {
+  id: number,
   name: string,
   pictureURL: string,
   status: string,
