@@ -41,8 +41,11 @@ const Previews = () => {
                         </svg>
                         <p className="text-sm text-gray-800 ml-2">Topics</p>
                     </div>
-                    <TopicPreview topicPreview={fakeTopicPreview} />
-                    <TopicPreview topicPreview={fakeTopicPreview} />
+                    <div>
+                        <TopicPreview topicPreview={fakeTopicPreview} />
+                        <TopicPreview topicPreview={fakeTopicPreview} />
+                        <TopicPreview topicPreview={fakeTopicPreview} />
+                    </div>
                     <div className="ml-3">
                         <Link href="/">
                             <a className="text-sm text-gray-800 hover:underline">
@@ -58,8 +61,11 @@ const Previews = () => {
                         </svg>
                         <p className="text-sm text-gray-800 ml-2">Groups</p>
                     </div>
-                    <GroupPreview groupPreview={fakeGroupPreview} />
-                    <GroupPreview groupPreview={fakeGroupPreview} />
+                    <div>
+                        <GroupPreview groupPreview={fakeGroupPreview} />
+                        <GroupPreview groupPreview={fakeGroupPreview} />
+                        <GroupPreview groupPreview={fakeGroupPreview} />
+                    </div>
                     <div className="ml-3">
                         <Link href="/">
                             <a className="text-sm text-gray-800 hover:underline">
