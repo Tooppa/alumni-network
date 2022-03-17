@@ -6,12 +6,12 @@ import { getUser } from "../../../Queries/User"
 import { GroupType, UserType } from "../../../Types/Data"
 
 const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
-    const [isJoined, setIsjoined] = useState(false)
+    const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
 
-    if(status === "success")
+    if(status === "success" && isJoined != undefined)
         setIsjoined(!!data.groups.find(g=> g == group.id))
 
     return (

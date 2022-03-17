@@ -6,13 +6,14 @@ import { getUser } from "../../../Queries/User"
 import { TopicType, UserType } from "../../../Types/Data"
 
 const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
-    const [isSubscribed, setIsSubscribed] = useState(false)
+    const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
 
-    if(status === "success")
+    if(status === "success" && isSubscribed != undefined)
         setIsSubscribed(!!data.topics.find(g=> g == topic.id))
+    
     return (
         <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
             <div className="p-6">
