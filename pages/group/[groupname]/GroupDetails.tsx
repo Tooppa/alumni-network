@@ -12,7 +12,7 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
 
     if(status === "success" && isJoined != undefined)
-        setIsjoined(!!data.groups.find(g=> g == group.id))
+        setIsjoined(!!(data.groups as Array<number>).find(g=> g == group.id))
 
     return (
         <div className="bg-white my-6 p-4 shadow-lg rounded-sm">

@@ -12,7 +12,7 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
     const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
 
     if(status === "success" && isSubscribed != undefined)
-        setIsSubscribed(!!data.topics.find(g=> g == topic.id))
+        setIsSubscribed(!!(data.topics as Array<number>).find(g=> g == topic.id))
     
     return (
         <div className="bg-white my-6 p-4 rounded-sm shadow-lg">

@@ -1,5 +1,8 @@
+import { useKeycloak } from '@react-keycloak/ssr'
+import { KeycloakInstance } from 'keycloak-js'
 import Image from 'next/image'
 import { FormEvent, useState } from 'react'
+import { postUserById } from '../../../../Queries/User'
 import { UserType } from '../../../../Types/Data'
 
 const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
@@ -8,16 +11,19 @@ const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
     const [fact, setFact] = useState(user.funFact)
     const [status, setStatus] = useState(user.status)
 
+    const { keycloak } = useKeycloak<KeycloakInstance>()
+    const token: string | undefined = keycloak?.token
+
     const registerUser = async (event: FormEvent) => {
         event.preventDefault()
-        const newUser = {
+        const newUser: UserType = {
             name: name,
             bio: bio,
             funFact: fact,
             pictureURL: user.pictureURL,
             status: status,
         };
-        //post
+        postUserById(user.id as number,newUser,token)
     }
     
     return (
