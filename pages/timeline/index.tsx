@@ -6,6 +6,7 @@ import { getPosts } from '../../Queries/Post'
 import PostList from '../../Components/PostList'
 import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
+import Previews from './Previews'
 import { PostType } from '../../Types/Data'
 
 const Timeline: NextPage = () => {
@@ -16,6 +17,7 @@ const Timeline: NextPage = () => {
     if (status === 'success')
         return (
             <>
+                <Previews />
                 <CreatePost />
                 <PostList data={data} />
             </>
@@ -23,6 +25,7 @@ const Timeline: NextPage = () => {
     else {
         return (
             <>
+                <Previews />
                 <CreatePost />
             </>
         )
