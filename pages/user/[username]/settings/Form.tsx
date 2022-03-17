@@ -1,24 +1,18 @@
 import Image from 'next/image'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 import { UserType } from '../../../../Types/Data'
 
 const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
-    //currently empty function but in the future submitting a edited user could be done here
+    const [name, setName] = useState(user.name)
+    const [bio, setBio] = useState(user.bio)
+    const [fact, setFact] = useState(user.funFact)
     const registerUser = async (event: FormEvent) => {
         event.preventDefault()
-        /*
-        const res = await fetch('/api/register', {
-          body: JSON.stringify({
-            name: event.target
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'POST'
-        })
-
-        const result = await res.json()
-        // result.user => 'Ada Lovelace'*/
+        console.log({
+            name:name,
+            bio:bio,
+            fact:fact
+        });
     }
     return (
         <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
@@ -38,11 +32,11 @@ const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
                 <div className="col-span-3 p-6">
                     <div className="">
                         <label className="text-sm p-1">Name:</label>
-                        <input value={user.name} type="text" className="w-full border border-gray-200 rounded-sm mb-3 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300"/>
+                        <input onChange={e => setName(e.target.value)} value={name} type="text" className="w-full border border-gray-200 rounded-sm mb-3 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300"/>
                         <label className="text-sm p-1">Bio:</label>
-                        <textarea value={user.bio} rows={2} className="border border-gray-200 w-full mb-2 px-2 py-1 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"/>
+                        <textarea onChange={e => setBio(e.target.value)} value={bio} rows={2} className="border border-gray-200 w-full mb-2 px-2 py-1 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"/>
                         <label className="text-sm p-1">Fun fact:</label>
-                        <textarea value={user.funFact} rows={2} className="w-full border border-gray-200 rounded-sm mb-2 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300"/>
+                        <textarea onChange={e => setFact(e.target.value)} value={fact} rows={2} className="w-full border border-gray-200 rounded-sm mb-2 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300"/>
                     </div>
                     <div className="flex">
                         <div className="ml-auto">
