@@ -1,6 +1,8 @@
 import Link from "next/link"
+import React from "react"
+import { GroupType } from "../Types/Data"
 
-const GroupPreview = ({groupPreview}: any) => {
+const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
     return (
         <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105">
             <div className="pl-4">
