@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import React from "react";
 import CardGrid from "../../Components/Layout/CardGrid";
 import TopicPreview from "../../Components/TopicPreview";
+import { TopicType } from "../../Types/Data";
 import CreateTopic from "./CreateTopic";
 
 type TopicCardProps = {
@@ -9,18 +10,11 @@ type TopicCardProps = {
 }
 
 const Topics: NextPage<TopicCardProps> = ({children}) => {
-    const fakeTopicPreview = {
+    const fakeTopicPreview: TopicType = {
         name: "Amazing topic",
-        users: [
-            {
-                name: "Batman"
-            }
-        ],
-        posts: [
-            {
-                title: "This is test post"
-            }
-        ]
+        posts: [1, 2],
+        id: 0,
+        description: ""
     }
 
     return (
