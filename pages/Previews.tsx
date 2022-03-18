@@ -50,7 +50,7 @@ const Previews = () => {
                     <p className="text-sm text-gray-800 ml-2">Topics</p>
                 </div>
                 <div className="grid grid-cols-1 gap-4 my-4">
-                    {topics.map((t: TopicType) => <TopicPreview key={t.id} topicPreview={t}/>)}
+                    {topics.slice(0,3).map((t: TopicType) => <TopicPreview key={t.id} topicPreview={t}/>)}
                 </div>
                 <div className="ml-3">
                     <Link href="/topic">
@@ -72,7 +72,7 @@ const Previews = () => {
                     <p className="text-sm text-gray-800 ml-2">Groups</p>
                 </div>
                 <div className="grid grid-cols-1 gap-4 my-4">
-                    {groups.map((g: GroupType) => <GroupPreview key={g.id} groupPreview={g}/>)}
+                    {groups.slice(0,3).map((g: GroupType) => <GroupPreview key={g.id} groupPreview={g}/>)}
                 </div>
                 <div className="ml-3">
                     <Link href="/group">
