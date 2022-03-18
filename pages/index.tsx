@@ -26,17 +26,19 @@ const Timeline: NextPage = () => {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <Previews />
-                <CreatePost />
+                {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
+                <CreatePost topicId={1}/>
                 <PostList data={data} />
             </>
         )
     else {
         return (
-            <>
-                <Previews />
-                <CreatePost />
-            </>
-        )
+          <>
+            <Previews />
+            {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
+            <CreatePost topicId={1}/>
+          </>
+        );
     }
 }
 
