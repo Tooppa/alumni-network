@@ -15,14 +15,15 @@ export const getUserById = (id: number, token: string = "" ) =>
     );
 export const postUserById = (id: number, user: UserType, token: string = "") =>
     fetch(`https://alumni-network-api.azurewebsites.net/api/v1/user/${id}`, {
-        method: "POST",
+        method: "PATCH",
         headers: { 
+            Accept: "application/json",
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}` 
         },
         body: JSON.stringify(user)
     }).then(
-        res => res.json()
+        res => res
     );
 
 export const login = (token: string = "") =>
