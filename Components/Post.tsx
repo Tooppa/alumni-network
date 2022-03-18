@@ -3,9 +3,16 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { PostType } from '../Types/Data'
 import Comment from './Comment'
+import { formatDistanceToNow } from 'date-fns'
+import { zonedTimeToUtc} from 'date-fns-tz'
 
 const Post: React.FC<{post: PostType}> = ({ post }) => {
     const [commentsVisible, setCommentsVisible] = useState(false);
+
+    const formatTimeStamp = (timestamp: Date) => {
+        // The server hosting the API is located in Azure's North Europe data center i.e. Ireland
+        return formatDistanceToNow(zonedTimeToUtc(new Date(timestamp), "Europe/Dublin"),{ addSuffix: true, includeSeconds: true });
+    }
 
     return (
         <div className="bg-white mb-6 p-4 rounded-sm shadow-md">
@@ -20,7 +27,7 @@ const Post: React.FC<{post: PostType}> = ({ post }) => {
                     </div>
                     <div>
                         <h1 className="text-xl text-gray-800">{post.title}</h1>
-                        <p className="text-xs text-gray-600">Posted by {post.senderName} · {post.timestamp}</p>
+                        <p className="text-xs text-gray-600">Posted by {post.senderName} · {formatTimeStamp(post.timestamp)}</p>
                     </div>
                 </div>
                 <div className="mb-8">
