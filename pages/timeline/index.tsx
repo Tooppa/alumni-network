@@ -18,17 +18,21 @@ const Timeline: NextPage = () => {
         return (
             <>
                 <Previews />
-                <CreatePost />
+                {/* TODO: Get current topic, group, reply or user id here */}
+                {/* Using topic id 1 for now */}
+                <CreatePost topicId={1} />  
                 <PostList data={data} />
             </>
         )
     else {
         return (
-            <>
-                <Previews />
-                <CreatePost />
-            </>
-        )
+          <>
+            <Previews />
+            {/* TODO: Get current topic, group, reply or user id here */}
+            {/* Using topic id 1 for now */}
+            <CreatePost topicId={1} />
+          </>
+        );
     }
 }
 
