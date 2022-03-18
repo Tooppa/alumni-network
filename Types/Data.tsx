@@ -14,6 +14,10 @@ export type TopicType = {
   description: string,
   posts: Array<number>
 }
+export type TopicCreateType = {
+  name: string;
+  description: string;
+}
 export type GroupType = {
   id: number,
   name: string,
