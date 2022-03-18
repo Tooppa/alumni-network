@@ -8,7 +8,7 @@ import { KeycloakInstance } from "keycloak-js"
 import { useQuery } from "react-query"
 import { getGroup } from "../Queries/Group"
 import GroupDetails from "./GroupDetails"
-import Content from "./Content"
+import Content from "./Layout/Content"
 
 const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
     const router = useRouter()

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import React from "react";
-import CardGrid from "../../Components/CardGrid";
+import CardGrid from "../../Components/Layout/CardGrid";
 import TopicPreview from "../../Components/TopicPreview";
 import CreateTopic from "./CreateTopic";
 

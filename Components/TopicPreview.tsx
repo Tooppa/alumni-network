@@ -2,13 +2,13 @@ import Link from "next/link"
 import React from "react"
 import { TopicType } from "../Types/Data"
 import Modal from "react-modal"
-import Content from "./Content"
 import TopicDetails from "./TopicDetails"
 import { useRouter } from "next/router"
 import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import { useQuery } from "react-query"
 import { getTopic } from "../Queries/Topic"
+import Content from "./Layout/Content"
 
 const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
     const router = useRouter()
