@@ -2,7 +2,7 @@ import { useKeycloak } from '@react-keycloak/ssr';
 import { KeycloakInstance } from 'keycloak-js';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { sendPost } from '../../Queries/Post';
+import { sendPost } from '../Queries/Post';
 
 interface Parameters {
     topicId?: number,
