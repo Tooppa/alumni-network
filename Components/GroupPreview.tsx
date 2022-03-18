@@ -22,7 +22,7 @@ const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
                     </div>
                 </div>
                 <div>
-                    <Link href="/">
+                    <Link href={`/group/${groupPreview.id}`}>
                         <a className="text-xs text-gray-800 hover:underline">
                             View group →
                         </a>

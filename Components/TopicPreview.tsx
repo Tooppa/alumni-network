@@ -16,7 +16,7 @@ const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
                     </div>
                 </div>
                 <div>
-                    <Link href="/">
+                    <Link href={`/topic/${topicPreview.id}`}>
                         <a className="text-xs text-gray-800 hover:underline">
                             View topic →
                         </a>
