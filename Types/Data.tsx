@@ -22,6 +22,11 @@ export type GroupType = {
   users: Array<number>,
   posts: Array<number>
 }
+export type GroupCreateType = {
+  name: string,
+  description: string,
+  isPrivate: boolean,
+}
 export type UserType = {
   id?: number,
   name: string,
