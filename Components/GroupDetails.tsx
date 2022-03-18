@@ -2,8 +2,8 @@ import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
-import { getUser } from "../../../Queries/User"
-import { GroupType, UserType } from "../../../Types/Data"
+import { getUser } from "../Queries/User"
+import { GroupType, UserType } from "../Types/Data"
 
 const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)

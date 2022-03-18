@@ -5,10 +5,10 @@ import type { IncomingMessage } from 'http'
 import type { AppProps, AppContext } from 'next/app'
 import settings from '../keycloak.json'
 import { SSRKeycloakProvider, SSRCookies } from '@react-keycloak/ssr'
-import Layout from '../Components/Layout'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import LoginManager from '../Components/LoginManager'
+import Layout from '../Components/Layout/Layout'
 
 interface InitialProps {
   cookies: unknown

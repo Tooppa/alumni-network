@@ -3,9 +3,9 @@ import { KeycloakInstance } from "keycloak-js";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import { getGroup, getGroups } from "../../../Queries/Group";
+import { getGroup } from "../../../Queries/Group";
 import { GroupType } from "../../../Types/Data";
-import GroupDetails from "./GroupDetails";
+import GroupDetails from "../../../Components/GroupDetails";
 
 const Group: NextPage = () => {
     const router = useRouter()

@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { getTopic } from "../../../Queries/Topic";
 import { TopicType } from "../../../Types/Data";
-import TopicDetails from "./TopicDetails";
+import TopicDetails from "../../../Components/TopicDetails";
 
 const Topic: NextPage = () => {
     const router = useRouter()
