@@ -1,6 +1,6 @@
 import Link from "next/link"
-import GroupPreview from "./GroupPreview"
-import TopicPreview from "./TopicPreview"
+import GroupPreview from "../Components/GroupPreview"
+import TopicPreview from "../Components/TopicPreview"
 
 const Previews = () => {
     const fakeTopicPreview = {
@@ -41,13 +41,13 @@ const Previews = () => {
                         </svg>
                         <p className="text-sm text-gray-800 ml-2">Topics</p>
                     </div>
-                    <div>
+                    <div className="grid grid-cols-1 gap-4 my-4">
                         <TopicPreview topicPreview={fakeTopicPreview} />
                         <TopicPreview topicPreview={fakeTopicPreview} />
                         <TopicPreview topicPreview={fakeTopicPreview} />
                     </div>
                     <div className="ml-3">
-                        <Link href="/">
+                        <Link href="/topic">
                             <a className="text-sm text-gray-800 hover:underline">
                                 View all topics →
                             </a>
@@ -61,13 +61,13 @@ const Previews = () => {
                         </svg>
                         <p className="text-sm text-gray-800 ml-2">Groups</p>
                     </div>
-                    <div>
+                    <div className="grid grid-cols-1 gap-4 my-4">
                         <GroupPreview groupPreview={fakeGroupPreview} />
                         <GroupPreview groupPreview={fakeGroupPreview} />
                         <GroupPreview groupPreview={fakeGroupPreview} />
                     </div>
                     <div className="ml-3">
-                        <Link href="/">
+                        <Link href="/group">
                             <a className="text-sm text-gray-800 hover:underline">
                                 View all groups →
                             </a>
