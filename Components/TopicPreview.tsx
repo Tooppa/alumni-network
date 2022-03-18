@@ -1,8 +1,20 @@
 import Link from "next/link"
 import React from "react"
 import { TopicType } from "../Types/Data"
+import Modal from "react-modal"
+import Content from "./Content"
+import TopicDetails from "./TopicDetails"
+import { useRouter } from "next/router"
+import { useKeycloak } from "@react-keycloak/ssr"
+import { KeycloakInstance } from "keycloak-js"
+import { useQuery } from "react-query"
+import { getTopic } from "../Queries/Topic"
 
 const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
+    const router = useRouter()
+    const { keycloak } = useKeycloak<KeycloakInstance>()
+    const token: string | undefined = keycloak?.token
+    const { data, status } = useQuery<TopicType>('topic', () => getTopic(Number(router.query.id), token), {enabled: !!token && !!router.query.id})
     return (
         <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105">
             <div className="pl-4">
@@ -16,13 +28,18 @@ const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
                     </div>
                 </div>
                 <div>
-                    <Link href={`/topic/${topicPreview.id}`}>
+                    <Link href={`/?id=${topicPreview.id}`} as={`/topic/${topicPreview.id}`}>
                         <a className="text-xs text-gray-800 hover:underline">
                             View topic →
                         </a>
                     </Link>
                 </div>
             </div>
+            <Modal isOpen={!!router.query.id} onRequestClose={() => router.push("/")} className="p-0 m-[30vh]">
+                <Content>
+                    {status === "success" && <TopicDetails topic={data as TopicType} />}
+                </Content>
+            </Modal>
         </div>
     )
 }

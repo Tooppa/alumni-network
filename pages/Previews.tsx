@@ -13,7 +13,7 @@ const Previews = () => {
     const token: string | undefined = keycloak?.token
     const { data: topics, status: topicStatus } = useQuery<Array<TopicType>>('topics', () => getTopics(token), { enabled: !!token })
     const { data: groups, status: groupStatus } = useQuery<Array<GroupType>>('groups', () => getGroups(token), { enabled: !!token })
-    
+
     const TopicsElement = () =>{
         if (topicStatus === "success")
             return <>
@@ -58,7 +58,6 @@ const Previews = () => {
             </>
         else return <></>
     }
-
 
     return (
         <div className="my-6">

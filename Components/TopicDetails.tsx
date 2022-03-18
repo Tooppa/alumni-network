@@ -2,8 +2,8 @@ import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
-import { getUser } from "../../../Queries/User"
-import { TopicType, UserType } from "../../../Types/Data"
+import { getUser } from "../Queries/User"
+import { TopicType, UserType } from "../Types/Data"
 
 const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
     const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
