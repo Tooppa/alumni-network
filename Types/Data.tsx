@@ -14,6 +14,10 @@ export type TopicType = {
   description: string,
   posts: Array<number>
 }
+export type TopicCreateType = {
+  name: string;
+  description: string;
+}
 export type GroupType = {
   id: number,
   name: string,
@@ -21,6 +25,11 @@ export type GroupType = {
   isPrivate: boolean,
   users: Array<number>,
   posts: Array<number>
+}
+export type GroupCreateType = {
+  name: string,
+  description: string,
+  isPrivate: boolean,
 }
 export type UserType = {
   id?: number,
