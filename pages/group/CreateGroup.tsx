@@ -28,6 +28,9 @@ const CreateGroup = () => {
                 isPrivate: isPrivate
             }
             createGroup(newGroup, token);
+
+            setTitle("");
+            setDescription("");
         }
     }
 
