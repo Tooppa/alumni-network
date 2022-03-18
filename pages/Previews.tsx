@@ -41,7 +41,7 @@ const Previews = () => {
                         </svg>
                         <p className="text-sm text-gray-800 ml-2">Topics</p>
                     </div>
-                    <div>
+                    <div className="grid grid-cols-1 gap-4 my-4">
                         <TopicPreview topicPreview={fakeTopicPreview} />
                         <TopicPreview topicPreview={fakeTopicPreview} />
                         <TopicPreview topicPreview={fakeTopicPreview} />
@@ -61,7 +61,7 @@ const Previews = () => {
                         </svg>
                         <p className="text-sm text-gray-800 ml-2">Groups</p>
                     </div>
-                    <div>
+                    <div className="grid grid-cols-1 gap-4 my-4">
                         <GroupPreview groupPreview={fakeGroupPreview} />
                         <GroupPreview groupPreview={fakeGroupPreview} />
                         <GroupPreview groupPreview={fakeGroupPreview} />
