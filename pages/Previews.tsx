@@ -13,33 +13,7 @@ const Previews = () => {
     const token: string | undefined = keycloak?.token
     const { data: topics, status: topicStatus } = useQuery<Array<TopicType>>('topics', () => getTopics(token), { enabled: !!token })
     const { data: groups, status: groupStatus } = useQuery<Array<GroupType>>('groups', () => getGroups(token), { enabled: !!token })
-    const fakeTopicPreview = {
-        name: "Amazing topic",
-        users: [
-            {
-                name: "Batman"
-            }
-        ],
-        posts: [
-            {
-                title: "This is test post"
-            }
-        ]
-    }
-
-    const fakeGroupPreview = {
-        name: "Amazing group",
-        users: [
-            {
-                name: "Batman"
-            }
-        ],
-        posts: [
-            {
-                title: "This is test post"
-            }
-        ]
-    }
+    
     const TopicsElement = () =>{
         if (topicStatus === "success")
             return <>
@@ -90,7 +64,7 @@ const Previews = () => {
         <div className="my-6">
             <div className="grid grid-cols-2 gap-4">
                 <div><TopicsElement /></div>
-                <div><GroupElement/></div>
+                <div><GroupElement /></div>
             </div>
         </div>
     )
