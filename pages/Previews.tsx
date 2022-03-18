@@ -1,6 +1,6 @@
 import Link from "next/link"
-import GroupPreview from "./GroupPreview"
-import TopicPreview from "./TopicPreview"
+import GroupPreview from "../Components/GroupPreview"
+import TopicPreview from "../Components/TopicPreview"
 
 const Previews = () => {
     const fakeTopicPreview = {

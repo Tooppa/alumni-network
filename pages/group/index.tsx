@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import React from "react";
 import CardGrid from "../../Components/CardGrid";
-import GroupPreview from "../GroupPreview";
+import GroupPreview from "../../Components/GroupPreview";
 import CreateGroup from "./CreateGroup";
 
 type GroupCardProps = {

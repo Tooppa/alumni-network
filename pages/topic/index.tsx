@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import React from "react";
 import CardGrid from "../../Components/CardGrid";
-import TopicPreview from "../TopicPreview";
+import TopicPreview from "../../Components/TopicPreview";
 import CreateTopic from "./CreateTopic";
 
 type TopicCardProps = {
