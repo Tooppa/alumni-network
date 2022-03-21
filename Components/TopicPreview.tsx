@@ -1,7 +1,6 @@
 import Link from "next/link"
 import React from "react"
 import { TopicType } from "../Types/Data"
-import Modal from "react-modal"
 import TopicDetails from "./TopicDetails"
 import { useRouter } from "next/router"
 import { useKeycloak } from "@react-keycloak/ssr"
@@ -9,6 +8,7 @@ import { KeycloakInstance } from "keycloak-js"
 import { useQuery } from "react-query"
 import { getTopic } from "../Queries/Topic"
 import Content from "./Layout/Content"
+import Modal from "./Layout/Modal"
 
 const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
     const router = useRouter()
@@ -35,10 +35,8 @@ const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
                     </Link>
                 </div>
             </div>
-            <Modal isOpen={!!router.query.id} onRequestClose={() => router.push("/")} className="p-0 m-[30vh]">
-                <Content>
-                    {status === "success" && <TopicDetails topic={data as TopicType} />}
-                </Content>
+            <Modal>
+                {status === "success" && <TopicDetails topic={data as TopicType} />}
             </Modal>
         </div>
     )

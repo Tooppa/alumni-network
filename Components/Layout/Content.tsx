@@ -1,14 +1,10 @@
 import React from 'react';
 
-type ContentProps = {
-    children: React.ReactNode
-};
-
-export default function Content({ children }: ContentProps) {
+export default function Content({ ...props}) {
     return (
         <>
             <div className="container mx-auto max-w-screen-md flex-grow">
-                {children}
+                {props.children}
             </div>
         </>
     )
