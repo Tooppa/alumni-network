@@ -6,6 +6,7 @@ export default function CustomModal({...props}){
     const router = useRouter()
     return (
         <Modal 
+            id="modal"
             isOpen={!!props.id} 
             onAfterClose={() => {
                 document.body.style.overflowY = "scroll" 
