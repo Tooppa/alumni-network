@@ -1,17 +1,25 @@
 import { useKeycloak } from "@react-keycloak/ssr";
 import { KeycloakInstance } from "keycloak-js";
 import { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { createTopic } from "../../Queries/Topic";
 import { TopicCreateType } from "../../Types/Data";
 
 const CreateTopic = () => {
     const { keycloak } = useKeycloak<KeycloakInstance>();
     const token: string | undefined = keycloak?.token;
+    const queryClient = useQueryClient();
     
     const [topicCreated, setTopicCreated] = useState(false);
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    
+    const mutation = useMutation((topic: TopicCreateType) => createTopic(topic, token), {
+      onSuccess: () => {
+        queryClient.invalidateQueries("topic");
+      },
+    });
 
     const onCreate = () => {
       if (title === "" && description === "") {
@@ -25,8 +33,7 @@ const CreateTopic = () => {
           name: title,
           description: description,
         };
-          
-        createTopic(newTopic, token);
+        mutation.mutate(newTopic);
         
         setTitle('');
         setDescription('');
