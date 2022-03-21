@@ -12,10 +12,11 @@ export default function CustomModal({...props}){
             style={{
                 overlay: {
                     zIndex: "60",
-                    backgroundColor: "rgb(31 41 55 0)"
+                    backgroundColor: "rgba(31, 41, 55, 0.5)",
                 },
                 content: {
-                    backgroundColor: "rgb(249 250 251)"
+                    backgroundColor: "rgb(249 250 251)",
+                    maxWidth: "768px",
                 }
             }}
         >
