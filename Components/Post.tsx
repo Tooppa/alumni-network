@@ -15,7 +15,7 @@ const Post: React.FC<{post: PostType}> = ({ post }) => {
     }
 
     return (
-        <div className="bg-white mb-6 p-4 rounded-sm shadow-md">
+        <div className="bg-white my-2 p-4 ">
             <div className="px-4 py-2">
                 <div className="flex mb-8 items-center">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full mr-6 bg-green-300">
