@@ -1,13 +1,26 @@
+import { useKeycloak } from "@react-keycloak/ssr"
+import { KeycloakInstance } from "keycloak-js"
 import { useRouter } from "next/router"
 import Modal from "react-modal"
+import { useQuery } from "react-query"
+import { getGroup } from "../../Queries/Group"
+import { getTopic } from "../../Queries/Topic"
+import { GroupType, TopicType } from "../../Types/Data"
+import GroupDetails from "../GroupDetails"
+import TopicDetails from "../TopicDetails"
 import Content from "./Content"
 
-export default function CustomModal({...props}){
+export default function CustomModal(){
     const router = useRouter()
+    const { keycloak } = useKeycloak<KeycloakInstance>()
+    const token: string | undefined = keycloak?.token
+    const { data: topic, status: topicS } = useQuery<TopicType>('topic', () => getTopic(Number(router.query.idt), token), {enabled: !!token && !!router.query.idt})
+    const { data: group, status: groupS } = useQuery<GroupType>('group', () => getGroup(Number(router.query.idg), token), {enabled: !!token && !!router.query.idg})
+
     return (
         <Modal 
             id="modal"
-            isOpen={!!props.id} 
+            isOpen={!!router.query.idg || !!router.query.idt} 
             onAfterClose={() => {
                 document.body.style.overflowY = "scroll" 
             }}
@@ -35,9 +48,14 @@ export default function CustomModal({...props}){
                 }
             }}
         >
-    <Content>
-        {props.children}
-    </Content>
+            <Content>
+                {
+                    topicS === "success" ? 
+                        <TopicDetails topic={topic as TopicType} /> : 
+                    groupS === "success" && 
+                        <GroupDetails group={group as GroupType} />
+                }
+            </Content>
         </Modal >
     )
 }
