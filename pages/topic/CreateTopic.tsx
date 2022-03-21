@@ -42,7 +42,7 @@ const CreateTopic = () => {
 
     return (
       <div>
-        <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
+        <div className="bg-white my-6 p-4 rounded-sm shadow-md">
           <div className="px-6 py-4">
             <h1 className="text-xl text-gray-800">Create new topic</h1>
             <div className="mt-6">
@@ -66,7 +66,7 @@ const CreateTopic = () => {
             <div className="flex">
               <button
                 type="button"
-                className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-3 py-2 text-center"
+                className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
                 onClick={() => onCreate()}
               >
                 Create topic

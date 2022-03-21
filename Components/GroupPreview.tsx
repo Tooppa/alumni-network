@@ -16,7 +16,7 @@ const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery<GroupType>('group', () => getGroup(Number(router.query.idg), token), {enabled: !!token && !!router.query.idg})
     return (
-        <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105">
+        <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105 hover:shadow-lg">
             <div className="pl-4">
                 <h1 className="text-lg text-gray-800">{groupPreview.name}</h1>
                 <div className="flex ml-1 mb-2">
