@@ -1,15 +1,7 @@
 import React from 'react';
 
-type ContainerProps = {
-    children: React.ReactNode
-};
-
-export default function Container({ children }: ContainerProps) {
+export default function Container({ ...props}) {
     return (
-        <>
-            <div className="flex flex-col min-h-screen bg-gray-50">
-                {children}
-            </div>
-        </>
+        <div className="flex flex-col min-h-screen bg-gray-50">{props.children}</div>
     )
 }

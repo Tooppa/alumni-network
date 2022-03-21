@@ -15,7 +15,7 @@ export default function CustomModal({...props}){
                     backgroundColor: "rgb(31 41 55 0)"
                 },
                 content: {
-                    color: "rgb(249 250 251)"
+                    backgroundColor: "rgb(249 250 251)"
                 }
             }}
         >
