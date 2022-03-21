@@ -1,18 +1,26 @@
 import { useKeycloak } from "@react-keycloak/ssr";
 import { KeycloakInstance } from "keycloak-js";
 import { useState } from "react"
+import { useMutation, useQueryClient } from "react-query";
 import { createGroup } from "../../Queries/Group";
 import { GroupCreateType } from "../../Types/Data";
 
 const CreateGroup = () => {
     const { keycloak } = useKeycloak<KeycloakInstance>();
     const token: string | undefined = keycloak?.token;
+    const queryClient = useQueryClient();
     
     const [groupCreated, setGroupCreated] = useState(false);
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isPrivate, setPrivate] = useState(false);
+    
+    const mutation = useMutation((group: GroupCreateType) => createGroup(group, token), {
+      onSuccess: () => {
+        queryClient.invalidateQueries("groups");
+      },
+    });
 
     const onCreate = () => {
         if (title === '' && description === '') {
@@ -27,10 +35,10 @@ const CreateGroup = () => {
                 description: description,
                 isPrivate: isPrivate
             }
-            createGroup(newGroup, token);
+          mutation.mutate(newGroup);
 
-            setTitle("");
-            setDescription("");
+          setTitle("");
+          setDescription("");
         }
     }
 
@@ -45,14 +53,16 @@ const CreateGroup = () => {
                 className="w-full border border-gray-200 mb-4 p-1 rounded-sm px-2 text-sm text-gray-600 focus:outline-none focus:border-gray-300"
                 placeholder="Group name"
                 maxLength={50}
-                onChange={(e) => setDescription(e.target.value)}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <textarea
                 rows={4}
                 className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
                 placeholder="Description"
                 maxLength={200}
-                onChange={(e) => setTitle(e.target.value)}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               ></textarea>
               <div className="flex items-center ml-2">
                 <div className="flex items-center mr-4">
