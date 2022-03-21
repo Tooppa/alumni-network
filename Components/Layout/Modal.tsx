@@ -6,7 +6,7 @@ export default function CustomModal({...props}){
     const router = useRouter()
     return (
         <Modal 
-            isOpen={!!router.query.id} 
+            isOpen={!!props.id} 
             onRequestClose={() => router.push("/")} 
             ariaHideApp={false}
             style={{
