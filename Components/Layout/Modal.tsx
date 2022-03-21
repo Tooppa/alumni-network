@@ -28,7 +28,9 @@ export default function CustomModal({...props}){
                     right: '0',
                     marginLeft: 'auto',
                     marginRight: 'auto',
-                    overflowY: "scroll",
+                    border: "none",
+                    borderRadius: "0.125rem",
+                    paddingTop: "0",
                 }
             }}
         >
