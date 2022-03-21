@@ -14,7 +14,7 @@ const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
     const router = useRouter()
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<TopicType>('topic', () => getTopic(Number(router.query.id), token), {enabled: !!token && !!router.query.id})
+    const { data, status } = useQuery<TopicType>('topic', () => getTopic(Number(router.query.idt), token), {enabled: !!token && !!router.query.idt})
     return (
         <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105">
             <div className="pl-4">
@@ -28,14 +28,14 @@ const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
                     </div>
                 </div>
                 <div>
-                    <Link href={`/?id=${topicPreview.id}`} as={`/topic/${topicPreview.id}`}>
+                    <Link href={`/?idt=${topicPreview.id}`} as={`/topic/${topicPreview.id}`}>
                         <a className="text-xs text-gray-800 hover:underline">
                             View topic →
                         </a>
                     </Link>
                 </div>
             </div>
-            <Modal>
+            <Modal id={router.query.idt}>
                 {status === "success" && <TopicDetails topic={data as TopicType} />}
             </Modal>
         </div>
