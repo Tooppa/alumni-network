@@ -5,6 +5,7 @@ import { useQuery } from "react-query"
 import { getPostsWithIds } from "../Queries/Post"
 import { getUser } from "../Queries/User"
 import { PostType, TopicType, UserType } from "../Types/Data"
+import PostList from "./PostList"
 
 const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
     const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
@@ -62,7 +63,9 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
                     </div>
                 </div>
             </div>
-            {}
+            {postStatus === "success" &&
+                <PostList data={posts}/>
+            }
         </>
     )
 }

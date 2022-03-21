@@ -5,6 +5,7 @@ import { useQuery } from "react-query"
 import { getPostsWithIds } from "../Queries/Post"
 import { getUser } from "../Queries/User"
 import { GroupType, PostType, UserType } from "../Types/Data"
+import PostList from "./PostList"
 
 const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)
@@ -62,7 +63,9 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
                     }
                 </div>
             </div>
-            {}
+            {postStatus === "success" &&
+                <PostList data={posts}/>
+            }
         </>
     )
 }

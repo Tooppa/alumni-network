@@ -17,12 +17,17 @@ export default function CustomModal({...props}){
                 content: {
                     backgroundColor: "rgb(249 250 251)",
                     maxWidth: "768px",
+                    position: 'absolute',
+                    left: '0',
+                    right: '0',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
                 }
             }}
         >
-            <Content>
-                {props.children}
-            </Content>
-        </Modal>
+    <Content>
+        {props.children}
+    </Content>
+        </Modal >
     )
 }
