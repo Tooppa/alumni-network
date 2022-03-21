@@ -2,13 +2,13 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
 import { GroupType } from "../Types/Data"
-import Modal from "react-modal"
 import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import { useQuery } from "react-query"
 import { getGroup } from "../Queries/Group"
 import GroupDetails from "./GroupDetails"
 import Content from "./Layout/Content"
+import Modal from "./Layout/Modal"
 
 const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
     const router = useRouter()
@@ -41,11 +41,9 @@ const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
                     </Link>
                 </div>
             </div>
-            <Modal isOpen={!!router.query.id} onRequestClose={() => router.push("/")} className="p-0 m-[30vh]">
-                <Content>
+                <Modal>
                     {status === "success" && <GroupDetails group={data as GroupType} />}
-                </Content>
-            </Modal>
+                </Modal>
         </div>
     )
 }
