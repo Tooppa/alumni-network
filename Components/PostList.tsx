@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { PostType } from "../Types/Data"
 import Post from "./Post"
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Loading from "./Loading";
 
 const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
     const [posts, setPosts] = useState(data.slice(0, 4));
@@ -21,10 +22,7 @@ const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
                 dataLength={posts.length}
                 next={fetchData}
                 hasMore={hasMore}
-                loader={data.length > 0 ? 
-                    <h4 className="my-4 text-sm text-gray-500 flex justify-center">Loading...</h4>:
-                    <h4 className="my-4 text-sm text-gray-500 flex justify-center">No posts.</h4>
-                }
+                loader={<Loading length={data.length}/>}
                 scrollableTarget="modal"
                 // TODO: endMessage goes inside the last fragment for some reason, expanding it
                 /*endMessage={

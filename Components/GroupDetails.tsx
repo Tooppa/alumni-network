@@ -5,6 +5,7 @@ import { useQuery } from "react-query"
 import { getPostsFromGroup, getPostsWithIds } from "../Queries/Post"
 import { getUser } from "../Queries/User"
 import { GroupType, PostType, UserType } from "../Types/Data"
+import Loading from "./Loading"
 import PostList from "./PostList"
 
 const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
@@ -65,9 +66,7 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
             </div>
             {postStatus === "success" ?
                 <PostList data={posts}/>:
-                <div className="bg-white rounded-sm shadow-md">
-                    <h4 className="my-4 p-4 text-sm text-gray-500 flex justify-center">Loading...</h4>
-                </div>
+                <Loading/>
             }
         </>
     )
