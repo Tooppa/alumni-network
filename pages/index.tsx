@@ -20,7 +20,7 @@ const Timeline: NextPage = () => {
     return (
       <>
         <Head>
-          <title>Create Next App</title>
+          <title>Alumni Network</title>
           <meta name="description" content="Welcome to Alumni Network" />
           <link rel="icon" href="/favicon.ico" />
         </Head>

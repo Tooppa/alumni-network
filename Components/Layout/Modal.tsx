@@ -7,6 +7,12 @@ export default function CustomModal({...props}){
     return (
         <Modal 
             isOpen={!!props.id} 
+            onAfterClose={() => {
+                document.body.style.overflowY = "scroll" 
+            }}
+            onAfterOpen={() => {
+                document.body.style.overflowY = "hidden" 
+            }}
             onRequestClose={() => router.push("/")} 
             ariaHideApp={false}
             style={{
@@ -22,6 +28,7 @@ export default function CustomModal({...props}){
                     right: '0',
                     marginLeft: 'auto',
                     marginRight: 'auto',
+                    overflowY: "scroll",
                 }
             }}
         >
