@@ -8,6 +8,7 @@ import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
 import Previews from './Previews'
 import { PostType } from '../Types/Data'
+import Filter from './Filter'
 
 const Timeline: NextPage = () => {
   const { keycloak } = useKeycloak<KeycloakInstance>()
@@ -25,7 +26,8 @@ const Timeline: NextPage = () => {
         </Head>
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
-        <CreatePost topicId={1}/>
+        <CreatePost topicId={1} />
+        <Filter />
         <PostList data={data as Array<PostType>} />
       </>
     )

@@ -17,21 +17,27 @@ const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
     }
 
     return (
-        <>
+        <div className="bg-white rounded-sm shadow-md">
             <InfiniteScroll
                 dataLength={posts.length}
                 next={fetchData}
                 hasMore={hasMore}
                 loader={<h4 className="my-4 text-sm text-gray-500 flex justify-center">Loading...</h4>}
-                endMessage={
+                // TODO: endMessage goes inside the last fragment for some reason, expanding it
+                /*endMessage={
                     <p className="my-4 text-sm text-gray-500 flex justify-center">
                         No more posts left.
                     </p>
-                }
+                }*/
             >
-            {posts.map((post: PostType, index: number) => <Post key={index} post={post}/>)}
+            {posts.map((post: PostType, index: number) => (
+                <React.Fragment key={index}>
+                    <Post post={post} />
+                    <hr className="border-gray-300 last-of-type:hidden" />
+                </React.Fragment>
+            ))}
             </InfiniteScroll>
-        </>
+        </div>
     )
 }
 export default PostList

@@ -2,19 +2,19 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
 import { GroupType } from "../Types/Data"
-import Modal from "react-modal"
 import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import { useQuery } from "react-query"
 import { getGroup } from "../Queries/Group"
 import GroupDetails from "./GroupDetails"
 import Content from "./Layout/Content"
+import Modal from "./Layout/Modal"
 
 const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
     const router = useRouter()
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<GroupType>('group', () => getGroup(Number(router.query.id), token), {enabled: !!token && !!router.query.id})
+    const { data, status } = useQuery<GroupType>('group', () => getGroup(Number(router.query.idg), token), {enabled: !!token && !!router.query.idg})
     return (
         <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105">
             <div className="pl-4">
@@ -34,18 +34,16 @@ const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
                     </div>
                 </div>
                 <div>
-                    <Link href={`/?id=${groupPreview.id}`} as={`/group/${groupPreview.id}`}>
+                    <Link href={`/?idg=${groupPreview.id}`} as={`/group/${groupPreview.id}`}>
                         <a className="text-xs text-gray-800 hover:underline">
                             View group →
                         </a>
                     </Link>
                 </div>
             </div>
-            <Modal isOpen={!!router.query.id} onRequestClose={() => router.push("/")} className="p-0 m-[30vh]">
-                <Content>
+                <Modal id={router.query.idg}>
                     {status === "success" && <GroupDetails group={data as GroupType} />}
-                </Content>
-            </Modal>
+                </Modal>
         </div>
     )
 }
