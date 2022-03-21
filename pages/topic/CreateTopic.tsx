@@ -17,7 +17,7 @@ const CreateTopic = () => {
     
     const mutation = useMutation((topic: TopicCreateType) => createTopic(topic, token), {
       onSuccess: () => {
-        queryClient.invalidateQueries("topic");
+        queryClient.invalidateQueries("topics");
       },
     });
 

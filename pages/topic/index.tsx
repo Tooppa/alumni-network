@@ -16,7 +16,7 @@ type TopicCardProps = {
 const Topics: NextPage<TopicCardProps> = () => {
     const { keycloak } = useKeycloak<KeycloakInstance>();
     const token: string | undefined = keycloak?.token;
-    const { data, status } = useQuery<TopicType[]>('topic', () => getTopics(token), {enabled: !!token})
+    const { data, status } = useQuery<Array<TopicType>>('topics', () => getTopics(token), {enabled: !!token})
 
     return (
       <>
