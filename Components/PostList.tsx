@@ -21,7 +21,10 @@ const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
                 dataLength={posts.length}
                 next={fetchData}
                 hasMore={hasMore}
-                loader={<h4 className="my-4 text-sm text-gray-500 flex justify-center">Loading...</h4>}
+                loader={data.length > 0 ? 
+                    <h4 className="my-4 text-sm text-gray-500 flex justify-center">Loading...</h4>:
+                    <h4 className="my-4 text-sm text-gray-500 flex justify-center">No posts.</h4>
+                }
                 scrollableTarget="modal"
                 // TODO: endMessage goes inside the last fragment for some reason, expanding it
                 /*endMessage={

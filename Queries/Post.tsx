@@ -14,6 +14,20 @@ export const getPost = (id: number, token: string = "") =>
         res => res.json()
     );
 
+export const getPostsFromTopic = (id: number, token: string = "") =>
+    fetch(`https://alumni-network-api.azurewebsites.net/api/v1/post/topic/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    }).then(
+        res => res.json()
+    );
+
+export const getPostsFromGroup = (id: number, token: string = "") =>
+    fetch(`https://alumni-network-api.azurewebsites.net/api/v1/post/group/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    }).then(
+        res => res.json()
+    );
+
 export const getPostsWithIds = (ids: Array<number>, token: string = "") =>{
     let posts: Array<any> = []
     for (let id of ids) {
