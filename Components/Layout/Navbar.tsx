@@ -8,7 +8,7 @@ import { getUser } from '../../Queries/User';
 const Navbar = () => {
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
 
     return(
         <div className="bg-gray-800 px-4 py-6 shadow-md sticky top-0 z-50">
