@@ -7,43 +7,43 @@ import { TopicCreateType } from "../../Types/Data";
 import Notification from "../../Components/Notification";
 
 const CreateTopic = () => {
-    const { keycloak } = useKeycloak<KeycloakInstance>();
-    const token: string | undefined = keycloak?.token;
-    const queryClient = useQueryClient();
-    
-    const [created, setCreated] = useState(false);
+  const { keycloak } = useKeycloak<KeycloakInstance>();
+  const token: string | undefined = keycloak?.token;
+  const queryClient = useQueryClient();
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    
-    const mutation = useMutation((topic: TopicCreateType) => createTopic(topic, token), {
-      onSuccess: () => {
-        queryClient.invalidateQueries("topics");
-      },
-    });
+  const [created, setCreated] = useState(false);
 
-    const onCreate = () => {
-      if (title === "" && description === "") {
-        console.error("please add title and description");
-      }
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-      if (token != undefined) {
-        setCreated(true);
+  const mutation = useMutation((topic: TopicCreateType) => createTopic(topic, token), {
+    onSuccess: () => {
+      queryClient.invalidateQueries("topics");
+    },
+  });
 
-        const newTopic: TopicCreateType = {
-          name: title,
-          description: description,
-        };
-        mutation.mutate(newTopic);
-        
-        setTitle('');
-        setDescription('');
-      }
-    };
+  const onCreate = () => {
+    if (title === "" && description === "") {
+      console.error("please add title and description");
+    }
+
+    if (token != undefined) {
+      setCreated(true);
+
+      const newTopic: TopicCreateType = {
+        name: title,
+        description: description,
+      };
+      mutation.mutate(newTopic);
+
+      setTitle('');
+      setDescription('');
+    }
+  };
 
   return (
     <div>
-      <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
+      <div className="bg-white my-6 p-4 rounded-sm shadow-md">
         <div className="px-6 py-4">
           <h1 className="text-xl text-gray-800">Create new topic</h1>
           <div className="mt-6">
@@ -67,7 +67,7 @@ const CreateTopic = () => {
           <div className="flex">
             <button
               type="button"
-              className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-3 py-2 text-center"
+              className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
               onClick={() => onCreate()}
             >
               Create topic

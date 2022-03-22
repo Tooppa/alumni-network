@@ -18,7 +18,7 @@ const Navbar = () => {
                         <span className="text-white self-center text-xl whitespace-nowrap font-thin">
                             alumni
                         </span>
-                        <span className="text-green-300 self center text-xl whitespace-nowrap">
+                        <span className="text-green-400 self center text-xl whitespace-nowrap">
                             Network
                         </span>
                     </a>

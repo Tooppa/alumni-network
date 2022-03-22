@@ -4,7 +4,7 @@ import { GroupType } from "../Types/Data"
 
 const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
     return (
-        <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105">
+        <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105 hover:shadow-lg">
             <div className="pl-4">
                 <h1 className="text-lg text-gray-800">{groupPreview.name}</h1>
                 <div className="flex ml-1 mb-2">
