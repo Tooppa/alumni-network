@@ -5,7 +5,6 @@ export type PostType = {
   timestamp: Date,
   senderId: number,
   senderName: string,
-  senderPictureURL: string,
   replyParentId: number,
   replies: Array<number>
 }

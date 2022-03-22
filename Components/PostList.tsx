@@ -15,6 +15,8 @@ const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
         }
         setPosts(posts.concat(data.slice(posts.length - 1, posts.length + 4)));
     }
+    if(posts[0] != data[0])
+        setPosts([data[0]].concat(posts))
     
     return (
         <div className="bg-white rounded-sm shadow-md">
