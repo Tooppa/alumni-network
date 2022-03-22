@@ -2,7 +2,7 @@ import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import { getUser } from '../../../Queries/User'
 import { UserType } from '../../../Types/Data'
@@ -21,13 +21,15 @@ const Details: React.FC<{ user: UserType }> = ({ user }) => {
                             <div className="rounded-full ring-2 ring-green-400 flex">
                                 <Image src={`/api/imagefetcher?url=${encodeURIComponent(user.pictureURL)}`} alt="Profile pic" className="object-cover rounded-full" width={200} height={200} />
                             </div>
-                            <div className="flex justify-center mt-4">
-                                <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
-                                    <Link href={`/user/${data?.id}/settings`}>
-                                        Edit profile
-                                    </Link>
-                                </button>
-                            </div>
+                            {data?.id === user.id &&
+                                <div className="flex justify-center mt-4">
+                                    <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                                        <Link href={`/user/${data?.id}/settings`}>
+                                            Edit profile
+                                        </Link>
+                                    </button>
+                                </div>
+                            }
                         </div>
                         <div className="col-span-3 p-6">
                             <div className="mb-4">
