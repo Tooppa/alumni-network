@@ -2,17 +2,18 @@ import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
-import { getPostsWithIds } from "../Queries/Post"
+import { getPostsFromGroup, getPostsWithIds } from "../Queries/Post"
 import { getUser } from "../Queries/User"
 import { GroupType, PostType, UserType } from "../Types/Data"
+import Loading from "./Loading"
 import PostList from "./PostList"
 
 const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
-    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup', () => getPostsWithIds(group.posts, token), {enabled: !!token})
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
+    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
 
     if(status === "success" && isJoined != undefined)
         setIsjoined(!!(data.groups as Array<number>).find(g=> g == group.id))
@@ -63,8 +64,9 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
                     }
                 </div>
             </div>
-            {postStatus === "success" &&
-                <PostList data={posts}/>
+            {postStatus === "success" ?
+                <PostList data={posts}/>:
+                <Loading/>
             }
         </>
     )

@@ -2,17 +2,18 @@ import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
-import { getPostsWithIds } from "../Queries/Post"
+import { getPostsFromTopic, getPostsWithIds } from "../Queries/Post"
 import { getUser } from "../Queries/User"
 import { PostType, TopicType, UserType } from "../Types/Data"
+import Loading from "./Loading"
 import PostList from "./PostList"
 
 const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
     const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('user', () => getUser(token), {enabled: !!token})
-    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic', () => getPostsWithIds(topic.posts, token), {enabled: !!token})
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
+    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topic.id, () => getPostsFromTopic(topic.id, token), {enabled: !!token})
 
     if(status === "success" && isSubscribed != undefined)
         setIsSubscribed(!!(data.topics as Array<number>).find(g=> g == topic.id))
@@ -63,8 +64,9 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
                     </div>
                 </div>
             </div>
-            {postStatus === "success" &&
-                <PostList data={posts}/>
+            {postStatus === "success" ?
+                <PostList data={posts}/>:
+                <Loading/>
             }
         </>
     )

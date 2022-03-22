@@ -17,17 +17,29 @@ export default function CustomModal(){
     const { data: topic, status: topicS } = useQuery<TopicType>('topic', () => getTopic(Number(router.query.idt), token), {enabled: !!token && !!router.query.idt})
     const { data: group, status: groupS } = useQuery<GroupType>('group', () => getGroup(Number(router.query.idg), token), {enabled: !!token && !!router.query.idg})
 
+    const Detail = () => {
+        if (!!router.query.idt && topicS === "success")
+            return (
+                <TopicDetails topic={topic as TopicType} />
+            )
+        else if (!!router.query.idg && groupS === "success")
+            return (
+                <GroupDetails group={group as GroupType} />
+            )
+        else return <></>
+    }
+
     return (
-        <Modal 
+        <Modal
             id="modal"
-            isOpen={!!router.query.idg || !!router.query.idt} 
+            isOpen={!!router.query.idg || !!router.query.idt}
             onAfterClose={() => {
-                document.body.style.overflowY = "scroll" 
+                document.body.style.overflowY = "scroll"
             }}
             onAfterOpen={() => {
-                document.body.style.overflowY = "hidden" 
+                document.body.style.overflowY = "hidden"
             }}
-            onRequestClose={() => router.push("/")} 
+            onRequestClose={() => router.push("/")}
             ariaHideApp={false}
             style={{
                 overlay: {
@@ -49,12 +61,7 @@ export default function CustomModal(){
             }}
         >
             <Content>
-                {
-                    topicS === "success" ? 
-                        <TopicDetails topic={topic as TopicType} /> : 
-                    groupS === "success" && 
-                        <GroupDetails group={group as GroupType} />
-                }
+                <Detail />
             </Content>
         </Modal >
     )
