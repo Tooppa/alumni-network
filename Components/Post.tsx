@@ -27,7 +27,16 @@ const Post: React.FC<{post: PostType}> = ({ post }) => {
                     </div>
                     <div>
                         <h1 className="text-xl text-gray-800">{post.title}</h1>
-                        <p className="text-xs text-gray-600">Posted by {post.senderName} · {formatTimeStamp(post.timestamp)}</p>
+                        <div className="flex text-xs text-gray-600">
+                            <p className="">
+                                Posted by 
+                                <Link href={`/user/${encodeURIComponent(post.senderId)}`}>
+                                    <a className="ml-1 hover:underline">{post.senderName}</a>
+                                </Link>
+                            </p>
+                            <span className="mx-1">·</span>
+                            <p>{formatTimeStamp(post.timestamp)}</p>
+                        </div>
                     </div>
                 </div>
                 <div className="mb-8">
