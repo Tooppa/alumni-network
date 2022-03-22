@@ -73,12 +73,13 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
           </div>
           <textarea
             rows={8}
-            className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
+            className="border border-gray-200 w-full p-2 m-0 p0 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
             placeholder="Post something..."
             maxLength={300}
             onChange={async (e) => setPostBody(e.target.value)}
             value={postBody}
           ></textarea>
+          <p className="flex justify-end text-sm text-gray-600 m-0 p-0">{ postBody.length + " / 300"  }</p>
           <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in mt-2 mb-2">
             <input
               type="checkbox"
