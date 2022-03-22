@@ -23,3 +23,15 @@ export const createTopic = (topic: TopicCreateType, token: string = "") =>
     },
     body: JSON.stringify(topic),
   });
+
+export const joinTopic = (id: number, token: string = "") =>
+  fetch(`https://alumni-network-api.azurewebsites.net/api/v1/topic/${id}/join`, {
+    method: "POST",
+    headers: { 
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+            "Content-Type": "application/json",
+    }
+  }).then(
+      res => res.json()
+  );

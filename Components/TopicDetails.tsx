@@ -3,6 +3,7 @@ import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { getPostsFromTopic, getPostsWithIds } from "../Queries/Post"
+import { joinTopic } from "../Queries/Topic"
 import { getUser } from "../Queries/User"
 import { PostType, TopicType, UserType } from "../Types/Data"
 import Loading from "./Loading"
@@ -14,9 +15,15 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topic.id, () => getPostsFromTopic(topic.id, token), {enabled: !!token})
+    const joinResponse = useQuery('joinTopic' + topic.id, () => joinTopic(topic.id, token), {enabled: false})
 
-    if(status === "success" && isSubscribed != undefined)
+    if(status === "success" && isSubscribed == undefined)
         setIsSubscribed(!!(data.topics as Array<number>).find(g=> g == topic.id))
+    
+    const onSubscribeClick = () => {
+        joinResponse.refetch();
+        setIsSubscribed(true);
+    }
     
     return (
         <>
@@ -52,7 +59,7 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
                     </div>
                     <div className="mt-6">
                         {isSubscribed === false &&
-                            <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                            <button onClick={onSubscribeClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                                 Subscribe
                             </button>
                         }
