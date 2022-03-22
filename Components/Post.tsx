@@ -19,10 +19,10 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
         <div className="bg-white my-2 p-4 ">
             <div className="px-4 py-2">
                 <div className="flex mb-6 items-center">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full mr-6 bg-green-300">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full mr-6 ring-2 ring-green-400">
                         <Link href={`/user/${encodeURIComponent(post.senderId)}`}>
-                            <a className="flex items-center justify-center p-1">
-                                <Image width={48} height={48} src="/vercel.svg" alt="profile pic" />
+                            <a className="flex items-center justify-center">
+                                <Image width={48} height={48} src={`/api/imagefetcher?url=${encodeURIComponent(post.senderPictureURL)}`} alt="profile pic" className="object-cover rounded-full" />
                             </a>
                         </Link>
                     </div>
