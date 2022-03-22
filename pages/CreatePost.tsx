@@ -42,6 +42,8 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
     // Send post to backend server
     if (token != undefined) {
       mutation.mutate(JSON.stringify(getPostType()));
+      setPostBody('')
+      setPostTitle('')
     }
     else
       console.error('Message sending failed, token is undefined');
