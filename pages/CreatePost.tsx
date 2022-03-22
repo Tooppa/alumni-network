@@ -156,7 +156,7 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
           </div>
         </div>
       )}
-      <Notification str="New post updated" created={created} setCreated={setCreated} />
+      <Notification str="New post updated" created={postCreated} setCreated={setPostCreated} />
     </>
   );
 }
