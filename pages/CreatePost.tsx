@@ -16,7 +16,6 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
 
   const [postTitle, setPostTitle] = useState<string>('');
   const [postBody, setPostBody] = useState<string>('');
-  const [postCreated, setPostCreated] = useState<boolean>(false);
   const mutation = useMutation((post: string) => sendPost(post, token), {
     onSuccess: () => { queryClient.invalidateQueries('posts') }
   })
@@ -78,7 +77,7 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
             </div>
             <textarea
               rows={4}
-              className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
+              className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm resize-none focus:outline-none focus:border-gray-300"
               placeholder="Post something..."
               maxLength={300}
               onChange={(e) => setPostBody(e.target.value)}
@@ -89,7 +88,6 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
                 className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
                 onClick={() => {
                   onSendPost()
-                  setPostCreated(!postCreated)
                 }}
               >
                 Post
