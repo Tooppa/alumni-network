@@ -16,13 +16,16 @@ const Settings: NextPage = () => {
     const { data: currentUser, status: currentStatus } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
     
     if (status === "success" && currentStatus === "success") {
-        if(data.id != currentUser.id) router.push(`/user/${username}`)
+        if(data.id != currentUser.id) {
+            router.push(`/user/${username}`)
+            return <></>
+        }
         if (typeof (data) != "object")
             return <>
                 <p>{data}</p>
             </>
         return <>
-            <SettingsForm user={data}/>
+            {data.id === currentUser.id && <SettingsForm user={data}/>}
         </>
     }
     else return <></>

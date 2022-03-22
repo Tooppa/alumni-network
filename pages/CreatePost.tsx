@@ -7,6 +7,9 @@ import { sendPost } from '../Queries/Post';
 import { getUser } from '../Queries/User';
 import { Parameters } from '../Types/Parameters';
 import { UserType } from '../Types/Data';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import Notification from '../Components/Notification'
 
 const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUserId }) => {
   const { keycloak } = useKeycloak<KeycloakInstance>();
@@ -14,9 +17,12 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
   const queryClient = useQueryClient()
   const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token });
 
-  const [postTitle, setPostTitle] = useState<string>('');
+  const [postTitle, setPostTitle] = useState<string>(''); 
   const [postBody, setPostBody] = useState<string>('');
   const mutation = useMutation((post: string) => sendPost(post, token), {
+  const [postCreated, setPostCreated] = useState<boolean>(false);
+  const [showPreview, setShowPreview] = useState<boolean>(false);
+  const mutation = useMutation((post: string) => sendPost(post,token), {
     onSuccess: () => { queryClient.invalidateQueries('posts') }
   })
 
@@ -43,6 +49,8 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
     // Send post to backend server
     if (token != undefined) {
       mutation.mutate(JSON.stringify(getPostType()));
+      setPostBody('')
+      setPostTitle('')
     }
     else
       console.error('Message sending failed, token is undefined');
@@ -95,9 +103,10 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
             </div>
           </div>
         </div>
-      }
+      )}
+      <Notification str="New post updated" created={postCreated} setCreated={setPostCreated} />
     </>
   );
 }
 
-export default CreatePost
+export default CreatePost;
