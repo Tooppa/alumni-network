@@ -5,10 +5,8 @@ import React, { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { sendPost } from '../Queries/Post';
 import { Parameters } from '../Types/Parameters';
-import parse from "html-react-parser";
-import parseHTML from '../Components/HTMLParser';
-
-import styles from './CreatePost.module.css'
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const CreatePost: React.FC<Parameters> = ({topicId,groupId,parentId,targetUserId}) => {
   const { keycloak } = useKeycloak<KeycloakInstance>();
@@ -17,7 +15,6 @@ const CreatePost: React.FC<Parameters> = ({topicId,groupId,parentId,targetUserId
 
   const [postTitle, setPostTitle] = useState<string>(''); 
   const [postBody, setPostBody] = useState<string>('');
-  const [postBodyPreview, setPostBodyPreview] = useState<string>("");
   const [postCreated, setPostCreated] = useState<boolean>(false);
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const mutation = useMutation((post: string) => sendPost(post,token), {
@@ -78,10 +75,7 @@ const CreatePost: React.FC<Parameters> = ({topicId,groupId,parentId,targetUserId
             className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
             placeholder="Post something..."
             maxLength={300}
-            onChange={async (e) => {
-              setPostBody(e.target.value);
-              setPostBodyPreview(await parseHTML(e.target.value));
-            }}
+            onChange={async (e) => setPostBody(e.target.value)}
             value={postBody}
           ></textarea>
           <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in mt-2 mb-2">
@@ -91,7 +85,7 @@ const CreatePost: React.FC<Parameters> = ({topicId,groupId,parentId,targetUserId
               id="toggle"
               className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
               checked={showPreview}
-              value={showPreview ? 'true' : 'false'}
+              value={showPreview ? "true" : "false"}
               onChange={() => setShowPreview(!showPreview)}
             />
             <label
@@ -102,16 +96,21 @@ const CreatePost: React.FC<Parameters> = ({topicId,groupId,parentId,targetUserId
           <label htmlFor="toggle" className="text-xs text-gray-700">
             Show markdown preview
           </label>
-          {showPreview === true ?
-              <>
-                <h3>Preview:</h3>
-                <div className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300" style={{minHeight: '30px'}}>
-                  {parse(postBodyPreview)}
-                </div>
+          {showPreview === true ? (
+            <>
+              <h3>Preview:</h3>
+              <div
+                className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
+                style={{ minHeight: "30px" }}
+              >
+                <ReactMarkdown rehypePlugins={[remarkGfm]}>
+                  {postBody}
+                </ReactMarkdown>
+              </div>
             </>
-            :
+          ) : (
             <></>
-          }
+          )}
 
           <div className="flex">
             <button
