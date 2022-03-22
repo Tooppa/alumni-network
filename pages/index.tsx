@@ -13,7 +13,7 @@ import Filter from './Filter'
 const Timeline: NextPage = () => {
   const { keycloak } = useKeycloak<KeycloakInstance>()
   const token: string | undefined = keycloak?.token
-  const { data, status } = useQuery<Array<PostType>>('frontpagePosts', () => getPosts(token), { enabled: !!token })
+  const { data, status } = useQuery<Array<PostType>>('posts', () => getPosts(token), { enabled: !!token })
 
 
   if (status === 'success')
