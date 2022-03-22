@@ -10,7 +10,7 @@ const Footer = () => {
                         <span className="text-white self-center text-lg whitespace-nowrap font-thin">
                             alumni
                         </span>
-                        <span className="text-green-300 self center text-lg whitespace-nowrap">
+                        <span className="text-green-400 self center text-lg whitespace-nowrap">
                             Network
                         </span>
                     </a>
