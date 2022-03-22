@@ -90,9 +90,9 @@ const CreatePost: React.FC<Parameters> = ({topicId,groupId,parentId,targetUserId
               name="toggle"
               id="toggle"
               className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-              onClick={() => setShowPreview(!showPreview)}
               checked={showPreview}
               value={showPreview ? 'true' : 'false'}
+              onChange={() => setShowPreview(!showPreview)}
             />
             <label
               htmlFor="toggle"
