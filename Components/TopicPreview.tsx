@@ -1,22 +1,10 @@
 import Link from "next/link"
 import React from "react"
 import { TopicType } from "../Types/Data"
-import TopicDetails from "./TopicDetails"
-import { useRouter } from "next/router"
-import { useKeycloak } from "@react-keycloak/ssr"
-import { KeycloakInstance } from "keycloak-js"
-import { useQuery } from "react-query"
-import { getTopic } from "../Queries/Topic"
-import Content from "./Layout/Content"
-import Modal from "./Layout/Modal"
 
 const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
-    const router = useRouter()
-    const { keycloak } = useKeycloak<KeycloakInstance>()
-    const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<TopicType>('topic', () => getTopic(Number(router.query.idt), token), {enabled: !!token && !!router.query.idt})
     return (
-        <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105">
+        <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105 hover:shadow-lg">
             <div className="pl-4">
                 <h1 className="text-lg text-gray-800">{topicPreview.name}</h1>
                 <div className="flex ml-1 mb-2">
@@ -35,9 +23,6 @@ const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
                     </Link>
                 </div>
             </div>
-            <Modal id={router.query.idt}>
-                {status === "success" && <TopicDetails topic={data as TopicType} />}
-            </Modal>
         </div>
     )
 }

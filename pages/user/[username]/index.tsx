@@ -12,7 +12,7 @@ const Profile: NextPage = () => {
     const { username } = router.query
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('user', () => getUserById(Number(username), token), {enabled: !!token})
+    const { data, status } = useQuery<UserType>('user' + username, () => getUserById(Number(username), token), {enabled: !!token})
 
     if (status === "success") {
         //if there is no corresponding group query prints out a string 
