@@ -9,7 +9,7 @@ const Details: React.FC<{user: UserType}> = ({user}) => {
             <div className="grid grid-cols-4">
                 <div className="col-span-1 p-6">
                     <div className="rounded-full ring-2 ring-green-400 flex">
-                        <Image src={`/api/imagefetcher?url=${encodeURIComponent(user.pictureURL)}`} alt="Profile pic" className="rounded-full" width={200} height={200} />
+                        <Image src={`/api/imagefetcher?url=${encodeURIComponent(user.pictureURL)}`} alt="Profile pic" className="object-cover rounded-full" width={200} height={200} />
                     </div>
                     <div className="flex justify-center mt-4">
                         <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
