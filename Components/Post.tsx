@@ -42,7 +42,7 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
           </div>
           <div className="mb-8">
             <div className="text-sm text-gray-800">
-              <ReactMarkdown rehypePlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
             </div>
           </div>
 

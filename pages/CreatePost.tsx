@@ -103,7 +103,7 @@ const CreatePost: React.FC<Parameters> = ({topicId,groupId,parentId,targetUserId
                 className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
                 style={{ minHeight: "30px" }}
               >
-                <ReactMarkdown rehypePlugins={[remarkGfm]}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {postBody}
                 </ReactMarkdown>
               </div>
