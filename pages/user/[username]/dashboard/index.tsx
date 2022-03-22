@@ -19,7 +19,10 @@ const Dashboard: NextPage = () => {
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('profilePosts', () => getPosts(token), { enabled: !!token })
 
     if (status === "success" && currentStatus === "success") {
-        if(data.id != currentUser.id) router.push(`/user/${username}`)
+        if(data.id != currentUser.id) {
+            router.push(`/user/${username}`)
+            return <></>
+        }
         //if there is no corresponding group query prints out a string 
         if (typeof (data) != "object")
             return <>
