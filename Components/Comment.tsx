@@ -12,7 +12,7 @@ const Comment: React.FC<{id: number}>= ({id}) =>{
     if (status === "success")
         return (
             <div className="text-sm mb-4 text-gray-800">
-                <Link href="/">
+                <Link href={`/user/${encodeURIComponent(post.senderId)}`}>
                     <a className="font-semibold hover:underline">
                         {post.senderName}
                     </a>

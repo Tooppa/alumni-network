@@ -19,7 +19,7 @@ const Post: React.FC<{post: PostType}> = ({ post }) => {
             <div className="px-4 py-2">
                 <div className="flex mb-8 items-center">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full mr-6 bg-green-300">
-                        <Link href="/">
+                        <Link href={`/user/${encodeURIComponent(post.senderId)}`}>
                             <a className="flex items-center justify-center p-1">
                                 <Image width={48} height={48} src="/vercel.svg" alt="profile pic" />
                             </a>
