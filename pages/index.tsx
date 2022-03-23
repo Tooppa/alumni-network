@@ -26,7 +26,7 @@ const Timeline: NextPage = () => {
         </Head>
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
-        <CreatePost topicId={1} />
+        <CreatePost topicId={4} />
         <Filter />
         <PostList data={data as Array<PostType>} />
       </>
@@ -36,7 +36,7 @@ const Timeline: NextPage = () => {
       <>
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
-        <CreatePost topicId={1}/>
+        <CreatePost topicId={4}/>
       </>
     );
   }
