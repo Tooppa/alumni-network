@@ -1,7 +1,23 @@
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 
-const Filter = () => {
-    const [showFilters, setShowFilters] = useState(false);
+const Filter: React.FC<{filter: Function}> = ({filter}) => {
+    const [showFilters, setShowFilters] = useState<boolean>(false);
+    const [all, setAll] = useState<boolean>(true)
+    const [groups, setGroups] = useState<boolean>(false)
+    const [topics, setTopics] = useState<boolean>(false)
+    const [ownPosts, setOwnPosts] = useState<boolean>(false)
+    const [postsWithReplies, setPostsWithReplies] = useState<boolean>(false)
+
+    const applyFilter = () => {
+        filter(all,groups,topics,ownPosts,postsWithReplies)
+    }
+
+    useEffect(()=>{
+        if(groups && topics && ownPosts && postsWithReplies)
+            setAll(true)
+        else if(all && (groups|| topics || ownPosts || postsWithReplies))
+            setAll(false)
+    }, [all, groups, topics, ownPosts, postsWithReplies])
 
     return (
         <div>
@@ -20,23 +36,56 @@ const Filter = () => {
                     <div className="px-4 py-2">
                         <div className="text-gray-800">
                             <h1 className="text-sm font-semibold mb-4">Show posts:</h1>
-                            <div className="ml-2">
+                            <form className="ml-2">
                                 <div className="flex items-center text-sm mb-2">
-                                    <input type="checkbox" />
+                                    <input
+                                        type="checkbox"
+                                        checked={all}
+                                        name="filter"
+                                        onChange={() => setAll(!all)}
+                                    />
                                     <label className="ml-2">All posts</label>
                                 </div>
                                 <div className="flex items-center text-sm mb-2">
-                                    <input type="checkbox" />
+                                    <input
+                                        type="checkbox"
+                                        checked={topics}
+                                        name="filter"
+                                        onChange={() => setTopics(!topics)}
+                                    />
                                     <label className="ml-2">Subscribed topics</label>
                                 </div>
-                                <div className="flex items-center text-sm">
-                                    <input type="checkbox" />
+                                <div className="flex items-center text-sm mb-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={groups}
+                                        name="filter"
+                                        onChange={() => setGroups(!groups)}
+                                    />
                                     <label className="ml-2">Joined groups</label>
                                 </div>
-                            </div>
+                                <div className="flex items-center text-sm mb-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={ownPosts}
+                                        name="filter"
+                                        onChange={() => setOwnPosts(!ownPosts)}
+                                    />
+                                    <label className="ml-2">Your posts</label>
+                                </div>
+                                <div className="flex items-center text-sm">
+                                    <input
+                                        type="checkbox"
+                                        checked={postsWithReplies}
+                                        name="filter"
+                                        onChange={() => setPostsWithReplies(!postsWithReplies)}
+                                    />
+                                    <label className="ml-2">Posts with replies</label>
+                                </div>
+                            </form>
                         </div>
                         <div className="flex">
-                            <button type="button" className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-3 py-1 text-center" onClick={() => setShowFilters(!showFilters)}>
+                            <button type="button" onClick={() => {setShowFilters(!showFilters); applyFilter();}}className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-3 py-1 text-center" >
                                 Apply filters
                             </button>
                         </div>

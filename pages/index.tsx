@@ -7,14 +7,45 @@ import PostList from '../Components/PostList'
 import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
 import Previews from './Previews'
-import { PostType } from '../Types/Data'
+import { PostType, UserType } from '../Types/Data'
 import Filter from './Filter'
+import { getUser } from '../Queries/User'
+import { useState } from 'react'
 
 const Timeline: NextPage = () => {
   const { keycloak } = useKeycloak<KeycloakInstance>()
   const token: string | undefined = keycloak?.token
   const { data, status } = useQuery<Array<PostType>>('frontpagePosts', () => getPosts(token), { enabled: !!token })
+  const { data: user, status: userStatus } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token })
+  const [filter, setFilter] = useState({
+    all: true,
+    groups: false,
+    topics: false,
+    own: false,
+    replies: false
+  })
 
+  const handleFilter = (all: boolean, groups: boolean, topics: boolean, own: boolean, replies: boolean) => {
+    setFilter({
+      all: all,
+      groups: groups,
+      topics: topics,
+      own: own,
+      replies: replies
+    })
+  }
+
+  const filterData = (posts: Array<PostType>) => {
+    let newPosts: Array<PostType> = []
+    if (userStatus === "success") {
+      if (filter.all) return posts
+      if (filter.groups) newPosts = newPosts.concat(posts.filter((post) => { }))
+      if (filter.topics) newPosts = newPosts.concat(posts.filter((post) => { }))
+      if (filter.replies) newPosts = newPosts.concat(posts.filter((post) => post.replies.length > 0))
+      if (filter.own) newPosts = newPosts.concat(posts.filter((post) => post.senderId === user.id))
+    }
+    return newPosts as Array<PostType>
+  }
 
   if (status === 'success')
     return (
@@ -27,8 +58,8 @@ const Timeline: NextPage = () => {
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
         <CreatePost topicId={4} />
-        <Filter />
-        <PostList data={data as Array<PostType>} />
+        <Filter filter={handleFilter} />
+        <PostList data={filterData(data) as Array<PostType>} />
       </>
     )
   else {
@@ -36,7 +67,7 @@ const Timeline: NextPage = () => {
       <>
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
-        <CreatePost topicId={4}/>
+        <CreatePost topicId={4} />
       </>
     );
   }
