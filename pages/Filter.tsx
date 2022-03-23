@@ -1,7 +1,10 @@
 import { useState } from "react"
 
 const Filter = () => {
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters, setShowFilters] = useState<boolean>(false);
+    const [all, setAll] = useState<boolean>(true)
+    const [groups, setGroups] = useState<boolean>(false)
+    const [topics, setTopics] = useState<boolean>(false)
 
     return (
         <div>
@@ -22,15 +25,31 @@ const Filter = () => {
                             <h1 className="text-sm font-semibold mb-4">Show posts:</h1>
                             <div className="ml-2">
                                 <div className="flex items-center text-sm mb-2">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" checked={all} readOnly/>
                                     <label className="ml-2">All posts</label>
                                 </div>
                                 <div className="flex items-center text-sm mb-2">
-                                    <input type="checkbox" />
+                                    <input 
+                                        type="checkbox" 
+                                        checked={topics} 
+                                        onChange={() => {
+                                            setTopics(!topics)
+                                            if(all) setAll(false)
+                                            else if(!topics||!groups) setAll(true)
+                                        }
+                                    }/>
                                     <label className="ml-2">Subscribed topics</label>
                                 </div>
                                 <div className="flex items-center text-sm">
-                                    <input type="checkbox" />
+                                    <input 
+                                        type="checkbox" 
+                                        checked={groups} 
+                                        onChange={() => {
+                                            setGroups(!groups)
+                                            if(all) setAll(false)
+                                            else if(!topics||!groups) setAll(true)
+                                        }
+                                    }/>
                                     <label className="ml-2">Joined groups</label>
                                 </div>
                             </div>
