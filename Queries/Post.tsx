@@ -50,3 +50,13 @@ export const sendPost = (post: string, token: string = "") =>
         },
         body: post,
     });
+    
+export const deletePost = (id: number, token: string = "") =>
+  fetch(`https://alumni-network-api.azurewebsites.net/api/v1/post/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+  });
