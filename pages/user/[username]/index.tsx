@@ -1,6 +1,7 @@
 import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import { getUser, getUserById } from '../../../Queries/User'
@@ -27,6 +28,11 @@ const Profile: NextPage = () => {
             </>
         return (
             <>
+                <Head>
+                    <title>Profile | Alumni Network</title>
+                    <meta name="description" content="Welcome to Alumni Network" />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
                 <Details user={data} />
             </>
         )
