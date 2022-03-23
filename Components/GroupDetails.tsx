@@ -72,11 +72,17 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
                     }
                 </div>
             </div>
-            {isJoined === true  || group.id === 4 ?  <CreatePost groupId={group.id} /> : <></>}
-            {postStatus === "success" ?
-                <PostList data={posts}/>:
-                <Loading/>
-            }
+            {postStatus === 'loading' ? <Loading /> : <></>}
+            {isJoined === true || group.id === 4 ?
+                postStatus === "success" ?
+                    <>
+                        <CreatePost groupId={group.id} />
+                        <PostList data={posts} />
+                    </> :
+                    <></> :
+                <div className="flex justify-center">
+                    {postStatus !== 'loading' ? <p>Join group to see and create posts</p> : <></>}
+                </div>}
         </>
     )
 }
