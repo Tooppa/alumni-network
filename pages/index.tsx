@@ -21,15 +21,17 @@ const Timeline: NextPage = () => {
     all: true,
     groups: false,
     topics: false,
-    own: false
+    own: false,
+    replies: false
   })
 
-  const handleFilter = (all: boolean, groups: boolean, topics: boolean, own: boolean) => {
+  const handleFilter = (all: boolean, groups: boolean, topics: boolean, own: boolean, replies: boolean) => {
     setFilter({
       all: all,
       groups: groups,
       topics: topics,
-      own: own
+      own: own,
+      replies: replies
     })
   }
 
@@ -39,6 +41,7 @@ const Timeline: NextPage = () => {
       if (filter.all) return posts
       if (filter.groups) newPosts = newPosts.concat(posts.filter((post) => { }))
       if (filter.topics) newPosts = newPosts.concat(posts.filter((post) => { }))
+      if (filter.replies) newPosts = newPosts.concat(posts.filter((post) => post.replies.length > 0))
       if (filter.own) newPosts = newPosts.concat(posts.filter((post) => post.senderId === user.id))
     }
     return newPosts as Array<PostType>
