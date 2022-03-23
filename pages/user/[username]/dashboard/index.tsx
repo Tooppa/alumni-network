@@ -3,6 +3,7 @@ import { KeycloakInstance } from 'keycloak-js'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
+import CreatePrivateMessage from '../../../../Components/CreatePrivateMessage'
 import PostList from '../../../../Components/PostList'
 import { getPosts } from '../../../../Queries/Post'
 import { getUser, getUserById } from '../../../../Queries/User'
@@ -30,6 +31,7 @@ const Dashboard: NextPage = () => {
             </>
         return <>
             <Details user={data} />
+            <CreatePrivateMessage currentUser={data}/>
             {postStatus === "success" &&
                 <PostList data={posts.filter(post => post.senderId === currentUser.id) as Array<PostType>} />
             }
