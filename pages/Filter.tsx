@@ -1,16 +1,14 @@
-import { useState } from "react"
+import React, { useState } from "react"
 
-const Filter = () => {
+const Filter: React.FC<{filter: Function}> = ({filter}) => {
     const [showFilters, setShowFilters] = useState<boolean>(false);
     const [all, setAll] = useState<boolean>(true)
-    const [groups, setGroups] = useState<boolean>(false)
-    const [topics, setTopics] = useState<boolean>(false)
+    const [groups, setGroups] = useState<boolean>(true)
+    const [topics, setTopics] = useState<boolean>(true)
+    const [ownPosts, setOwnPosts] = useState<boolean>(true)
 
     function handleCheckboxes() {
-        if (all)
-            setAll(false);
-        else if (!topics || !groups)
-            setAll(true);
+        filter(all,groups,topics,ownPosts)
     }
 
     return (
@@ -32,7 +30,14 @@ const Filter = () => {
                             <h1 className="text-sm font-semibold mb-4">Show posts:</h1>
                             <div className="ml-2">
                                 <div className="flex items-center text-sm mb-2">
-                                    <input type="checkbox" checked={all} readOnly />
+                                    <input
+                                        type="checkbox"
+                                        checked={all}
+                                        onChange={() => {
+                                            setAll(!all)
+                                            handleCheckboxes()
+                                        }}
+                                    />
                                     <label className="ml-2">All posts</label>
                                 </div>
                                 <div className="flex items-center text-sm mb-2">
@@ -41,21 +46,32 @@ const Filter = () => {
                                         checked={topics}
                                         onChange={() => {
                                             setTopics(!topics)
-                                            handleCheckboxes();
-                                        }
-                                        } />
+                                            handleCheckboxes()
+                                        }}
+                                    />
                                     <label className="ml-2">Subscribed topics</label>
                                 </div>
-                                <div className="flex items-center text-sm">
+                                <div className="flex items-center text-sm mb-2">
                                     <input
                                         type="checkbox"
                                         checked={groups}
                                         onChange={() => {
                                             setGroups(!groups)
-                                            handleCheckboxes();
-                                        }
-                                        } />
+                                            handleCheckboxes()
+                                        }}
+                                    />
                                     <label className="ml-2">Joined groups</label>
+                                </div>
+                                <div className="flex items-center text-sm">
+                                    <input
+                                        type="checkbox"
+                                        checked={ownPosts}
+                                        onChange={() => {
+                                            setOwnPosts(!ownPosts)
+                                            handleCheckboxes()
+                                        }}
+                                    />
+                                    <label className="ml-2">Your posts</label>
                                 </div>
                             </div>
                         </div>

@@ -7,14 +7,24 @@ import PostList from '../Components/PostList'
 import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
 import Previews from './Previews'
-import { PostType } from '../Types/Data'
+import { PostType, UserType } from '../Types/Data'
 import Filter from './Filter'
+import { getUser } from '../Queries/User'
 
 const Timeline: NextPage = () => {
   const { keycloak } = useKeycloak<KeycloakInstance>()
   const token: string | undefined = keycloak?.token
   const { data, status } = useQuery<Array<PostType>>('frontpagePosts', () => getPosts(token), { enabled: !!token })
-
+  const { data: user, status: userStatus } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token })
+  
+  const handleFilter = ( all: boolean, groups: boolean, topics: boolean, own: boolean) => {
+    if (status === "success" && userStatus === "success") {
+      if (all) return
+      else if (groups) data.filter((post) => { })
+      else if (topics) data.filter((post) => { })
+      else if (own) data.filter((post) => {post.senderId === user.id})
+    }
+  }
 
   if (status === 'success')
     return (
@@ -27,7 +37,7 @@ const Timeline: NextPage = () => {
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
         <CreatePost topicId={1} />
-        <Filter />
+        <Filter filter={handleFilter}/>
         <PostList data={data as Array<PostType>} />
       </>
     )
@@ -36,7 +46,7 @@ const Timeline: NextPage = () => {
       <>
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
-        <CreatePost topicId={1}/>
+        <CreatePost topicId={1} />
       </>
     );
   }
