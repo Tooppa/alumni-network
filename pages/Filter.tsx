@@ -6,6 +6,13 @@ const Filter = () => {
     const [groups, setGroups] = useState<boolean>(false)
     const [topics, setTopics] = useState<boolean>(false)
 
+    function handleCheckboxes() {
+        if (all)
+            setAll(false);
+        else if (!topics || !groups)
+            setAll(true);
+    }
+
     return (
         <div>
             <div className="flex">
@@ -25,31 +32,29 @@ const Filter = () => {
                             <h1 className="text-sm font-semibold mb-4">Show posts:</h1>
                             <div className="ml-2">
                                 <div className="flex items-center text-sm mb-2">
-                                    <input type="checkbox" checked={all} readOnly/>
+                                    <input type="checkbox" checked={all} readOnly />
                                     <label className="ml-2">All posts</label>
                                 </div>
                                 <div className="flex items-center text-sm mb-2">
-                                    <input 
-                                        type="checkbox" 
-                                        checked={topics} 
+                                    <input
+                                        type="checkbox"
+                                        checked={topics}
                                         onChange={() => {
                                             setTopics(!topics)
-                                            if(all) setAll(false)
-                                            else if(!topics||!groups) setAll(true)
+                                            handleCheckboxes();
                                         }
-                                    }/>
+                                        } />
                                     <label className="ml-2">Subscribed topics</label>
                                 </div>
                                 <div className="flex items-center text-sm">
-                                    <input 
-                                        type="checkbox" 
-                                        checked={groups} 
+                                    <input
+                                        type="checkbox"
+                                        checked={groups}
                                         onChange={() => {
                                             setGroups(!groups)
-                                            if(all) setAll(false)
-                                            else if(!topics||!groups) setAll(true)
+                                            handleCheckboxes();
                                         }
-                                    }/>
+                                        } />
                                     <label className="ml-2">Joined groups</label>
                                 </div>
                             </div>
