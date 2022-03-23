@@ -8,15 +8,13 @@ import { Parameters } from '../Types/Parameters';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getUser } from '../Queries/User';
-import { TopicType, UserType } from '../Types/Data';
-import { getTopic } from '../Queries/Topic';
+import { UserType } from '../Types/Data';
 
 const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUserId }) => {
   const { keycloak } = useKeycloak<KeycloakInstance>();
   const token: string | undefined = keycloak?.token;
   const queryClient = useQueryClient();
   const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token });
-  const { data: topic, status: topicStatus } = useQuery<TopicType>('topic', () => getTopic(Number(topicId), token), { enabled: !!token })
 
   const [postTitle, setPostTitle] = useState<string>(''); 
   const [postBody, setPostBody] = useState<string>('');
@@ -82,9 +80,6 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
                   value={postTitle}
                 />
               </div>
-            </div>
-            <div className="my-2 text-sm text-gray-600">
-              <h3>posting to: {topicStatus === 'success' ? topic?.name : 'Loading...'}</h3>
             </div>
             <textarea
               rows={4}
