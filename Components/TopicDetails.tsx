@@ -2,6 +2,7 @@ import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
+import CreatePost from "../pages/CreatePost"
 import { getPostsFromTopic, getPostsWithIds } from "../Queries/Post"
 import { joinTopic } from "../Queries/Topic"
 import { getUser } from "../Queries/User"
@@ -71,12 +72,14 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
                     </div>
                 </div>
             </div>
+            {/* TopicId 4 is General */}
+            {isSubscribed === true  || topic.id === 4 ?  <CreatePost topicId={topic.id} /> : <></>}
             {postStatus === "success" ?
                 <PostList data={posts}/>:
                 <Loading/>
             }
         </>
-    )
+    )   
 }
 
 export default TopicDetails

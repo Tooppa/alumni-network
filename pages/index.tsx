@@ -30,7 +30,7 @@ const Timeline: NextPage = () => {
     return (
       <>
         <Head>
-          <title>Alumni Network</title>
+          <title>Index | Alumni Network</title>
           <meta name="description" content="Welcome to Alumni Network" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
@@ -38,6 +38,7 @@ const Timeline: NextPage = () => {
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
         <CreatePost topicId={1} />
         <Filter filter={handleFilter}/>
+        <CreatePost topicId={4} />
         <PostList data={data as Array<PostType>} />
       </>
     )
@@ -46,7 +47,7 @@ const Timeline: NextPage = () => {
       <>
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
-        <CreatePost topicId={1} />
+        <CreatePost topicId={4}/>
       </>
     );
   }

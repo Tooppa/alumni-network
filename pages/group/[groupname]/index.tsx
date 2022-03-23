@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { getGroup } from "../../../Queries/Group";
 import { GroupType } from "../../../Types/Data";
 import GroupDetails from "../../../Components/GroupDetails";
+import Head from "next/head";
 
 const Group: NextPage = () => {
     const router = useRouter()
@@ -22,6 +23,11 @@ const Group: NextPage = () => {
             </>
         return (
             <>
+                <Head>
+                    <title>Group | Alumni Network</title>
+                    <meta name="description" content="Welcome to Alumni Network" />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
                 <GroupDetails group={data} />
             </>
         )

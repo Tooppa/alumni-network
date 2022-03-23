@@ -12,6 +12,7 @@ import { getUser } from "../Queries/User";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { KeycloakInstance } from "keycloak-js";
 import { deletePost } from "../Queries/Post";
+import CreateComment from "./CreateComment";
 
 const Post: React.FC<{ post: PostType }> = ({ post }) => {
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
@@ -113,19 +114,7 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
                                     <p className="text-sm text-gray-500">No comments yet</p>
                                 </div>
                             )}
-                            <div className="flex">
-                                <input
-                                    type="text"
-                                    placeholder="Comment..."
-                                    className="border border-gray-200 w-full rounded-sm px-2 py-1 text-gray-600 text-sm focus:outline-none focus:border-gray-300"
-                                />
-                                <button
-                                    type="submit"
-                                    className="text-white text-sm bg-green-400 rounded-full shadow text-center inline-flex items-center px-5 py-1 ml-2 hover:bg-green-300"
-                                >
-                                    Post
-                                </button>
-                            </div>
+                            <CreateComment post={post} token={token}/>
                         </div>
                     )}
                 </div>
