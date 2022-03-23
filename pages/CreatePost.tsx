@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { sendPost } from '../Queries/Post';
 import { Parameters } from '../Types/Parameters';
+import { UserType } from '../Types/Data';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Notification from '../Components/Notification'

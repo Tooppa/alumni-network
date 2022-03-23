@@ -57,8 +57,9 @@ const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
                         </div>
                         <div className="flex">
                             <div className="ml-auto">
-                                <button onClick={() => setCreated(!created)} type="submit" className="text-white mr-2 bg-green-400 shadow hover:bg-green-300 rounded-sm text-sm px-3 py-2 text-center">Save</button>
-                                <button type="reset" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-sm text-sm px-3 py-2 text-center">Cancel</button>
+
+                                <button onClick={() => setCreated(!created)} type="submit" className="text-white mr-2 bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">Save</button>
+                                <button type="reset" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">Cancel</button>
                             </div>
                         </div>
                     </div>
