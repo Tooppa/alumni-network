@@ -2,16 +2,19 @@ import { useKeycloak } from '@react-keycloak/ssr';
 import { KeycloakInstance } from 'keycloak-js';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { sendPost } from '../Queries/Post';
 import { Parameters } from '../Types/Parameters';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { getUser } from '../Queries/User';
+import { UserType } from '../Types/Data';
 
 const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUserId }) => {
   const { keycloak } = useKeycloak<KeycloakInstance>();
   const token: string | undefined = keycloak?.token;
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
+  const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token });
 
   const [postTitle, setPostTitle] = useState<string>(''); 
   const [postBody, setPostBody] = useState<string>('');
@@ -52,82 +55,93 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
 
   return (
     <>
-      <div className="my-6 p-4 bg-white shadow-md rounded-sm">
-        <div className="px-4 py-2">
-          <div className="flex mb-4">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full mr-2 bg-green-300">
-              <Image
-                width={24}
-                height={24}
-                src="/vercel.svg"
-                alt="user photo"
-              />
-            </div>
-            <input
-              type="text"
-              className="w-full border border-gray-200  rounded-sm px-2 text-sm text-gray-600 focus:outline-none focus:border-gray-300"
-              placeholder="Title"
-              maxLength={50}
-              onChange={(e) => setPostTitle(e.target.value)}
-              value={postTitle}
-            />
-          </div>
-          <textarea
-            rows={8}
-            className="border border-gray-200 w-full p-2 m-0 p0 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
-            placeholder="Post something..."
-            maxLength={300}
-            onChange={async (e) => setPostBody(e.target.value)}
-            value={postBody}
-          ></textarea>
-          <p className="flex justify-end text-sm text-gray-600 m-0 p-0">{postBody.length + " / 300"}</p>
-          <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in mt-2 mb-2">
-            <input
-              type="checkbox"
-              name="toggle"
-              id="toggle"
-              className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-              checked={showPreview}
-              value={showPreview ? "true" : "false"}
-              onChange={() => setShowPreview(!showPreview)}
-            />
-            <label
-              htmlFor="toggle"
-              className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-            ></label>
-          </div>
-          <label htmlFor="toggle" className="text-xs text-gray-700">
-            Show markdown preview
-          </label>
-          {showPreview === true ? (
-            <>
-              <h3>Preview:</h3>
-              <div
-                className="border border-gray-200 w-full p-2 mb-2 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300"
-                style={{ minHeight: "30px" }}
-              >
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {postBody}
-                </ReactMarkdown>
+      {status === "success" &&
+        <div className="my-6 p-4 bg-white shadow-md rounded-sm">
+          <div className="px-4 py-2">
+            <div className="flex items-center mb-4 ml-1">
+              <div className="flex items-center justify-center w-7 mr-4 rounded-full ring-2 ring-green-400">
+                <div className="flex">
+                  <Image
+                    width={48}
+                    height={48}
+                    src={`/api/imagefetcher?url=${encodeURIComponent(data?.pictureURL)}`}
+                    alt="Current user profile image"
+                    className="object-cover rounded-full"
+                  />
+                </div>
               </div>
-            </>
-          ) : (
-            <></>
-          )}
+              <div className="flex w-full">
+                <input
+                  type="text"
+                  className="w-full border border-gray-200 rounded-sm px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300"
+                  placeholder="Title"
+                  maxLength={50}
+                  onChange={(e) => setPostTitle(e.target.value)}
+                  value={postTitle}
+                />
+              </div>
+            </div>
+            <textarea
+              rows={4}
+              className="border border-gray-200 w-full p-2 text-sm text-gray-600 rounded-sm resize-none focus:outline-none focus:border-gray-300"
+              placeholder="Post something..."
+              maxLength={300}
+              onChange={async (e) => setPostBody(e.target.value)}
+              value={postBody}
+            />
+            <div className="flex items-center mx-1 mt-1 mb-4">
+              <div className="flex items-center">
+                <div className="relative inline-block w-7 mr-2 align-middle select-none">
+                  <input
+                    type="checkbox"
+                    name="toggle"
+                    id="toggle"
+                    className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                    checked={showPreview}
+                    value={showPreview ? "true" : "false"}
+                    onChange={() => setShowPreview(!showPreview)}
+                  />
+                  <label
+                    htmlFor="toggle"
+                    className="toggle-label block overflow-hidden h-4 rounded-full bg-gray-300 cursor-pointer"
+                  ></label>
+                </div>
+                <label htmlFor="toggle" className="text-xs text-gray-700">
+                  Show markdown preview
+                </label>
+              </div>
+              <p className="flex ml-auto text-xs text-gray-600">{postBody.length + " / 300"}</p>
+            </div>
+  
+            {showPreview === true ? (
+              <>
+                <div
+                  className="border border-gray-200 w-full p-2 mb-4 text-sm text-gray-600 rounded-sm min-h-[30px]"
+                  
+                >
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {postBody}
+                  </ReactMarkdown>
+                </div>
+              </>
+              ) : (
+              <></>
+            )}
 
-          <div className="flex">
-            <button
-              type="button"
-              className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
-              onClick={() => {
-                onSendPost();
-              }}
-            >
-              Post
-            </button>
+            <div className="flex">
+              <button
+                type="button"
+                className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
+                onClick={() => {
+                  onSendPost();
+                }}
+              >
+                Post
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      }
     </>
   );
 }
