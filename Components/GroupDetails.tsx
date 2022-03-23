@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { getPostsFromGroup, getPostsWithIds } from "../Queries/Post"
 import { getUser } from "../Queries/User"
+import { joinGroup } from "../Queries/Group"
 import { GroupType, PostType, UserType } from "../Types/Data"
 import Loading from "./Loading"
 import PostList from "./PostList"
@@ -14,9 +15,15 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
+    const joinResponse = useQuery('joinGroup' + group.id, () => joinGroup(group.id, token), {enabled: false})
 
-    if(status === "success" && isJoined != undefined)
+    if(status === "success" && isJoined == undefined)
         setIsjoined(!!(data.groups as Array<number>).find(g=> g == group.id))
+
+    const onJoinClick = () => {
+        joinResponse.refetch();
+        setIsjoined(true);
+    }
 
     return (
         <>
@@ -48,10 +55,10 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
                     <div className="text-sm text-gray-800">
                         {group.description}
                     </div>
-                    {group.isPrivate === true &&
+                    {group.isPrivate === false &&
                         <div className="mt-6">
                             {isJoined === false &&
-                                <button type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                                <button onClick={onJoinClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                                     Join group
                                 </button>
                             }
