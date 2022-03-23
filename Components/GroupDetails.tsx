@@ -3,12 +3,13 @@ import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { getPostsFromGroup, getPostsWithIds } from "../Queries/Post"
-import { getUser } from "../Queries/User"
+import { getUser, getUsers } from "../Queries/User"
 import { joinGroup } from "../Queries/Group"
 import { GroupType, PostType, UserType } from "../Types/Data"
 import Loading from "./Loading"
 import PostList from "./PostList"
 import CreatePost from "../pages/CreatePost"
+import { group } from "console"
 
 const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)
@@ -17,6 +18,9 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
     const joinResponse = useQuery('joinGroup' + group.id, () => joinGroup(group.id, token), {enabled: false})
+    const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token), { enabled: !!token })
+    const [targetUserId, setTargetUserId] = useState(1);
+    const inviteQuery = useQuery('inviteToGroup', () => joinGroup(group.id, token, targetUserId), { enabled: false })
 
     if(status === "success" && isJoined == undefined)
         setIsjoined(!!(data.groups as Array<number>).find(g=> g == group.id))
@@ -24,6 +28,14 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const onJoinClick = () => {
         joinResponse.refetch();
         setIsjoined(true);
+    }
+
+    const handleSelectUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setTargetUserId(parseInt(e.target.value));
+    }
+
+    const onInviteClick = () => {
+        inviteQuery.refetch();
     }
 
     return (
@@ -68,6 +80,16 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
                                     Leave group
                                 </button>
                             }
+                        </div>
+                    }
+                    {group.isPrivate === true &&
+                        <div>
+                            <select onChange={handleSelectUserChange}>
+                                {allUsers?.filter(u => !group.users.includes(u.id || 0)).map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
+                            </select>
+                            <button onClick={onInviteClick} type="button">
+                                Invite
+                            </button>
                         </div>
                     }
                 </div>

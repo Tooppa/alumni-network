@@ -4,6 +4,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
+import CreatePrivateMessage from '../../../../Components/CreatePrivateMessage'
 import PostList from '../../../../Components/PostList'
 import { getPosts } from '../../../../Queries/Post'
 import { getUser, getUserById } from '../../../../Queries/User'
@@ -29,6 +30,7 @@ const Dashboard: NextPage = () => {
             return <>
                 <p>{data}</p>
             </>
+
         return (
             <>
                 <Head>
@@ -37,6 +39,7 @@ const Dashboard: NextPage = () => {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <Details user={data} />
+                <CreatePrivateMessage currentUser={data}/>
                 {postStatus === "success" &&
                     <PostList data={posts.filter(post => post.senderId === currentUser.id) as Array<PostType>} />
                 }
