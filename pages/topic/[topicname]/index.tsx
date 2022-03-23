@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { getTopic } from "../../../Queries/Topic";
 import { TopicType } from "../../../Types/Data";
 import TopicDetails from "../../../Components/TopicDetails";
+import Head from "next/head";
 
 const Topic: NextPage = () => {
     const router = useRouter()
@@ -22,6 +23,11 @@ const Topic: NextPage = () => {
             </>
         return (
             <>
+                <Head>
+                    <title>Topic | Alumni Network</title>
+                    <meta name="description" content="Welcome to Alumni Network" />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
                 <TopicDetails topic={data} />
             </>
         )

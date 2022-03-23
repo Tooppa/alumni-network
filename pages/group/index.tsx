@@ -8,6 +8,7 @@ import { KeycloakInstance } from "keycloak-js";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useQuery } from "react-query";
 import { getGroups } from "../../Queries/Group";
+import Head from "next/head";
 
 type GroupCardProps = {
     children: React.ReactNode
@@ -19,7 +20,12 @@ const Groups: NextPage<GroupCardProps> = () => {
     const { data, status } = useQuery<Array<GroupType>>('groups', () => getGroups(token), { enabled: !!token })
 
     return (
-        <>
+      <>
+        <Head>
+          <title>Groups | Alumni Network</title>
+          <meta name="description" content="Welcome to Alumni Network" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         <CreateGroup />
         {status === 'success' ?
         <CardGrid>

@@ -1,6 +1,7 @@
 import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import PostList from '../../../../Components/PostList'
@@ -28,13 +29,19 @@ const Dashboard: NextPage = () => {
             return <>
                 <p>{data}</p>
             </>
-        return <>
-            <Details user={data} />
-            {postStatus === "success" &&
-                <PostList data={posts.filter(post => post.senderId === currentUser.id) as Array<PostType>} />
-            }
-        </>
-
+        return (
+            <>
+                <Head>
+                    <title>Dashboard | Alumni Network</title>
+                    <meta name="description" content="Welcome to Alumni Network" />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <Details user={data} />
+                {postStatus === "success" &&
+                    <PostList data={posts.filter(post => post.senderId === currentUser.id) as Array<PostType>} />
+                }
+            </>
+        )
     }
     else return <></>
 }
