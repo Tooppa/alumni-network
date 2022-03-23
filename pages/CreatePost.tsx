@@ -5,10 +5,8 @@ import React, { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { sendPost } from '../Queries/Post';
 import { Parameters } from '../Types/Parameters';
-import { UserType } from '../Types/Data';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import Notification from '../Components/Notification'
 
 const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUserId }) => {
   const { keycloak } = useKeycloak<KeycloakInstance>();
@@ -17,10 +15,9 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
 
   const [postTitle, setPostTitle] = useState<string>(''); 
   const [postBody, setPostBody] = useState<string>('');
-  const [postCreated, setPostCreated] = useState<boolean>(false);
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const mutation = useMutation((post: string) => sendPost(post,token), {
-    onSuccess: () => { queryClient.invalidateQueries('posts') }
+    onSuccess: () => { queryClient.invalidateQueries('frontpagePosts') }
   })
 
   const getPostType = () => {
@@ -72,6 +69,7 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
               placeholder="Title"
               maxLength={50}
               onChange={(e) => setPostTitle(e.target.value)}
+              value={postTitle}
             />
           </div>
           <textarea
@@ -82,7 +80,7 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
             onChange={async (e) => setPostBody(e.target.value)}
             value={postBody}
           ></textarea>
-          <p className="flex justify-end text-sm text-gray-600 m-0 p-0">{ postBody.length + " / 300"  }</p>
+          <p className="flex justify-end text-sm text-gray-600 m-0 p-0">{postBody.length + " / 300"}</p>
           <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in mt-2 mb-2">
             <input
               type="checkbox"
@@ -123,7 +121,6 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
               className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
               onClick={() => {
                 onSendPost();
-                setPostCreated(!postCreated);
               }}
             >
               Post
