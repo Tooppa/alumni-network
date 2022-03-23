@@ -34,12 +34,9 @@ const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
                     </p>
                 }*/
             >
-            {posts.map((post: PostType, index: number) => (
-                <React.Fragment key={index}>
-                    <Post post={post} />
-                    <hr className="border-gray-300 last-of-type:hidden" />
-                </React.Fragment>
-            ))}
+                {posts.map((post: PostType, index: number) => (
+                    <Post key={index} post={post} />
+                ))}
             </InfiniteScroll>
         </div>
     )
