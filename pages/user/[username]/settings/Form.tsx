@@ -30,28 +30,28 @@ const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
     
     return (
         <>
-            <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
-                <div className="text-gray-800 text-2xl font-base text-center">
+            <div className="bg-white my-6 p-4 rounded-sm shadow-md">
+                <div className="text-gray-800 text-2xl mt-2 mb-4 text-center">
                     <h1>Settings</h1>
                 </div>
                 <form onSubmit={registerUser} className="grid grid-cols-4">
-                    <div className="col-span-1 p-6">
-                        <div className="rounded-full ring-2 ring-green-400 flex">
-                            <label htmlFor="image-upload" className="cursor-pointer hover:opacity-80">
-                                <Image src={`/api/imagefetcher?url=${encodeURIComponent(user.pictureURL)}`} alt="Profile pic" width={200} height={200} />
+                    <div className="col-span-1 px-4 py-2">
+                        <div className="rounded-full ring-2 ring-green-400 flex relative overflow-hidden">
+                            <label htmlFor="image-upload" className="flex items-center justify-center cursor-pointer hover:opacity-80">
+                                <Image src={`/api/imagefetcher?url=${encodeURIComponent(user.pictureURL)}`} alt="Profile pic" width={200} height={200} className="object-cover rounded-full opacity-30" />
+                                <p className="absolute text-xs text-center">Change profile image</p>
                             </label>
                             <input id="image-upload" type="file" className="hidden" />
                         </div>
-                        <p className="text-center pt-2 text-sm">Click the photo to upload a new one</p>
                     </div>
-                    <div className="col-span-3 p-6">
+                    <div className="col-span-3 px-4 py-2">
                         <div className="">
-                            <label className="text-sm p-1">Name:</label>
-                            <input onChange={e => setName(e.target.value)} value={name} type="text" className="w-full border border-gray-200 rounded-sm mb-3 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300" />
+                            <label className="text-sm p-1">Username:</label>
+                            <input onChange={e => setName(e.target.value)} value={name} type="text" className="w-full border border-gray-200 rounded-sm mb-2 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300" disabled />
                             <label className="text-sm p-1">Status:</label>
-                            <input onChange={e => setStatus(e.target.value)} value={status} type="text" className="w-full border border-gray-200 rounded-sm mb-3 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300" />
+                            <input onChange={e => setStatus(e.target.value)} value={status} type="text" className="w-full border border-gray-200 rounded-sm mb-2 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300" />
                             <label className="text-sm p-1">Bio:</label>
-                            <textarea onChange={e => setBio(e.target.value)} value={bio} rows={2} className="border border-gray-200 w-full mb-2 px-2 py-1 text-sm text-gray-600 rounded-sm focus:outline-none focus:border-gray-300" />
+                            <textarea onChange={e => setBio(e.target.value)} value={bio} rows={4} maxLength={300} className="w-full border border-gray-200 mb-2 px-2 py-1 text-sm text-gray-600 rounded-sm resize-none focus:outline-none focus:border-gray-300" />
                             <label className="text-sm p-1">Fun fact:</label>
                             <textarea onChange={e => setFact(e.target.value)} value={fact} rows={2} className="w-full border border-gray-200 rounded-sm mb-2 px-2 py-1 text-sm text-gray-600 focus:outline-none focus:border-gray-300" />
                         </div>
