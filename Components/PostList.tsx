@@ -5,24 +5,21 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Loading from "./Loading";
 
 const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
-    const [posts, setPosts] = useState(data.slice(0, 4));
-    const [hasMore, setHasMore] = useState(true);
+    const howManyPerFetch = 4
+    const [amount, setAmount] = useState<number>(howManyPerFetch)
+    const [hasMore, setHasMore] = useState<boolean>(true);
 
     const fetchData = () => {
-        if (data.length < posts.length + 4) {
-            setPosts(posts.concat(data.slice(posts.length - 1, data.length - 1)));
+        setAmount(amount + howManyPerFetch)
+        if (data.length < amount) {
             setHasMore(false);
         }
-        setPosts(posts.concat(data.slice(posts.length - 1, posts.length + 4)));
-    }
-    if(posts[0] != data[0]){
-        setPosts([data[0]].concat(posts))
     }
     
     return (
         <div className="bg-white rounded-sm shadow-md">
             <InfiniteScroll
-                dataLength={posts.length}
+                dataLength={amount}
                 next={fetchData}
                 hasMore={hasMore}
                 loader={<Loading length={data.length}/>}
@@ -34,7 +31,7 @@ const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
                     </p>
                 }*/
             >
-                {posts.map((post: PostType, index: number) => (
+                {data.slice(0,amount).map((post: PostType, index: number) => (
                     <Post key={index} post={post} />
                 ))}
             </InfiniteScroll>
