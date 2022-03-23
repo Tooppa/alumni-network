@@ -3,14 +3,13 @@ import React, { useState } from "react"
 const Filter: React.FC<{filter: Function}> = ({filter}) => {
     const [showFilters, setShowFilters] = useState<boolean>(false);
     const [all, setAll] = useState<boolean>(true)
-    const [groups, setGroups] = useState<boolean>(true)
-    const [topics, setTopics] = useState<boolean>(true)
-    const [ownPosts, setOwnPosts] = useState<boolean>(true)
+    const [groups, setGroups] = useState<boolean>(false)
+    const [topics, setTopics] = useState<boolean>(false)
+    const [ownPosts, setOwnPosts] = useState<boolean>(false)
 
-    function handleCheckboxes() {
+    const applyFilter = () => {
         filter(all,groups,topics,ownPosts)
     }
-
     return (
         <div>
             <div className="flex">
@@ -28,15 +27,13 @@ const Filter: React.FC<{filter: Function}> = ({filter}) => {
                     <div className="px-4 py-2">
                         <div className="text-gray-800">
                             <h1 className="text-sm font-semibold mb-4">Show posts:</h1>
-                            <div className="ml-2">
+                            <form className="ml-2">
                                 <div className="flex items-center text-sm mb-2">
                                     <input
                                         type="checkbox"
                                         checked={all}
-                                        onChange={() => {
-                                            setAll(!all)
-                                            handleCheckboxes()
-                                        }}
+                                        name="filter"
+                                        onChange={() => setAll(!all)}
                                     />
                                     <label className="ml-2">All posts</label>
                                 </div>
@@ -44,10 +41,8 @@ const Filter: React.FC<{filter: Function}> = ({filter}) => {
                                     <input
                                         type="checkbox"
                                         checked={topics}
-                                        onChange={() => {
-                                            setTopics(!topics)
-                                            handleCheckboxes()
-                                        }}
+                                        name="filter"
+                                        onChange={() => setTopics(!topics)}
                                     />
                                     <label className="ml-2">Subscribed topics</label>
                                 </div>
@@ -55,10 +50,8 @@ const Filter: React.FC<{filter: Function}> = ({filter}) => {
                                     <input
                                         type="checkbox"
                                         checked={groups}
-                                        onChange={() => {
-                                            setGroups(!groups)
-                                            handleCheckboxes()
-                                        }}
+                                        name="filter"
+                                        onChange={() => setGroups(!groups)}
                                     />
                                     <label className="ml-2">Joined groups</label>
                                 </div>
@@ -66,17 +59,15 @@ const Filter: React.FC<{filter: Function}> = ({filter}) => {
                                     <input
                                         type="checkbox"
                                         checked={ownPosts}
-                                        onChange={() => {
-                                            setOwnPosts(!ownPosts)
-                                            handleCheckboxes()
-                                        }}
+                                        name="filter"
+                                        onChange={() => setOwnPosts(!ownPosts)}
                                     />
                                     <label className="ml-2">Your posts</label>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                         <div className="flex">
-                            <button type="button" className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-3 py-1 text-center" onClick={() => setShowFilters(!showFilters)}>
+                            <button type="button" onClick={() => {setShowFilters(!showFilters); applyFilter();}}className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-3 py-1 text-center" >
                                 Apply filters
                             </button>
                         </div>
