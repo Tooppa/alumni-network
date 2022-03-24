@@ -10,17 +10,15 @@ import remarkGfm from "remark-gfm";
 import { getUser } from '../Queries/User';
 import { UserType } from '../Types/Data';
 
-const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUserId }) => {
-  const { keycloak } = useKeycloak<KeycloakInstance>();
-  const token: string | undefined = keycloak?.token;
+const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUserId, token, postList }) => {
   const queryClient = useQueryClient();
-  const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token });
+  const { data, status } = useQuery<UserType>('currentuser', () => getUser(token));
 
   const [postTitle, setPostTitle] = useState<string>(''); 
   const [postBody, setPostBody] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const mutation = useMutation((post: string) => sendPost(post,token), {
-    onSuccess: () => { queryClient.invalidateQueries('frontpagePosts') }
+    onSuccess: () => { queryClient.invalidateQueries(postList) }
   })
 
   const getPostType = () => {

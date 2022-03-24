@@ -1,8 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { QueryClient, useMutation, useQuery, useQueryClient } from 'react-query'
-import CreatePost from './CreatePost'
-import { getPosts, sendPost } from '../Queries/Post'
+import CreatePost from '../Components/CreatePost'
+import { getPosts } from '../Queries/Post'
 import PostList from '../Components/PostList'
 import { useKeycloak } from '@react-keycloak/ssr'
 import { KeycloakInstance } from 'keycloak-js'
@@ -11,6 +10,7 @@ import { PostType, UserType } from '../Types/Data'
 import Filter from './Filter'
 import { getUser } from '../Queries/User'
 import { useState } from 'react'
+import { useQuery } from 'react-query'
 
 const Timeline: NextPage = () => {
   const { keycloak } = useKeycloak<KeycloakInstance>()
@@ -57,7 +57,7 @@ const Timeline: NextPage = () => {
         </Head>
         <Previews />
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
-        <CreatePost topicId={4} />
+        <CreatePost topicId={4} token={token} postList="frontpagePosts"/>
         <Filter filter={handleFilter} />
         <PostList data={filterData(data) as Array<PostType>} token={token}/>
       </>
@@ -66,8 +66,6 @@ const Timeline: NextPage = () => {
     return (
       <>
         <Previews />
-        {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
-        <CreatePost topicId={4} />
       </>
     );
   }

@@ -8,7 +8,7 @@ import { joinGroup } from "../Queries/Group"
 import { GroupType, PostType, UserType } from "../Types/Data"
 import Loading from "./Loading"
 import PostList from "./PostList"
-import CreatePost from "../pages/CreatePost"
+import CreatePost from "./CreatePost"
 
 const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, token }) => {
     const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)
@@ -96,7 +96,7 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
             {isJoined === true || group.id === 4 ?
                 postStatus === "success" ?
                     <>
-                        <CreatePost groupId={group.id} />
+                        <CreatePost groupId={group.id} token={token} postList={'postsGroup' + group.id}/>
                         <PostList data={posts} token={token}/>
                     </> :
                     <></> :

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useQuery } from "react-query"
-import CreatePost from "../pages/CreatePost"
+import CreatePost from "./CreatePost"
 import { getPostsFromTopic } from "../Queries/Post"
 import { joinTopic } from "../Queries/Topic"
 import { getUser } from "../Queries/User"
@@ -70,7 +70,10 @@ const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, toke
                 </div>
             </div>
             {/* TopicId 4 is General */}
-            {isSubscribed === true  || topic.id === 4 ?  <CreatePost topicId={topic.id} /> : <></>}
+            {isSubscribed === true  || topic.id === 4 ?  
+                <CreatePost topicId={topic.id} token={token} postList={'postsTopic' + topic.id}/> : 
+                <></>
+            }
             {postStatus === "success" ?
                 <PostList data={posts} token={token}/>:
                 <Loading/>
