@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useQuery } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { getPostsFromTopic } from "../Queries/Post"
 import { joinTopic, unsubscribeTopic } from "../Queries/Topic"
 import { getUser } from "../Queries/User"
@@ -8,24 +8,38 @@ import CreatePost from "./CreatePost"
 import Loading from "./Loading"
 import PostList from "./PostList"
 
-const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, token }) => {
+const TopicDetails: React.FC<{topic: TopicType, token: string, topicData: string}> = ({ topic, token, topicData }) => {
     const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
+    
+    const queryClient = useQueryClient();
 
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topic.id, () => getPostsFromTopic(topic.id, token), {enabled: !!token})
-    const joinResponse = useQuery('joinTopic' + topic.id, () => joinTopic(topic.id, token), {enabled: false})
-    const leaveQuery = useQuery('leaveTopic' + topic.id, () => unsubscribeTopic(topic.id, token), {enabled: false})
+    const join = useMutation(() => joinTopic(topic.id, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(topicData)
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
+        }
+    })
+    const leave = useMutation(() => unsubscribeTopic(topic.id, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(topicData)
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
+        }
+    })
 
     if(status === "success" && isSubscribed == undefined)
         setIsSubscribed(!!(data.topics as Array<number>).find(g=> g == topic.id))
     
     const onSubscribeClick = () => {
-        joinResponse.refetch();
+        join.mutate()
         setIsSubscribed(true);
     }
 
     const onUnsubscribeClick = () => {
-        leaveQuery.refetch();
+        leave.mutate()
         setIsSubscribed(false);
     }
     
@@ -63,7 +77,7 @@ const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, toke
                     </div>
                     <div className="mt-6">
                         {isSubscribed != undefined ? isSubscribed === true ?
-                            <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                            <button onClick={onUnsubscribeClick} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
                                 Unsubscribe
                             </button> :
                             <button onClick={onSubscribeClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">

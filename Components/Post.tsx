@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PostType, UserType } from "../Types/Data";
 import Comment from "./Comment";
 import { formatDistanceToNow } from "date-fns";
@@ -13,7 +13,7 @@ import { deletePost } from "../Queries/Post";
 import CreateComment from "./CreateComment";
 
 const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ post, token, postList }) => {
-    const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
+    const [showDelete, setShowDelete] = useState<boolean>(false);
     const [commentsVisible, setCommentsVisible] = useState(false);
 
     const queryClient = useQueryClient();
@@ -36,8 +36,6 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
         );
     };
 
-    if (status === "success" && showDelete === undefined)
-        setShowDelete(data.id === post.senderId)
 
     const handleDelete = () => {
         mutation.mutate()
@@ -51,6 +49,11 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
         else
             return "";
     }
+
+    useEffect(()=>{
+        if (status === "success")
+            setShowDelete(data.id === post.senderId)
+    })
 
     return <>
         <div className="bg-white my-2 p-4 ">

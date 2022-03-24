@@ -1,7 +1,5 @@
-import { useKeycloak } from "@react-keycloak/ssr"
-import { KeycloakInstance } from "keycloak-js"
-import React, { useState } from "react"
-import { useQuery } from "react-query"
+import React, { useEffect, useState } from "react"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { getPostsFromGroup } from "../Queries/Post"
 import { getUser, getUsers } from "../Queries/User"
 import { joinGroup, leaveGroup } from "../Queries/Group"
@@ -10,36 +8,55 @@ import Loading from "./Loading"
 import PostList from "./PostList"
 import CreatePost from "./CreatePost"
 
-const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, token }) => {
-    const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)
+const GroupDetails: React.FC<{group: GroupType, token: string, groupData: string}> = ({ group, token, groupData }) => {
+    const [isJoined, setIsjoined] = useState<boolean>(false)
     const [targetUserId, setTargetUserId] = useState(1);
+
+    const queryClient = useQueryClient();
 
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
     const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token))
-    const inviteQuery = useQuery('inviteToGroup', () => joinGroup(group.id, token, targetUserId), { enabled: false })
-    const joinResponse = useQuery('joinGroup' + group.id, () => joinGroup(group.id, token), {enabled: false})
-    const leaveQuery = useQuery('leaveGroup' + group.id, () => leaveGroup(group.id, token), {enabled: false})
 
-    if(status === "success" && isJoined == undefined)
-        setIsjoined(!!(data.groups as Array<number>).find(g=> g == group.id))
+    const invite = useMutation(() => joinGroup(group.id, token, targetUserId), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(groupData)
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
+        }
+    })
+    const leave = useMutation(() => leaveGroup(group.id, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(groupData)
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
+        }
+    })
+    const join = useMutation(() => joinGroup(group.id, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(groupData)
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
+        }
+    })
+
+    useEffect(() => {
+        if (status === "success")
+            setIsjoined(!!(data.groups as Array<number>).find(g => g == group.id))
+    }, [status, data, group])
 
     const onJoinClick = () => {
-        joinResponse.refetch();
+        join.mutate()
         setIsjoined(true);
     }
 
     const onLeaveClick = () => {
-        leaveQuery.refetch();
+        leave.mutate()
         setIsjoined(false);
     }
 
     const handleSelectUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTargetUserId(parseInt(e.target.value));
-    }
-
-    const onInviteClick = () => {
-        inviteQuery.refetch();
     }
 
     return (
@@ -91,7 +108,9 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
                             <select onChange={handleSelectUserChange}>
                                 {allUsers?.filter(u => !group.users.includes(u.id || 0)).map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
                             </select>
-                            <button className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center" onClick={onInviteClick} type="button">
+                            <button 
+                                className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center" 
+                                onClick={() => invite.mutate()} type="button">
                                 Invite
                             </button>
                         </div>
@@ -102,8 +121,8 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
             {isJoined === true || group.id === 4 ?
                 postStatus === "success" ?
                     <>
-                        <CreatePost groupId={group.id} token={token} postList={'postsGroup' + group.id}/>
-                        <PostList data={posts} token={token} postList={'postsGroup' + group.id}/>
+                        <CreatePost groupId={group.id} token={token} postList={'postsGroup' + group.id} />
+                        <PostList data={posts} token={token} postList={'postsGroup' + group.id} />
                     </> :
                     <></> :
                 <div className="flex justify-center">
