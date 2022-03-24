@@ -1,7 +1,6 @@
 import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import { useQuery } from "react-query"
 import GroupPreview from "../Components/GroupPreview"
 import Modal from "../Components/Layout/Modal"

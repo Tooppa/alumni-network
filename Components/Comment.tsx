@@ -1,24 +1,30 @@
 import Link from "next/link"
 import React, { useState } from "react"
-import { useQuery } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { deletePost, getPost } from "../Queries/Post"
 import { getUser } from "../Queries/User"
 import { UserType } from "../Types/Data"
 
-const Comment: React.FC<{id: number, token: string}>= ({id, token}) =>{
+const Comment: React.FC<{ id: number, token: string , postList: string}> = ({ id, token, postList }) => {
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
     const [show, setShow] = useState<boolean>(true);
+    const queryClient = useQueryClient();
 
-    const { refetch } = useQuery('delete' + id, () => deletePost(id, token), { enabled: false })
     const { data: post, status } = useQuery(['comment', id], () => getPost(id, token))
     const { data, status: userStatus } = useQuery<UserType>('currentuser', () => getUser(token))
 
+    const mutation = useMutation(() => deletePost(id, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(postList)
+        }
+    })
+
     if (userStatus === "success" && showDelete === undefined && status === "success")
         setShowDelete(data.id === post.senderId)
-    
+
     const handleDelete = () => {
-        refetch()
         setShow(false)
+        mutation.mutate()
     }
 
     if (status === "success")

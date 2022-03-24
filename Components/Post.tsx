@@ -7,7 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getUser } from "../Queries/User";
 import { deletePost } from "../Queries/Post";
 import CreateComment from "./CreateComment";
@@ -20,7 +20,14 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
     const queryClient = useQueryClient();
 
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
-    const { refetch } = useQuery('delete' + post.id, () => deletePost(post.id, token), { enabled: false })
+
+    const mutation = useMutation(() => deletePost(post.id, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(postList)
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
+        }
+    })
 
     const formatTimeStamp = (timestamp: Date) => {
         // The server hosting the API is located in Azure's North Europe data center i.e. Ireland
@@ -34,11 +41,8 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
         setShowDelete(data.id === post.senderId)
 
     const handleDelete = () => {
-        refetch()
         setShow(false)
-        queryClient.invalidateQueries(postList)
-        queryClient.invalidateQueries('groups')
-        queryClient.invalidateQueries('topics')
+        mutation.mutate()
     }
 
     return show ? <>
@@ -108,7 +112,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
                             <hr className="border-gray-300" />
                             <div className="my-6">
                                 {post.replies.map((id: number) => (
-                                    <Comment key={id} id={id} token={token} />
+                                    <Comment key={id} id={id} token={token} postList={postList} />
                                 ))}
                             </div>
                             {post.replies.length <= 0 && (
