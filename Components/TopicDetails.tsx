@@ -63,7 +63,7 @@ const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, toke
                             <button onClick={onSubscribeClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                                 Subscribe
                             </button>:
-                            <button type="button" className="text-white bg-gray-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                            <button type="button" className="text-white bg-gray-400 shadow hover:bg-gray-300 rounded-full text-sm px-5 py-1 text-center">
                                 No data
                             </button> 
                         }
@@ -76,7 +76,7 @@ const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, toke
                 <></>
             }
             {postStatus === "success" ?
-                <PostList data={posts} token={token} /> :
+                <PostList data={posts} token={token} postList={'postsTopic' + topic.id}/> :
                 <Loading />
             }
         </>

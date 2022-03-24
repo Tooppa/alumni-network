@@ -97,7 +97,7 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
                 postStatus === "success" ?
                     <>
                         <CreatePost groupId={group.id} token={token} postList={'postsGroup' + group.id}/>
-                        <PostList data={posts} token={token}/>
+                        <PostList data={posts} token={token} postList={'postsGroup' + group.id}/>
                     </> :
                     <></> :
                 <div className="flex justify-center">

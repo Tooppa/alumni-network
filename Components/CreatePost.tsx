@@ -1,5 +1,3 @@
-import { useKeycloak } from '@react-keycloak/ssr';
-import { KeycloakInstance } from 'keycloak-js';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -17,8 +15,12 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
   const [postTitle, setPostTitle] = useState<string>(''); 
   const [postBody, setPostBody] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
-  const mutation = useMutation((post: string) => sendPost(post,token), {
-    onSuccess: () => { queryClient.invalidateQueries(postList) }
+  const mutation = useMutation((post: string) => sendPost(post, token), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(postList)
+      queryClient.invalidateQueries('groups')
+      queryClient.invalidateQueries('topics')
+    }
   })
 
   const getPostType = () => {
@@ -110,19 +112,19 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
               </div>
               <p className="flex ml-auto text-xs text-gray-600">{postBody.length + " / 300"}</p>
             </div>
-  
+
             {showPreview === true ? (
               <>
                 <div
                   className="border border-gray-200 w-full p-2 mb-4 text-sm text-gray-600 rounded-sm min-h-[30px]"
-                  
+
                 >
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {postBody}
                   </ReactMarkdown>
                 </div>
               </>
-              ) : (
+            ) : (
               <></>
             )}
 

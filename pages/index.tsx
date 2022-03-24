@@ -59,7 +59,7 @@ const Timeline: NextPage = () => {
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
         <CreatePost topicId={4} token={token} postList="frontpagePosts"/>
         <Filter filter={handleFilter} />
-        <PostList data={filterData(data) as Array<PostType>} token={token}/>
+        <PostList data={filterData(data) as Array<PostType>} token={token} postList='frontpagePosts'/>
       </>
     )
   else {

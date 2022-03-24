@@ -41,7 +41,7 @@ const Dashboard: NextPage = () => {
                 <Details user={data} />
                 <CreatePrivateMessage currentUser={data}/>
                 {postStatus === "success" &&
-                    <PostList data={posts.filter(post => post.senderId === currentUser.id) as Array<PostType>} token={token}/>
+                    <PostList data={posts.filter(post => post.senderId === currentUser.id) as Array<PostType>} token={token} postList='profilePosts'/>
                 }
             </>
         )
