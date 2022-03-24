@@ -13,7 +13,6 @@ const Topic: NextPage = () => {
     const { topicname } = router.query
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    
     const { data, status } = useQuery<TopicType>('topic' + topicname, () => getTopic(Number(topicname), token), {enabled: !!token})
 
     if (status === "success" && !!token){
@@ -29,7 +28,7 @@ const Topic: NextPage = () => {
                     <meta name="description" content="Welcome to Alumni Network" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                <TopicDetails topic={data} token={token} topicData={'topic' + topicname}/>
+                <TopicDetails topicId={Number(topicname)} token={token} />
             </>
         )
     }

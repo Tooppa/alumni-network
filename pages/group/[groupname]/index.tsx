@@ -28,7 +28,7 @@ const Group: NextPage = () => {
                     <meta name="description" content="Welcome to Alumni Network" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                <GroupDetails group={data} token={token} groupData={'group' + groupname}/>
+                <GroupDetails groupId={Number(groupname)} token={token}/>
             </>
         )
     }

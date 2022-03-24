@@ -1,37 +1,38 @@
 import React, { useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { getPostsFromTopic } from "../Queries/Post"
-import { joinTopic, unsubscribeTopic } from "../Queries/Topic"
+import { getTopic, joinTopic, unsubscribeTopic } from "../Queries/Topic"
 import { getUser } from "../Queries/User"
 import { PostType, TopicType, UserType } from "../Types/Data"
 import CreatePost from "./CreatePost"
 import Loading from "./Loading"
 import PostList from "./PostList"
 
-const TopicDetails: React.FC<{topic: TopicType, token: string, topicData: string}> = ({ topic, token, topicData }) => {
+const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, token }) => {
     const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
     
     const queryClient = useQueryClient();
 
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
-    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topic.id, () => getPostsFromTopic(topic.id, token), {enabled: !!token})
-    const join = useMutation(() => joinTopic(topic.id, token), {
+    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topicId, () => getPostsFromTopic(topicId, token))
+    const { data: topic, status: topicStatus } = useQuery<TopicType>('topic' + topicId, () => getTopic(topicId, token))
+    const join = useMutation(() => joinTopic(topicId, token), {
         onSuccess: () => {
-            queryClient.invalidateQueries(topicData)
+            queryClient.invalidateQueries('topic' + topicId)
             queryClient.invalidateQueries('groups')
             queryClient.invalidateQueries('topics')
         }
     })
-    const leave = useMutation(() => unsubscribeTopic(topic.id, token), {
+    const leave = useMutation(() => unsubscribeTopic(topicId, token), {
         onSuccess: () => {
-            queryClient.invalidateQueries(topicData)
+            queryClient.invalidateQueries('topic' + topicId)
             queryClient.invalidateQueries('groups')
             queryClient.invalidateQueries('topics')
         }
     })
 
     if(status === "success" && isSubscribed == undefined)
-        setIsSubscribed(!!(data.topics as Array<number>).find(g=> g == topic.id))
+        setIsSubscribed(!!(data.topics as Array<number>).find(g=> g == topicId))
     
     const onSubscribeClick = () => {
         join.mutate()
@@ -44,7 +45,7 @@ const TopicDetails: React.FC<{topic: TopicType, token: string, topicData: string
     }
     
     return (
-        <>
+        <>{topicStatus === "success" &&
             <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
                 <div className="p-6">
                     <p className="text-xs text-gray-500">Topic</p>
@@ -89,14 +90,14 @@ const TopicDetails: React.FC<{topic: TopicType, token: string, topicData: string
                         }
                     </div>
                 </div>
-            </div>
+            </div>}
             {/* TopicId 4 is General */}
-            {isSubscribed === true || topic.id === 4 ?
-                <CreatePost topicId={topic.id} token={token} postList={'postsTopic' + topic.id} /> :
+            {isSubscribed === true || topicId === 4 ?
+                <CreatePost topicId={topicId} token={token} postList={'postsTopic' + topicId} /> :
                 <></>
             }
             {postStatus === "success" ?
-                <PostList data={posts} token={token} postList={'postsTopic' + topic.id}/> :
+                <PostList data={posts} token={token} postList={'postsTopic' + topicId}/> :
                 <Loading />
             }
         </>

@@ -2,39 +2,40 @@ import React, { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { getPostsFromGroup } from "../Queries/Post"
 import { getUser, getUsers } from "../Queries/User"
-import { joinGroup, leaveGroup } from "../Queries/Group"
+import { getGroup, joinGroup, leaveGroup } from "../Queries/Group"
 import { GroupType, PostType, UserType } from "../Types/Data"
 import Loading from "./Loading"
 import PostList from "./PostList"
 import CreatePost from "./CreatePost"
 
-const GroupDetails: React.FC<{group: GroupType, token: string, groupData: string}> = ({ group, token, groupData }) => {
+const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, token}) => {
     const [isJoined, setIsjoined] = useState<boolean>(false)
     const [targetUserId, setTargetUserId] = useState(1);
 
     const queryClient = useQueryClient();
 
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
-    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
+    const { data: group, status: groupStatus } = useQuery<GroupType>('group' + groupId, () => getGroup(groupId, token))
+    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + groupId, () => getPostsFromGroup(groupId, token), {enabled: !!token})
     const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token))
 
-    const invite = useMutation(() => joinGroup(group.id, token, targetUserId), {
+    const invite = useMutation(() => joinGroup(groupId, token, targetUserId), {
         onSuccess: () => {
-            queryClient.invalidateQueries(groupData)
+            queryClient.invalidateQueries('group' + groupId)
             queryClient.invalidateQueries('groups')
             queryClient.invalidateQueries('topics')
         }
     })
-    const leave = useMutation(() => leaveGroup(group.id, token), {
+    const leave = useMutation(() => leaveGroup(groupId, token), {
         onSuccess: () => {
-            queryClient.invalidateQueries(groupData)
+            queryClient.invalidateQueries('group' + groupId)
             queryClient.invalidateQueries('groups')
             queryClient.invalidateQueries('topics')
         }
     })
-    const join = useMutation(() => joinGroup(group.id, token), {
+    const join = useMutation(() => joinGroup(groupId, token), {
         onSuccess: () => {
-            queryClient.invalidateQueries(groupData)
+            queryClient.invalidateQueries('group' + groupId)
             queryClient.invalidateQueries('groups')
             queryClient.invalidateQueries('topics')
         }
@@ -42,7 +43,7 @@ const GroupDetails: React.FC<{group: GroupType, token: string, groupData: string
 
     useEffect(() => {
         if (status === "success")
-            setIsjoined(!!(data.groups as Array<number>).find(g => g == group.id))
+            setIsjoined(!!(data.groups as Array<number>).find(g => g == groupId))
     }, [status, data, group])
 
     const onJoinClick = () => {
@@ -60,8 +61,8 @@ const GroupDetails: React.FC<{group: GroupType, token: string, groupData: string
     }
 
     return (
-        <>
-            <div className="bg-white my-6 p-4 shadow-lg rounded-sm">
+        <>{groupStatus === "success" &&
+            < div className="bg-white my-6 p-4 shadow-lg rounded-sm">
                 <div className="p-6">
                     <p className="text-xs text-gray-500">Group</p>
                     <div className="flex mb-1 items-center">
@@ -108,26 +109,29 @@ const GroupDetails: React.FC<{group: GroupType, token: string, groupData: string
                             <select onChange={handleSelectUserChange}>
                                 {allUsers?.filter(u => !group.users.includes(u.id || 0)).map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
                             </select>
-                            <button 
-                                className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center" 
+                            <button
+                                className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
                                 onClick={() => invite.mutate()} type="button">
                                 Invite
                             </button>
                         </div>
                     }
                 </div>
-            </div>
+            </div>}
             {postStatus === 'loading' ? <Loading /> : <></>}
-            {isJoined === true || group.id === 4 ?
-                postStatus === "success" ?
-                    <>
-                        <CreatePost groupId={group.id} token={token} postList={'postsGroup' + group.id} />
-                        <PostList data={posts} token={token} postList={'postsGroup' + group.id} />
-                    </> :
-                    <></> :
-                <div className="flex justify-center">
-                    {postStatus !== 'loading' ? <p>Join group to see and create posts</p> : <></>}
-                </div>}
+            {
+                isJoined === true || groupId === 4 ?
+                    postStatus === "success" ?
+                        <>
+                            <CreatePost groupId={groupId} token={token} postList={'postsGroup' + groupId} />
+                            <PostList data={posts} token={token} postList={'postsGroup' + groupId} />
+                        </> :
+                        <></> :
+                    <div className="flex justify-center">
+                        {postStatus !== 'loading' ? <p>Join group to see and create posts</p> : <></>}
+                    </div>
+            }
+
         </>
     )
 }
