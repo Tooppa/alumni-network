@@ -7,7 +7,11 @@ export type PostType = {
   senderName: string,
   senderPictureURL: string,
   replyParentId: number,
-  replies: Array<number>
+  replies: Array<number>,
+  targetGroupId?: number,
+  groupName?: string,
+  targetTopicId?: number,
+  topicName?: string
 }
 export type TopicType = {
   id: number,
