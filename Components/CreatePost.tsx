@@ -15,6 +15,7 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
   const [postTitle, setPostTitle] = useState<string>(''); 
   const [postBody, setPostBody] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
+
   const mutation = useMutation((post: string) => sendPost(post, token), {
     onSuccess: () => {
       queryClient.invalidateQueries(postList)
