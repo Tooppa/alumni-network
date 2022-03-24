@@ -56,30 +56,31 @@ const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, toke
                         {topic.description}
                     </div>
                     <div className="mt-6">
-                        {isSubscribed === false &&
-                            <button onClick={onSubscribeClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
-                                Subscribe
-                            </button>
-                        }
-                        {isSubscribed === true &&
+                        {isSubscribed != undefined ? isSubscribed === true ?
                             <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
                                 Unsubscribe
-                            </button>
+                            </button> :
+                            <button onClick={onSubscribeClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                                Subscribe
+                            </button>:
+                            <button type="button" className="text-white bg-gray-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                No data
+                            </button> 
                         }
                     </div>
                 </div>
             </div>
             {/* TopicId 4 is General */}
-            {isSubscribed === true  || topic.id === 4 ?  
-                <CreatePost topicId={topic.id} token={token} postList={'postsTopic' + topic.id}/> : 
+            {isSubscribed === true || topic.id === 4 ?
+                <CreatePost topicId={topic.id} token={token} postList={'postsTopic' + topic.id} /> :
                 <></>
             }
             {postStatus === "success" ?
-                <PostList data={posts} token={token}/>:
-                <Loading/>
+                <PostList data={posts} token={token} /> :
+                <Loading />
             }
         </>
-    )   
+    )
 }
 
 export default TopicDetails
