@@ -4,7 +4,7 @@ import Post from "./Post"
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loading from "./Loading";
 
-const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
+const PostList: React.FC<{data: Array<PostType>, token: string, postList: string}> = ({ data, token, postList }) => {
     const howManyPerFetch = 4
     const [amount, setAmount] = useState<number>(howManyPerFetch)
     const [hasMore, setHasMore] = useState<boolean>(true);
@@ -32,7 +32,7 @@ const PostList: React.FC<{data: Array<PostType>}> = ({ data }) => {
                 }*/
             >
                 {data.slice(0,amount).map((post: PostType, index: number) => (
-                    <Post key={index} post={post} />
+                    <Post key={index} post={post} token={token} postList={postList}/>
                 ))}
             </InfiniteScroll>
         </div>

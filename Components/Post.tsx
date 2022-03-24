@@ -7,21 +7,26 @@ import { formatDistanceToNow } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getUser } from "../Queries/User";
-import { useKeycloak } from "@react-keycloak/ssr";
-import { KeycloakInstance } from "keycloak-js";
 import { deletePost } from "../Queries/Post";
 import CreateComment from "./CreateComment";
 
-const Post: React.FC<{ post: PostType }> = ({ post }) => {
+const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ post, token, postList }) => {
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
-    const [show, setShow] = useState<boolean>(true);
     const [commentsVisible, setCommentsVisible] = useState(false);
-    const { keycloak } = useKeycloak<KeycloakInstance>()
-    const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token })
-    const { refetch } = useQuery('delete' + post.id, () => deletePost(post.id, token), { enabled: false })
+
+    const queryClient = useQueryClient();
+
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
+
+    const mutation = useMutation(() => deletePost(post.id, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(postList)
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
+        }
+    })
 
     const formatTimeStamp = (timestamp: Date) => {
         // The server hosting the API is located in Azure's North Europe data center i.e. Ireland
@@ -35,8 +40,7 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
         setShowDelete(data.id === post.senderId)
 
     const handleDelete = () => {
-        refetch()
-        setShow(false)
+        mutation.mutate()
     }
 
     const getPostTarget = () => {
@@ -48,7 +52,7 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
             return "";
     }
 
-    return show ? <>
+    return <>
         <div className="bg-white my-2 p-4 ">
             <div className="px-4 py-2">
                 <div className="flex mb-6 items-center">
@@ -117,7 +121,7 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
                             <hr className="border-gray-300" />
                             <div className="my-6">
                                 {post.replies.map((id: number) => (
-                                    <Comment key={id} id={id} />
+                                    <Comment key={id} id={id} token={token} postList={postList} />
                                 ))}
                             </div>
                             {post.replies.length <= 0 && (
@@ -125,15 +129,14 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
                                     <p className="text-sm text-gray-500">No comments yet</p>
                                 </div>
                             )}
-                            <CreateComment post={post} token={token}/>
+                            <CreateComment post={post} token={token} postList={postList}/>
                         </div>
                     )}
                 </div>
             </div>
         </div>
         <hr className="border-gray-300 last-of-type:hidden" />
-    </>:
-    <></>
+    </>
 };
 
 export default Post;

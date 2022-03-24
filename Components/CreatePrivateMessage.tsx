@@ -1,11 +1,10 @@
 import { useKeycloak } from '@react-keycloak/ssr';
 import { KeycloakInstance } from 'keycloak-js';
-import { userInfo } from 'os';
 import React, { useState } from 'react';
 import { useQuery } from "react-query";
-import CreatePost from '../pages/CreatePost';
 import { getUsers } from '../Queries/User';
 import { UserType } from '../Types/Data';
+import CreatePost from './CreatePost';
 
 const CreatePrivateMessage: React.FC<{ currentUser: UserType }> = ({ currentUser }) => {
     // default value hardcoded, not optimal
@@ -23,7 +22,7 @@ const CreatePrivateMessage: React.FC<{ currentUser: UserType }> = ({ currentUser
             <select onChange={handleSelectUserChange}>
                 {data?.filter(u => u.id !== currentUser.id).map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
             </select>
-            <CreatePost targetUserId={targetUserId}/>
+            {!!token && <CreatePost targetUserId={targetUserId} token={token} postList=""/>}
         </>
     );
 }

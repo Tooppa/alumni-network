@@ -41,46 +41,46 @@ const Filter: React.FC<{filter: Function}> = ({filter}) => {
                                     <input
                                         type="checkbox"
                                         checked={all}
-                                        name="filter"
+                                        id="all"
                                         onChange={() => setAll(!all)}
                                     />
-                                    <label className="ml-2">All posts</label>
+                                    <label className="ml-2" htmlFor="all">All posts</label>
                                 </div>
                                 <div className="flex items-center text-sm mb-2">
                                     <input
                                         type="checkbox"
                                         checked={topics}
-                                        name="filter"
+                                        id="topics"
                                         onChange={() => setTopics(!topics)}
                                     />
-                                    <label className="ml-2">Subscribed topics</label>
+                                    <label className="ml-2" htmlFor="topics">Subscribed topics</label>
                                 </div>
                                 <div className="flex items-center text-sm mb-2">
                                     <input
                                         type="checkbox"
                                         checked={groups}
-                                        name="filter"
+                                        id="groups"
                                         onChange={() => setGroups(!groups)}
                                     />
-                                    <label className="ml-2">Joined groups</label>
+                                    <label className="ml-2" htmlFor="groups">Joined groups</label>
                                 </div>
                                 <div className="flex items-center text-sm mb-2">
                                     <input
                                         type="checkbox"
                                         checked={ownPosts}
-                                        name="filter"
+                                        id="own"
                                         onChange={() => setOwnPosts(!ownPosts)}
                                     />
-                                    <label className="ml-2">Your posts</label>
+                                    <label className="ml-2" htmlFor="own">Your posts</label>
                                 </div>
                                 <div className="flex items-center text-sm">
                                     <input
                                         type="checkbox"
                                         checked={postsWithReplies}
-                                        name="filter"
+                                        id="replies"
                                         onChange={() => setPostsWithReplies(!postsWithReplies)}
                                     />
-                                    <label className="ml-2">Posts with replies</label>
+                                    <label className="ml-2" htmlFor="replies">Posts with replies</label>
                                 </div>
                             </form>
                         </div>

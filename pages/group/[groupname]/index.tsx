@@ -15,7 +15,7 @@ const Group: NextPage = () => {
     const token: string | undefined = keycloak?.token
     const { data, status } = useQuery<GroupType>('group', () => getGroup(Number(groupname), token), {enabled: !!token})
 
-    if (status === "success"){
+    if (status === "success" && !!token){
         //if there is no corresponding group query prints out a string 
         if(typeof(data) != "object")
             return <>
@@ -28,7 +28,7 @@ const Group: NextPage = () => {
                     <meta name="description" content="Welcome to Alumni Network" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                <GroupDetails group={data} />
+                <GroupDetails group={data} token={token}/>
             </>
         )
     }

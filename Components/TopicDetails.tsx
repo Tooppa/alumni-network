@@ -1,20 +1,17 @@
-import { useKeycloak } from "@react-keycloak/ssr"
-import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
-import CreatePost from "../pages/CreatePost"
-import { getPostsFromTopic, getPostsWithIds } from "../Queries/Post"
+import { getPostsFromTopic } from "../Queries/Post"
 import { joinTopic, unsubscribeTopic } from "../Queries/Topic"
 import { getUser } from "../Queries/User"
 import { PostType, TopicType, UserType } from "../Types/Data"
+import CreatePost from "./CreatePost"
 import Loading from "./Loading"
 import PostList from "./PostList"
 
-const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
+const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, token }) => {
     const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
-    const { keycloak } = useKeycloak<KeycloakInstance>()
-    const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
+
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topic.id, () => getPostsFromTopic(topic.id, token), {enabled: !!token})
     const joinResponse = useQuery('joinTopic' + topic.id, () => joinTopic(topic.id, token), {enabled: false})
     const leaveQuery = useQuery('leaveTopic' + topic.id, () => unsubscribeTopic(topic.id, token), {enabled: false})
@@ -65,27 +62,31 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
                         {topic.description}
                     </div>
                     <div className="mt-6">
-                        {isSubscribed === false &&
+                        {isSubscribed != undefined ? isSubscribed === true ?
+                            <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                Unsubscribe
+                            </button> :
                             <button onClick={onSubscribeClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                                 Subscribe
-                            </button>
-                        }
-                        {isSubscribed === true &&
-                            <button onClick={onUnsubscribeClick} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
-                                Unsubscribe
-                            </button>
+                            </button>:
+                            <button type="button" className="text-white bg-gray-400 shadow hover:bg-gray-300 rounded-full text-sm px-5 py-1 text-center">
+                                No data
+                            </button> 
                         }
                     </div>
                 </div>
             </div>
             {/* TopicId 4 is General */}
-            {isSubscribed === true  || topic.id === 4 ?  <CreatePost topicId={topic.id} /> : <></>}
+            {isSubscribed === true || topic.id === 4 ?
+                <CreatePost topicId={topic.id} token={token} postList={'postsTopic' + topic.id} /> :
+                <></>
+            }
             {postStatus === "success" ?
-                <PostList data={posts}/>:
-                <Loading/>
+                <PostList data={posts} token={token} postList={'postsTopic' + topic.id}/> :
+                <Loading />
             }
         </>
-    )   
+    )
 }
 
 export default TopicDetails

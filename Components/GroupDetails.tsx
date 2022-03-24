@@ -2,25 +2,23 @@ import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
-import { getPostsFromGroup, getPostsWithIds } from "../Queries/Post"
+import { getPostsFromGroup } from "../Queries/Post"
 import { getUser, getUsers } from "../Queries/User"
 import { joinGroup, leaveGroup } from "../Queries/Group"
 import { GroupType, PostType, UserType } from "../Types/Data"
 import Loading from "./Loading"
 import PostList from "./PostList"
-import CreatePost from "../pages/CreatePost"
-import { group } from "console"
+import CreatePost from "./CreatePost"
 
-const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
+const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, token }) => {
     const [isJoined, setIsjoined] = useState<undefined | boolean>(undefined)
-    const { keycloak } = useKeycloak<KeycloakInstance>()
-    const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
-    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
-    const joinResponse = useQuery('joinGroup' + group.id, () => joinGroup(group.id, token), {enabled: false})
-    const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token), { enabled: !!token })
     const [targetUserId, setTargetUserId] = useState(1);
+
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
+    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
+    const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token))
     const inviteQuery = useQuery('inviteToGroup', () => joinGroup(group.id, token, targetUserId), { enabled: false })
+    const joinResponse = useQuery('joinGroup' + group.id, () => joinGroup(group.id, token), {enabled: false})
     const leaveQuery = useQuery('leaveGroup' + group.id, () => leaveGroup(group.id, token), {enabled: false})
 
     if(status === "success" && isJoined == undefined)
@@ -104,8 +102,8 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
             {isJoined === true || group.id === 4 ?
                 postStatus === "success" ?
                     <>
-                        <CreatePost groupId={group.id} />
-                        <PostList data={posts} />
+                        <CreatePost groupId={group.id} token={token} postList={'postsGroup' + group.id}/>
+                        <PostList data={posts} token={token} postList={'postsGroup' + group.id}/>
                     </> :
                     <></> :
                 <div className="flex justify-center">

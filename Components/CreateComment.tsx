@@ -3,11 +3,11 @@ import { useMutation, useQueryClient } from "react-query";
 import { sendPost } from "../Queries/Post";
 import { PostType } from '../Types/Data';
 
-const CreateComment: React.FC<{ post: PostType, token?: string}> = ({ post, token }) => {
+const CreateComment: React.FC<{ post: PostType, token: string, postList: string}> = ({ post, token, postList }) => {
     const [comment, setComment] = useState("");
     const queryClient = useQueryClient();
     const mutation = useMutation((post: string) => sendPost(post,token), {
-        onSuccess: () => { queryClient.invalidateQueries('frontpagePosts') }
+        onSuccess: () => { queryClient.invalidateQueries(postList) }
       })
     
       const onCommentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
