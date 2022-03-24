@@ -22,39 +22,25 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
     const invite = useMutation(() => joinGroup(groupId, token, targetUserId), {
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
-            queryClient.invalidateQueries('groups')
-            queryClient.invalidateQueries('topics')
+            queryClient.invalidateQueries('currentuser')
         }
     })
     const leave = useMutation(() => leaveGroup(groupId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
-            queryClient.invalidateQueries('groups')
-            queryClient.invalidateQueries('topics')
+            queryClient.invalidateQueries('currentuser')
         }
     })
     const join = useMutation(() => joinGroup(groupId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
-            queryClient.invalidateQueries('groups')
-            queryClient.invalidateQueries('topics')
         }
     })
 
     useEffect(() => {
         if (status === "success")
             setIsjoined(!!(data.groups as Array<number>).find(g => g == groupId))
-    }, [status, data, group])
-
-    const onJoinClick = () => {
-        join.mutate()
-        setIsjoined(true);
-    }
-
-    const onLeaveClick = () => {
-        leave.mutate()
-        setIsjoined(false);
-    }
+    }, [status, data, group, groupId])
 
     const handleSelectUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTargetUserId(parseInt(e.target.value));
@@ -93,12 +79,12 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
                     {group.isPrivate === false &&
                         <div className="mt-6">
                             {isJoined === false &&
-                                <button onClick={onJoinClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                                <button onClick={()=>join.mutate()} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                                     Join group
                                 </button>
                             }
                             {isJoined === true &&
-                                <button onClick={onLeaveClick} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                <button onClick={()=>leave.mutate()} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
                                     Leave group
                                 </button>
                             }

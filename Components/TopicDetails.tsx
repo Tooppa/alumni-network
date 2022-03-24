@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { getPostsFromTopic } from "../Queries/Post"
 import { getTopic, joinTopic, unsubscribeTopic } from "../Queries/Topic"
@@ -9,7 +9,7 @@ import Loading from "./Loading"
 import PostList from "./PostList"
 
 const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, token }) => {
-    const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
+    const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
     
     const queryClient = useQueryClient();
 
@@ -19,31 +19,21 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
     const join = useMutation(() => joinTopic(topicId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('topic' + topicId)
-            queryClient.invalidateQueries('groups')
-            queryClient.invalidateQueries('topics')
+            queryClient.invalidateQueries('currentuser')
         }
     })
     const leave = useMutation(() => unsubscribeTopic(topicId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('topic' + topicId)
-            queryClient.invalidateQueries('groups')
-            queryClient.invalidateQueries('topics')
+            queryClient.invalidateQueries('currentuser')
         }
     })
 
-    if(status === "success" && isSubscribed == undefined)
-        setIsSubscribed(!!(data.topics as Array<number>).find(g=> g == topicId))
-    
-    const onSubscribeClick = () => {
-        join.mutate()
-        setIsSubscribed(true);
-    }
+    useEffect(() => {
+        if (status === "success")
+            setIsSubscribed(!!(data.topics as Array<number>).find(g => g == topicId))
+    }, [status, data, isSubscribed, topicId])
 
-    const onUnsubscribeClick = () => {
-        leave.mutate()
-        setIsSubscribed(false);
-    }
-    
     return (
         <>{topicStatus === "success" &&
             <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
@@ -77,15 +67,12 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
                         {topic.description}
                     </div>
                     <div className="mt-6">
-                        {isSubscribed != undefined ? isSubscribed === true ?
-                            <button onClick={onUnsubscribeClick} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                        {isSubscribed === true ?
+                            <button onClick={()=>leave.mutate()} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
                                 Unsubscribe
                             </button> :
-                            <button onClick={onSubscribeClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                            <button onClick={()=>join.mutate()} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                                 Subscribe
-                            </button>:
-                            <button type="button" className="text-white bg-gray-400 shadow hover:bg-gray-300 rounded-full text-sm px-5 py-1 text-center">
-                                No data
                             </button> 
                         }
                     </div>
@@ -97,7 +84,7 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
                 <></>
             }
             {postStatus === "success" ?
-                <PostList data={posts} token={token} postList={'postsTopic' + topicId}/> :
+                <PostList data={posts} token={token} postList={'postsTopic' + topicId} /> :
                 <Loading />
             }
         </>
