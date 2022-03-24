@@ -39,6 +39,15 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
         setShow(false)
     }
 
+    const getPostTarget = () => {
+        if (post.groupName !== null)
+            return "(GROUP) " + post.groupName
+        if (post.topicName !== null)
+            return "(TOPIC) " + post.topicName
+        else
+            return "";
+    }
+
     return show ? <>
         <div className="bg-white my-2 p-4 ">
             <div className="px-4 py-2">
@@ -61,6 +70,8 @@ const Post: React.FC<{ post: PostType }> = ({ post }) => {
                             </p>
                             <span className="mx-1">·</span>
                             <p>{formatTimeStamp(post.timestamp)}</p>
+                            <span className="mx-1">·</span>
+                            <p>{getPostTarget()}</p>
                         </div>
                     </div>
                 </div>
