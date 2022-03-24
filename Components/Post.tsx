@@ -14,7 +14,6 @@ import CreateComment from "./CreateComment";
 
 const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ post, token, postList }) => {
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
-    const [show, setShow] = useState<boolean>(true);
     const [commentsVisible, setCommentsVisible] = useState(false);
 
     const queryClient = useQueryClient();
@@ -41,7 +40,6 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
         setShowDelete(data.id === post.senderId)
 
     const handleDelete = () => {
-        setShow(false)
         mutation.mutate()
     }
 
@@ -54,7 +52,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
             return "";
     }
 
-    return show ? <>
+    return <>
         <div className="bg-white my-2 p-4 ">
             <div className="px-4 py-2">
                 <div className="flex mb-6 items-center">
@@ -131,15 +129,14 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
                                     <p className="text-sm text-gray-500">No comments yet</p>
                                 </div>
                             )}
-                            <CreateComment post={post} token={token} />
+                            <CreateComment post={post} token={token} postList={postList}/>
                         </div>
                     )}
                 </div>
             </div>
         </div>
         <hr className="border-gray-300 last-of-type:hidden" />
-    </> :
-        <></>
+    </>
 };
 
 export default Post;
