@@ -6,14 +6,13 @@ import { deletePost, getPost } from "../Queries/Post"
 import { getUser } from "../Queries/User"
 import { UserType } from "../Types/Data"
 
-const Comment: React.FC<{id: number}>= ({id}) =>{
-    const { keycloak } = useKeycloak()
-    const token: string | undefined = keycloak?.token
-    const { data: post, status } = useQuery(['comment', id], () => getPost(id, token), {enabled: !!token})
+const Comment: React.FC<{id: number, token: string}>= ({id, token}) =>{
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
     const [show, setShow] = useState<boolean>(true);
+    
     const { refetch } = useQuery('delete' + id, () => deletePost(id, token), { enabled: false })
-    const { data, status: userStatus } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token })
+    const { data: post, status } = useQuery(['comment', id], () => getPost(id, token))
+    const { data, status: userStatus } = useQuery<UserType>('currentuser', () => getUser(token))
 
     if (userStatus === "success" && showDelete === undefined && status === "success")
         setShowDelete(data.id === post.senderId)

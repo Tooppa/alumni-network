@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { sendPost } from "../Queries/Post";
 import { PostType } from '../Types/Data';
 
-const CreateComment: React.FC<{ post: PostType, token?: string}> = ({ post, token }) => {
+const CreateComment: React.FC<{ post: PostType, token: string}> = ({ post, token }) => {
     const [comment, setComment] = useState("");
     const queryClient = useQueryClient();
     const mutation = useMutation((post: string) => sendPost(post,token), {

@@ -18,6 +18,7 @@ const Post: React.FC<{ post: PostType, token: string }> = ({ post, token }) => {
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
     const [show, setShow] = useState<boolean>(true);
     const [commentsVisible, setCommentsVisible] = useState(false);
+    
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
     const { refetch } = useQuery('delete' + post.id, () => deletePost(post.id, token), { enabled: false })
 
@@ -104,7 +105,7 @@ const Post: React.FC<{ post: PostType, token: string }> = ({ post, token }) => {
                             <hr className="border-gray-300" />
                             <div className="my-6">
                                 {post.replies.map((id: number) => (
-                                    <Comment key={id} id={id} />
+                                    <Comment key={id} id={id} token={token}/>
                                 ))}
                             </div>
                             {post.replies.length <= 0 && (
