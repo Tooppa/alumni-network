@@ -23,8 +23,8 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
     const mutation = useMutation(() => deletePost(post.id, token), {
         onSuccess: () => {
             queryClient.invalidateQueries(postList)
-            queryClient.invalidateQueries('groups')
-            queryClient.invalidateQueries('topics')
+            queryClient.invalidateQueries('group'+post.targetGroupId)
+            queryClient.invalidateQueries('topic'+post.targetTopicId)
         }
     })
 
