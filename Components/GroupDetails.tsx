@@ -18,11 +18,8 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
     const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token))
     const inviteQuery = useQuery('inviteToGroup', () => joinGroup(group.id, token, targetUserId), { enabled: false })
-<<<<<<< HEAD
     const joinResponse = useQuery('joinGroup' + group.id, () => joinGroup(group.id, token), {enabled: false})
-=======
     const leaveQuery = useQuery('leaveGroup' + group.id, () => leaveGroup(group.id, token), {enabled: false})
->>>>>>> main
 
     if(status === "success" && isJoined == undefined)
         setIsjoined(!!(data.groups as Array<number>).find(g=> g == group.id))

@@ -39,8 +39,8 @@ const Timeline: NextPage = () => {
     let newPosts: Array<PostType> = []
     if (userStatus === "success") {
       if (filter.all) return posts
-      if (filter.groups) newPosts = newPosts.concat(posts.filter((post) => { }))
-      if (filter.topics) newPosts = newPosts.concat(posts.filter((post) => { }))
+      if (filter.groups) newPosts = newPosts.concat(posts.filter((post) => post.groupName != null))
+      if (filter.topics) newPosts = newPosts.concat(posts.filter((post) => post.topicName != null))
       if (filter.replies) newPosts = newPosts.concat(posts.filter((post) => post.replies.length > 0))
       if (filter.own) newPosts = newPosts.concat(posts.filter((post) => post.senderId === user.id))
     }
