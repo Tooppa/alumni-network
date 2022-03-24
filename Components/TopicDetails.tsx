@@ -1,20 +1,17 @@
-import { useKeycloak } from "@react-keycloak/ssr"
-import { KeycloakInstance } from "keycloak-js"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
 import CreatePost from "../pages/CreatePost"
-import { getPostsFromTopic, getPostsWithIds } from "../Queries/Post"
+import { getPostsFromTopic } from "../Queries/Post"
 import { joinTopic } from "../Queries/Topic"
 import { getUser } from "../Queries/User"
 import { PostType, TopicType, UserType } from "../Types/Data"
 import Loading from "./Loading"
 import PostList from "./PostList"
 
-const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
+const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, token }) => {
     const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
-    const { keycloak } = useKeycloak<KeycloakInstance>()
-    const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
+
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topic.id, () => getPostsFromTopic(topic.id, token), {enabled: !!token})
     const joinResponse = useQuery('joinTopic' + topic.id, () => joinTopic(topic.id, token), {enabled: false})
 
@@ -75,7 +72,7 @@ const TopicDetails: React.FC<{topic: TopicType}> = ({ topic }) => {
             {/* TopicId 4 is General */}
             {isSubscribed === true  || topic.id === 4 ?  <CreatePost topicId={topic.id} /> : <></>}
             {postStatus === "success" ?
-                <PostList data={posts}/>:
+                <PostList data={posts} token={token}/>:
                 <Loading/>
             }
         </>

@@ -1,4 +1,3 @@
-import { useKeycloak } from "@react-keycloak/ssr"
 import Link from "next/link"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
@@ -9,7 +8,7 @@ import { UserType } from "../Types/Data"
 const Comment: React.FC<{id: number, token: string}>= ({id, token}) =>{
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
     const [show, setShow] = useState<boolean>(true);
-    
+
     const { refetch } = useQuery('delete' + id, () => deletePost(id, token), { enabled: false })
     const { data: post, status } = useQuery(['comment', id], () => getPost(id, token))
     const { data, status: userStatus } = useQuery<UserType>('currentuser', () => getUser(token))

@@ -18,13 +18,13 @@ export default function CustomModal(){
     const { data: group, status: groupS } = useQuery<GroupType>('group', () => getGroup(Number(router.query.idg), token), {enabled: !!token && !!router.query.idg})
 
     const Detail = () => {
-        if (!!router.query.idt && topicS === "success")
+        if (!!router.query.idt && topicS === "success" && !!token)
             return (
-                <TopicDetails topic={topic as TopicType} />
+                <TopicDetails topic={topic as TopicType} token={token}/>
             )
-        else if (!!router.query.idg && groupS === "success")
+        else if (!!router.query.idg && groupS === "success" && !!token)
             return (
-                <GroupDetails group={group as GroupType} />
+                <GroupDetails group={group as GroupType} token={token}/>
             )
         else return <></>
     }

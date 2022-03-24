@@ -9,8 +9,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useQuery } from "react-query";
 import { getUser } from "../Queries/User";
-import { useKeycloak } from "@react-keycloak/ssr";
-import { KeycloakInstance } from "keycloak-js";
 import { deletePost } from "../Queries/Post";
 import CreateComment from "./CreateComment";
 
@@ -18,7 +16,7 @@ const Post: React.FC<{ post: PostType, token: string }> = ({ post, token }) => {
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
     const [show, setShow] = useState<boolean>(true);
     const [commentsVisible, setCommentsVisible] = useState(false);
-    
+
     const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
     const { refetch } = useQuery('delete' + post.id, () => deletePost(post.id, token), { enabled: false })
 
