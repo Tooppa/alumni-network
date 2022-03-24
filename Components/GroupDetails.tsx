@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { getPostsFromGroup, getPostsWithIds } from "../Queries/Post"
 import { getUser, getUsers } from "../Queries/User"
-import { joinGroup } from "../Queries/Group"
+import { joinGroup, leaveGroup } from "../Queries/Group"
 import { GroupType, PostType, UserType } from "../Types/Data"
 import Loading from "./Loading"
 import PostList from "./PostList"
@@ -21,6 +21,7 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token), { enabled: !!token })
     const [targetUserId, setTargetUserId] = useState(1);
     const inviteQuery = useQuery('inviteToGroup', () => joinGroup(group.id, token, targetUserId), { enabled: false })
+    const leaveQuery = useQuery('leaveGroup' + group.id, () => leaveGroup(group.id, token), {enabled: false})
 
     if(status === "success" && isJoined == undefined)
         setIsjoined(!!(data.groups as Array<number>).find(g=> g == group.id))
@@ -28,6 +29,11 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
     const onJoinClick = () => {
         joinResponse.refetch();
         setIsjoined(true);
+    }
+
+    const onLeaveClick = () => {
+        leaveQuery.refetch();
+        setIsjoined(false);
     }
 
     const handleSelectUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -76,7 +82,7 @@ const GroupDetails: React.FC<{group: GroupType}> = ({ group }) => {
                                 </button>
                             }
                             {isJoined === true &&
-                                <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                <button onClick={onLeaveClick} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
                                     Leave group
                                 </button>
                             }

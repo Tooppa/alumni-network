@@ -45,3 +45,13 @@ export const joinGroup = (groupId: number, token: string = "", userId?: number) 
         })
     }
 }
+
+export const leaveGroup = (id: number, token: string = "") =>
+fetch(`https://alumni-network-api.azurewebsites.net/api/v1/group/${id}/leave`, {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  }
+});
