@@ -41,7 +41,7 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
                     <p className="text-xs text-gray-500">Topic</p>
                     <div className="flex mb-1 items-center">
                         <h1 className="text-2xl font-base text-gray-800 mr-6">{topic.name}</h1>
-                        {isSubscribed === true &&
+                        {!isSubscribed &&
                             <div className="border border-green-300 rounded-xl flex items-center h-4 py-2 px-3 justify-center bg-green-400">
                                 <p className="text-xs text-white">subscribed</p>
                             </div>
@@ -67,12 +67,12 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
                         {topic.description}
                     </div>
                     <div className="mt-6">
-                        {isSubscribed === true ?
-                            <button onClick={()=>leave.mutate()} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
-                                Unsubscribe
-                            </button> :
+                        {!isSubscribed ?
                             <button onClick={()=>join.mutate()} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
                                 Subscribe
+                            </button>:
+                            <button onClick={()=>leave.mutate()} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                Unsubscribe
                             </button> 
                         }
                     </div>

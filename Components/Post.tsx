@@ -53,7 +53,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
     useEffect(()=>{
         if (status === "success")
             setShowDelete(data.id === post.senderId)
-    })
+    }, [status, data, post.senderId])
 
     return <>
         <div className="bg-white my-2 p-4 ">
