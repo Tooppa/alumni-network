@@ -20,7 +20,7 @@ const Dashboard: NextPage = () => {
     const { data: currentUser, status: currentStatus } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('profilePosts', () => getPosts(token), { enabled: !!token })
 
-    if (status === "success" && currentStatus === "success") {
+    if (status === "success" && currentStatus === "success" && !!token) {
         if(data.id != currentUser.id) {
             router.push(`/user/${username}`)
             return <></>
@@ -41,7 +41,7 @@ const Dashboard: NextPage = () => {
                 <Details user={data} />
                 <CreatePrivateMessage currentUser={data}/>
                 {postStatus === "success" &&
-                    <PostList data={posts.filter(post => post.senderId === currentUser.id) as Array<PostType>} />
+                    <PostList data={posts.filter(post => post.senderId === currentUser.id) as Array<PostType>} token={token}/>
                 }
             </>
         )

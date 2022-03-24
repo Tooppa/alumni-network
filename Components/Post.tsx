@@ -14,13 +14,11 @@ import { KeycloakInstance } from "keycloak-js";
 import { deletePost } from "../Queries/Post";
 import CreateComment from "./CreateComment";
 
-const Post: React.FC<{ post: PostType }> = ({ post }) => {
+const Post: React.FC<{ post: PostType, token: string }> = ({ post, token }) => {
     const [showDelete, setShowDelete] = useState<boolean | undefined>(undefined);
     const [show, setShow] = useState<boolean>(true);
     const [commentsVisible, setCommentsVisible] = useState(false);
-    const { keycloak } = useKeycloak<KeycloakInstance>()
-    const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token })
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
     const { refetch } = useQuery('delete' + post.id, () => deletePost(post.id, token), { enabled: false })
 
     const formatTimeStamp = (timestamp: Date) => {

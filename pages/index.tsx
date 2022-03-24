@@ -47,7 +47,7 @@ const Timeline: NextPage = () => {
     return newPosts as Array<PostType>
   }
 
-  if (status === 'success')
+  if (status === 'success' && !!token)
     return (
       <>
         <Head>
@@ -59,7 +59,7 @@ const Timeline: NextPage = () => {
         {/* TODO: Get the current topicId, groupId, parentId or userId and insert it here */}
         <CreatePost topicId={4} />
         <Filter filter={handleFilter} />
-        <PostList data={filterData(data) as Array<PostType>} />
+        <PostList data={filterData(data) as Array<PostType>} token={token}/>
       </>
     )
   else {
