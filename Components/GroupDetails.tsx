@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { getPostsFromGroup } from "../Queries/Post"
 import { getUser, getUsers } from "../Queries/User"
-import { joinGroup } from "../Queries/Group"
+import { joinGroup, leaveGroup } from "../Queries/Group"
 import { GroupType, PostType, UserType } from "../Types/Data"
 import Loading from "./Loading"
 import PostList from "./PostList"
@@ -18,7 +18,11 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + group.id, () => getPostsFromGroup(group.id, token), {enabled: !!token})
     const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token))
     const inviteQuery = useQuery('inviteToGroup', () => joinGroup(group.id, token, targetUserId), { enabled: false })
+<<<<<<< HEAD
     const joinResponse = useQuery('joinGroup' + group.id, () => joinGroup(group.id, token), {enabled: false})
+=======
+    const leaveQuery = useQuery('leaveGroup' + group.id, () => leaveGroup(group.id, token), {enabled: false})
+>>>>>>> main
 
     if(status === "success" && isJoined == undefined)
         setIsjoined(!!(data.groups as Array<number>).find(g=> g == group.id))
@@ -26,6 +30,11 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
     const onJoinClick = () => {
         joinResponse.refetch();
         setIsjoined(true);
+    }
+
+    const onLeaveClick = () => {
+        leaveQuery.refetch();
+        setIsjoined(false);
     }
 
     const handleSelectUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -74,7 +83,7 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
                                 </button>
                             }
                             {isJoined === true &&
-                                <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                <button onClick={onLeaveClick} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
                                     Leave group
                                 </button>
                             }
@@ -85,7 +94,7 @@ const GroupDetails: React.FC<{group: GroupType, token: string}> = ({ group, toke
                             <select onChange={handleSelectUserChange}>
                                 {allUsers?.filter(u => !group.users.includes(u.id || 0)).map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
                             </select>
-                            <button onClick={onInviteClick} type="button">
+                            <button className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center" onClick={onInviteClick} type="button">
                                 Invite
                             </button>
                         </div>
