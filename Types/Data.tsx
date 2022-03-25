@@ -8,9 +8,9 @@ export type PostType = {
   senderPictureURL: string,
   replyParentId: number,
   replies: Array<number>,
-  targetGroupId?: number,
+  targetGroupId: number,
   groupName?: string,
-  targetTopicId?: number,
+  targetTopicId: number,
   topicName?: string
 }
 export type TopicType = {
