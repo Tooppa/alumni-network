@@ -23,18 +23,24 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
             queryClient.invalidateQueries('currentuser')
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
         }
     })
     const leave = useMutation(() => leaveGroup(groupId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
             queryClient.invalidateQueries('currentuser')
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
         }
     })
     const join = useMutation(() => joinGroup(groupId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
             queryClient.invalidateQueries('currentuser')
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
         }
     })
 

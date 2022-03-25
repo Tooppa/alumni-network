@@ -21,6 +21,8 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
       queryClient.invalidateQueries(postList)
       queryClient.invalidateQueries('group'+groupId)
       queryClient.invalidateQueries('topic'+topicId)
+      queryClient.invalidateQueries('groups')
+      queryClient.invalidateQueries('topics')
     }
   })
 
