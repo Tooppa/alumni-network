@@ -20,12 +20,16 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
         onSuccess: () => {
             queryClient.invalidateQueries('topic' + topicId)
             queryClient.invalidateQueries('currentuser')
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
         }
     })
     const leave = useMutation(() => unsubscribeTopic(topicId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('topic' + topicId)
             queryClient.invalidateQueries('currentuser')
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
         }
     })
 

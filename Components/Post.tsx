@@ -25,6 +25,8 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
             queryClient.invalidateQueries(postList)
             queryClient.invalidateQueries('group'+post.targetGroupId)
             queryClient.invalidateQueries('topic'+post.targetTopicId)
+            queryClient.invalidateQueries('groups')
+            queryClient.invalidateQueries('topics')
         }
     })
 
@@ -40,7 +42,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
         mutation.mutate()
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (status === "success")
             setShowDelete(data.id === post.senderId)
     }, [status, data, post.senderId])
@@ -141,7 +143,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
                                     <p className="text-sm text-gray-500">No comments yet</p>
                                 </div>
                             )}
-                            <CreateComment post={post} token={token} postList={postList}/>
+                            <CreateComment post={post} token={token} postList={postList} />
                         </div>
                     )}
                 </div>
