@@ -1,42 +1,47 @@
-import React, { useState } from "react"
-import { useQuery } from "react-query"
+import React, { useEffect, useState } from "react"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { getPostsFromTopic } from "../Queries/Post"
-import { joinTopic, unsubscribeTopic } from "../Queries/Topic"
+import { getTopic, joinTopic, unsubscribeTopic } from "../Queries/Topic"
 import { getUser } from "../Queries/User"
 import { PostType, TopicType, UserType } from "../Types/Data"
 import CreatePost from "./CreatePost"
 import Loading from "./Loading"
 import PostList from "./PostList"
 
-const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, token }) => {
-    const [isSubscribed, setIsSubscribed] = useState<undefined | boolean>(undefined)
-
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
-    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topic.id, () => getPostsFromTopic(topic.id, token), {enabled: !!token})
-    const joinResponse = useQuery('joinTopic' + topic.id, () => joinTopic(topic.id, token), {enabled: false})
-    const leaveQuery = useQuery('leaveTopic' + topic.id, () => unsubscribeTopic(topic.id, token), {enabled: false})
-
-    if(status === "success" && isSubscribed == undefined)
-        setIsSubscribed(!!(data.topics as Array<number>).find(g=> g == topic.id))
+const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, token }) => {
+    const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
     
-    const onSubscribeClick = () => {
-        joinResponse.refetch();
-        setIsSubscribed(true);
-    }
+    const queryClient = useQueryClient();
 
-    const onUnsubscribeClick = () => {
-        leaveQuery.refetch();
-        setIsSubscribed(false);
-    }
-    
+    const { data, status, isFetching } = useQuery<UserType>('currentuser', () => getUser(token))
+    const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topicId, () => getPostsFromTopic(topicId, token))
+    const { data: topic, status: topicStatus } = useQuery<TopicType>('topic' + topicId, () => getTopic(topicId, token))
+    const join = useMutation(() => joinTopic(topicId, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries('topic' + topicId)
+            queryClient.invalidateQueries('currentuser')
+        }
+    })
+    const leave = useMutation(() => unsubscribeTopic(topicId, token), {
+        onSuccess: () => {
+            queryClient.invalidateQueries('topic' + topicId)
+            queryClient.invalidateQueries('currentuser')
+        }
+    })
+
+    useEffect(() => {
+        if (status === "success")
+            setIsSubscribed(!!(data.topics as Array<number>).find(g => g == topicId))
+    }, [status, data, isSubscribed, topicId])
+
     return (
-        <>
+        <>{topicStatus === "success" &&
             <div className="bg-white my-6 p-4 rounded-sm shadow-lg">
                 <div className="p-6">
                     <p className="text-xs text-gray-500">Topic</p>
                     <div className="flex mb-1 items-center">
                         <h1 className="text-2xl font-base text-gray-800 mr-6">{topic.name}</h1>
-                        {isSubscribed === true &&
+                        {!isSubscribed &&
                             <div className="border border-green-300 rounded-xl flex items-center h-4 py-2 px-3 justify-center bg-green-400">
                                 <p className="text-xs text-white">subscribed</p>
                             </div>
@@ -62,27 +67,34 @@ const TopicDetails: React.FC<{topic: TopicType, token: string}> = ({ topic, toke
                         {topic.description}
                     </div>
                     <div className="mt-6">
-                        {isSubscribed != undefined ? isSubscribed === true ?
-                            <button type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
-                                Unsubscribe
-                            </button> :
-                            <button onClick={onSubscribeClick} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                        {!isSubscribed ?
+                            <button
+                                onClick={() => join.mutate()}
+                                disabled={isFetching}
+                                type="button"
+                                className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
+                            >
                                 Subscribe
-                            </button>:
-                            <button type="button" className="text-white bg-gray-400 shadow hover:bg-gray-300 rounded-full text-sm px-5 py-1 text-center">
-                                No data
-                            </button> 
+                            </button> :
+                            <button
+                                onClick={() => leave.mutate()}
+                                disabled={isFetching}
+                                type="button"
+                                className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center"
+                            >
+                                Unsubscribe
+                            </button>
                         }
                     </div>
                 </div>
-            </div>
+            </div>}
             {/* TopicId 4 is General */}
-            {isSubscribed === true || topic.id === 4 ?
-                <CreatePost topicId={topic.id} token={token} postList={'postsTopic' + topic.id} /> :
+            {isSubscribed === true || topicId === 4 ?
+                <CreatePost topicId={topicId} token={token} postList={'postsTopic' + topicId} /> :
                 <></>
             }
             {postStatus === "success" ?
-                <PostList data={posts} token={token} postList={'postsTopic' + topic.id}/> :
+                <PostList data={posts} token={token} postList={'postsTopic' + topicId} /> :
                 <Loading />
             }
         </>

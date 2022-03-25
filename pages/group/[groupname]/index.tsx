@@ -13,7 +13,7 @@ const Group: NextPage = () => {
     const { groupname } = router.query
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<GroupType>('group', () => getGroup(Number(groupname), token), {enabled: !!token})
+    const { data, status } = useQuery<GroupType>('group' + groupname, () => getGroup(Number(groupname), token), {enabled: !!token})
 
     if (status === "success" && !!token){
         //if there is no corresponding group query prints out a string 
@@ -28,7 +28,7 @@ const Group: NextPage = () => {
                     <meta name="description" content="Welcome to Alumni Network" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                <GroupDetails group={data} token={token}/>
+                <GroupDetails groupId={Number(groupname)} token={token}/>
             </>
         )
     }
