@@ -34,6 +34,7 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
     const join = useMutation(() => joinGroup(groupId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
+            queryClient.invalidateQueries('currentuser')
         }
     })
 
