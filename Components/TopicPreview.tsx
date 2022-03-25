@@ -1,9 +1,14 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
 import React from "react"
 import { TopicType } from "../Types/Data"
 
 const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
+    const router = useRouter()
     const noData = !topicPreview?.name
+    const as = router.route == "/topic" ? undefined : `/topic/${topicPreview?.id}`
+    const href = router.route == "/topic" ? `/topic/${topicPreview?.id}` : `/?idt=${topicPreview?.id}`
+    
     return (
         <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105 hover:shadow-lg">
             <div className="pl-4">
@@ -23,7 +28,7 @@ const TopicPreview: React.FC<{topicPreview: TopicType}> = ({topicPreview}) => {
                     </div>
                 </div>
                 <div>
-                    <Link href={`/?idt=${topicPreview?.id}`} as={`/topic/${topicPreview?.id}`}>
+                    <Link href={href} as={as}>
                         <a className="text-xs text-gray-800 hover:underline">
                             {noData ? " " : "View topic →"}
                         </a>

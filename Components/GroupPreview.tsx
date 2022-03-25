@@ -1,9 +1,14 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
 import React from "react"
 import { GroupType } from "../Types/Data"
 
 const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
+    const router = useRouter()
     const noData = !groupPreview?.name
+    const as = router.route == "/group" ? undefined : `/group/${groupPreview?.id}`
+    const href = router.route == "/group" ? `/group/${groupPreview?.id}` : `/?idg=${groupPreview?.id}`
+
     return (
         <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105 hover:shadow-lg">
             <div className="pl-4">
@@ -23,7 +28,7 @@ const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
                     </div>
                 </div>
                 <div>
-                    <Link href={`/?idg=${groupPreview?.id}`} as={`/group/${groupPreview?.id}`}>
+                    <Link href={href} as={as}>
                         <a className="text-xs text-gray-800 hover:underline">
                             {noData ? " " : "View group →"}
                         </a>
