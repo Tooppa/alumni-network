@@ -13,7 +13,7 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
     
     const queryClient = useQueryClient();
 
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
+    const { data, status, isFetching } = useQuery<UserType>('currentuser', () => getUser(token))
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topicId, () => getPostsFromTopic(topicId, token))
     const { data: topic, status: topicStatus } = useQuery<TopicType>('topic' + topicId, () => getTopic(topicId, token))
     const join = useMutation(() => joinTopic(topicId, token), {
@@ -68,12 +68,22 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
                     </div>
                     <div className="mt-6">
                         {!isSubscribed ?
-                            <button onClick={()=>join.mutate()} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                            <button
+                                onClick={() => join.mutate()}
+                                disabled={isFetching}
+                                type="button"
+                                className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
+                            >
                                 Subscribe
-                            </button>:
-                            <button onClick={()=>leave.mutate()} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                            </button> :
+                            <button
+                                onClick={() => leave.mutate()}
+                                disabled={isFetching}
+                                type="button"
+                                className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center"
+                            >
                                 Unsubscribe
-                            </button> 
+                            </button>
                         }
                     </div>
                 </div>

@@ -14,7 +14,7 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
 
     const queryClient = useQueryClient();
 
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token))
+    const { data, status, isFetching } = useQuery<UserType>('currentuser', () => getUser(token))
     const { data: group, status: groupStatus } = useQuery<GroupType>('group' + groupId, () => getGroup(groupId, token))
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsGroup' + groupId, () => getPostsFromGroup(groupId, token), {enabled: !!token})
     const { data: allUsers } = useQuery<Array<UserType>>('allUsers', () => getUsers(token))
@@ -79,12 +79,22 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
                     {group.isPrivate === false &&
                         <div className="mt-6">
                             {isJoined === false &&
-                                <button onClick={()=>join.mutate()} type="button" className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center">
+                                <button
+                                    onClick={() => join.mutate()}
+                                    disabled={isFetching}
+                                    type="button"
+                                    className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
+                                >
                                     Join group
                                 </button>
                             }
                             {isJoined === true &&
-                                <button onClick={()=>leave.mutate()} type="button" className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center">
+                                <button
+                                    onClick={() => leave.mutate()}
+                                    disabled={isFetching}
+                                    type="button"
+                                    className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center"
+                                >
                                     Leave group
                                 </button>
                             }
