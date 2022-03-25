@@ -117,7 +117,7 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
             </div>}
             {postStatus === 'loading' ? <Loading /> : <></>}
             {
-                isJoined === true || groupId === 4 ?
+                isJoined === true ?
                     postStatus === "success" ?
                         <>
                             <CreatePost groupId={groupId} token={token} postList={'postsGroup' + groupId} />

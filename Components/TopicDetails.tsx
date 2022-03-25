@@ -88,8 +88,7 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
                     </div>
                 </div>
             </div>}
-            {/* TopicId 4 is General */}
-            {isSubscribed === true || topicId === 4 ?
+            {isSubscribed === true ?
                 <CreatePost topicId={topicId} token={token} postList={'postsTopic' + topicId} /> :
                 <></>
             }
