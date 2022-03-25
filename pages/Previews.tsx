@@ -68,7 +68,7 @@ const Previews = () => {
                 <div><TopicsElement /></div>
                 <div><GroupElement /></div>
             </div>
-            <Modal />
+            <Modal route="/"/>
         </div>
     )
 }

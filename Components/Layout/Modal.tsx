@@ -1,16 +1,13 @@
 import { useKeycloak } from "@react-keycloak/ssr"
 import { KeycloakInstance } from "keycloak-js"
 import { useRouter } from "next/router"
+import React from "react"
 import Modal from "react-modal"
-import { useQuery } from "react-query"
-import { getGroup } from "../../Queries/Group"
-import { getTopic } from "../../Queries/Topic"
-import { GroupType, TopicType } from "../../Types/Data"
 import GroupDetails from "../GroupDetails"
 import TopicDetails from "../TopicDetails"
 import Content from "./Content"
 
-export default function CustomModal(){
+const CustomModal: React.FC<{route: string}> = ({route}) => {
     const router = useRouter()
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
@@ -18,15 +15,15 @@ export default function CustomModal(){
     const Detail = () => {
         if (!!router.query.idt && !!token)
             return (
-                <TopicDetails topicId={Number(router.query.idt)} token={token}/>
+                <TopicDetails topicId={Number(router.query.idt)} token={token} />
             )
         else if (!!router.query.idg && !!token)
             return (
-                <GroupDetails groupId={Number(router.query.idg)} token={token}/>
+                <GroupDetails groupId={Number(router.query.idg)} token={token} />
             )
         else return <></>
     }
-
+    
     return (
         <Modal
             id="modal"
@@ -37,7 +34,7 @@ export default function CustomModal(){
             onAfterOpen={() => {
                 document.body.style.overflowY = "hidden"
             }}
-            onRequestClose={() => router.push("/")}
+            onRequestClose={() => router.push(route)}
             ariaHideApp={false}
             style={{
                 overlay: {
@@ -64,3 +61,4 @@ export default function CustomModal(){
         </Modal >
     )
 }
+export default CustomModal

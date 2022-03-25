@@ -1,9 +1,14 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
 import React from "react"
 import { GroupType } from "../Types/Data"
 
 const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
+    const router = useRouter()
     const noData = !groupPreview?.name
+    const as = router.route == "/group" ? undefined : `/group/${groupPreview?.id}`
+    const href = router.route == "/group" ? `/group/${groupPreview?.id}` : `/?idg=${groupPreview?.id}`
+
     return (
         <div className="bg-white p-4 rounded-sm shadow-md duration-150 hover:scale-105 hover:shadow-lg">
             <div className="pl-4">
@@ -13,7 +18,7 @@ const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="fill-current text-gray-500 h-2">
                             {noData ? "" : <path d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z" />}
                         </svg>
-                        <p className="text-xs ml-2 text-gray-800">{groupPreview?.users.length || " "}</p>
+                        <p className="text-xs ml-2 text-gray-800">{groupPreview?.users.length}</p>
                     </div>
                     <div className="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="fill-current text-gray-500 h-2">
@@ -23,7 +28,7 @@ const GroupPreview: React.FC<{groupPreview: GroupType}> = ({groupPreview}) => {
                     </div>
                 </div>
                 <div>
-                    <Link href={`/?idg=${groupPreview?.id}`} as={`/group/${groupPreview?.id}`}>
+                    <Link href={href} as={as}>
                         <a className="text-xs text-gray-800 hover:underline">
                             {noData ? " " : "View group →"}
                         </a>

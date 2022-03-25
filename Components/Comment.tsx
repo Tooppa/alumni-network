@@ -1,3 +1,5 @@
+import { formatDistanceToNow } from "date-fns"
+import { zonedTimeToUtc } from "date-fns-tz"
 import Link from "next/link"
 import React, { useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
@@ -22,6 +24,13 @@ const Comment: React.FC<{ id: number, token: string , postList: string}> = ({ id
 
     if (userStatus === "success" && showDelete === undefined && status === "success")
         setShowDelete(data.id === post.senderId)
+    
+    const formatCommentTimeStamp = (timestamp: Date) => {
+        return formatDistanceToNow(
+            zonedTimeToUtc(new Date(timestamp), "Europe/Dublin"),
+            { addSuffix: true, includeSeconds: true }
+        )
+    }
 
     const handleDelete = () => {
         mutation.mutate()
@@ -30,11 +39,15 @@ const Comment: React.FC<{ id: number, token: string , postList: string}> = ({ id
     if (status === "success")
         return <div className="flex group p-2 hover:bg-slate-50">
             <div className="text-sm text-gray-800">
-                <Link href={`/user/${encodeURIComponent(post.senderId)}`}>
-                    <a className="font-semibold hover:underline">
-                        {post.senderName}
-                    </a>
-                </Link>
+                <div className="flex items-center">
+                    <Link href={`/user/${encodeURIComponent(post.senderId)}`}>
+                        <a className="font-semibold hover:underline">
+                            {post.senderName}
+                        </a>
+                    </Link>
+                    <span className="mx-1 text-gray-500">·</span>
+                    <span className="text-xs text-gray-500">{formatCommentTimeStamp(post.timestamp)}</span>
+                </div>
                 <div className="ml-2">{post.body}</div>
             </div>
             <div className="hidden ml-auto mr-4 group-hover:flex">
