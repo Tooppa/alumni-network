@@ -19,8 +19,8 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
   const mutation = useMutation((post: string) => sendPost(post, token), {
     onSuccess: () => {
       queryClient.invalidateQueries(postList)
-      queryClient.invalidateQueries('groups')
-      queryClient.invalidateQueries('topics')
+      queryClient.invalidateQueries('group'+groupId)
+      queryClient.invalidateQueries('topic'+topicId)
     }
   })
 
