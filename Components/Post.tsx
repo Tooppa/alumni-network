@@ -36,18 +36,8 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
         );
     };
 
-
     const handleDelete = () => {
         mutation.mutate()
-    }
-
-    const getPostTarget = () => {
-        if (post.groupName !== null)
-            return "(GROUP) " + post.groupName
-        if (post.topicName !== null)
-            return "(TOPIC) " + post.topicName
-        else
-            return "";
     }
 
     useEffect(()=>{
@@ -69,7 +59,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
                     <div>
                         <h1 className="text-xl text-gray-800">{post.title}</h1>
                         <div className="flex text-xs text-gray-600">
-                            <p className="">
+                            <p>
                                 Posted by
                                 <Link href={`/user/${encodeURIComponent(post.senderId)}`}>
                                     <a className="ml-1 hover:underline">{post.senderName}</a>
@@ -78,7 +68,26 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
                             <span className="mx-1">·</span>
                             <p>{formatTimeStamp(post.timestamp)}</p>
                             <span className="mx-1">·</span>
-                            <p>{getPostTarget()}</p>
+                            {post.groupName !== null &&
+                                <Link href={`/group/${encodeURIComponent(post.targetGroupId)}`}>
+                                    <a className="flex hover:underline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" className="fill-current text-gray-500 h-3 mr-1">
+                                            <path d="M224 256c70.7 0 128-57.31 128-128S294.7 0 224 0C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3c-95.73 0-173.3 77.6-173.3 173.3C0 496.5 15.52 512 34.66 512H413.3C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304zM479.1 320h-73.85C451.2 357.7 480 414.1 480 477.3C480 490.1 476.2 501.9 470 512h138C625.7 512 640 497.6 640 479.1C640 391.6 568.4 320 479.1 320zM432 256C493.9 256 544 205.9 544 144S493.9 32 432 32c-25.11 0-48.04 8.555-66.72 22.51C376.8 76.63 384 101.4 384 128c0 35.52-11.93 68.14-31.59 94.71C372.7 243.2 400.8 256 432 256z" />
+                                        </svg>
+                                        <span>{post.groupName}</span>
+                                    </a>
+                                </Link>
+                            }
+                            {post.topicName !== null &&
+                                <Link href={`/topic/${encodeURIComponent(post.targetTopicId)}`}>
+                                    <a className="flex hover:underline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="fill-current text-gray-500 h-3 mr-1">
+                                            <path d="M256 0v128h128L256 0zM224 128L224 0H48C21.49 0 0 21.49 0 48v416C0 490.5 21.49 512 48 512h288c26.51 0 48-21.49 48-48V160h-127.1C238.3 160 224 145.7 224 128zM272 416h-160C103.2 416 96 408.8 96 400C96 391.2 103.2 384 112 384h160c8.836 0 16 7.162 16 16C288 408.8 280.8 416 272 416zM272 352h-160C103.2 352 96 344.8 96 336C96 327.2 103.2 320 112 320h160c8.836 0 16 7.162 16 16C288 344.8 280.8 352 272 352zM288 272C288 280.8 280.8 288 272 288h-160C103.2 288 96 280.8 96 272C96 263.2 103.2 256 112 256h160C280.8 256 288 263.2 288 272z" />
+                                        </svg>
+                                        <span>{post.topicName}</span>
+                                    </a>
+                                </Link>
+                            }
                         </div>
                     </div>
                 </div>
