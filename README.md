@@ -1,34 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# alumni-network
 
-## Getting Started
+![GitHub repo size](https://img.shields.io/github/repo-size/Tooppa/alumni-network)
 
-First, run the development server:
+[Backend repository](https://github.com/fi-dotnet-alumni/AlumniNetworkAPI)
 
-```bash
-npm run dev
-# or
-yarn dev
+## Table of Contents
+
+- [General Information](#general-information)
+- [Live Demo](#live-demo)
+- [Technologies](#technologies)
+- [Installation and Usage](#installation-and-usage)
+- [Contributors](#contributors)
+
+## General Information
+
+## Live Demo
+
+**NOTE:** If you using application for first time you will need to create new account. Otherwise log in with existing account.
+
+Live demo is currently available [here](alumni-network.vercel.app) (Hosted on Vercel)
+
+## Technologies
+
+The project is implemented with using following technologies:
+
+- React
+- Next.js
+- Typescript
+- Tailwind CSS
+
+## Installation and Usage
+
+**NOTE:** You will need _node_ and _npm_ installed on your machine
+
+1. Clone the project repository
+
+```sh
+git clone https://github.com/Tooppa/alumni-network.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```sh
+npm install
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+3. Start the development server
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```sh
+npm run dev
+```
 
-## Learn More
+4. To see application open your browser and navigate to
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+localhost:3000
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributors
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+[Tomas Valkendorff (@Tooppa)](https://github.com/Tooppa)
 
-## Deploy on Vercel
+[Arttu Hartikainen (@arttuhar)](https://github.com/arttuhar)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[Mikko Ryynänen (@mikkoryynanen)](https://github.com/mikkoryynanen)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[Timo Järvenpää (@TimoJarvenpaa)](https://github.com/TimoJarvenpaa)
