@@ -49,7 +49,7 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
 
     return (
         <>{groupStatus === "success" &&
-            < div className="bg-white my-6 p-4 shadow-lg rounded-sm">
+            < div className="bg-white my-6 p-4 shadow-md rounded-sm">
                 <div className="p-6">
                     <p className="text-xs text-gray-500">Group</p>
                     <div className="flex mb-1 items-center">
@@ -102,12 +102,14 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
                         </div>
                     }
                     {group.isPrivate === true &&
-                        <div>
-                            <select onChange={handleSelectUserChange}>
-                                {allUsers?.filter(u => !group.users.includes(u.id || 0)).map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
+                        <div className="flex items-center mt-6">
+                            <select onChange={handleSelectUserChange} className="border border-gray-200 text-sm text-gray-800 rounded-sm mr-4 px-5 py-1 focus:outline-none">
+                                {allUsers?.filter(u => !group.users.includes(u.id || 0)).map(u =>
+                                    <option className="" key={u.id} value={u.id}>{u.name}</option>
+                                )}
                             </select>
                             <button
-                                className="text-white ml-auto bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
+                                className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
                                 onClick={() => invite.mutate()} type="button">
                                 Invite
                             </button>

@@ -17,6 +17,7 @@ export type TopicType = {
   id: number,
   name: string,
   description: string,
+  users: Array<number>,
   posts: Array<number>
 }
 export type TopicCreateType = {
