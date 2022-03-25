@@ -14,17 +14,15 @@ export default function CustomModal(){
     const router = useRouter()
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data: topic, status: topicS } = useQuery<TopicType>('topic' + router.query.idt, () => getTopic(Number(router.query.idt), token), {enabled: !!token && !!router.query.idt})
-    const { data: group, status: groupS } = useQuery<GroupType>('group' + router.query.idg, () => getGroup(Number(router.query.idg), token), {enabled: !!token && !!router.query.idg})
 
     const Detail = () => {
-        if (!!router.query.idt && topicS === "success" && !!token)
+        if (!!router.query.idt && !!token)
             return (
-                <TopicDetails topic={topic as TopicType} token={token}/>
+                <TopicDetails topicId={Number(router.query.idt)} token={token}/>
             )
-        else if (!!router.query.idg && groupS === "success" && !!token)
+        else if (!!router.query.idg && !!token)
             return (
-                <GroupDetails group={group as GroupType} token={token}/>
+                <GroupDetails groupId={Number(router.query.idg)} token={token}/>
             )
         else return <></>
     }

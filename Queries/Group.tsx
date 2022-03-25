@@ -24,7 +24,7 @@ export const createGroup = (group: GroupCreateType, token: string = "") =>
     body: JSON.stringify(group),
   });
 
-export const joinGroup = (groupId: number, token: string = "", userId?: number) => {
+export const joinGroup = async (groupId: number, token: string = "", userId?: number) => {
     if (typeof userId !== 'undefined') {
         fetch(`https://alumni-network-api.azurewebsites.net/api/v1/group/${groupId}/join`, {
             method: "POST",
