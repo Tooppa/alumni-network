@@ -23,6 +23,7 @@ const CreateGroup = () => {
       },
     });
 
+    // Create new group
     const onCreate = () => {
         if (title === '' && description === '') {
             console.error('please add title and description');

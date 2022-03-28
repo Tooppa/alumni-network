@@ -22,6 +22,7 @@ const CreateTopic = () => {
     },
   });
 
+  // Create new topic
   const onCreate = () => {
     if (title === "" && description === "") {
       console.error("please add title and description");

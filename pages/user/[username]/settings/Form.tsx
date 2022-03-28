@@ -37,17 +37,19 @@ const SettingsForm: React.FC<{user: UserType}> = ({ user }) => {
             postUserById(user.id as number, newUser, token);
             setCreated(true);
         } else {
-            console.error('could not validate pciture url');
+            console.error('could not validate picture url');
             
         }
     }
 
+    // Check if image has valid file type, set image url to profile image
     const validateAndSetFormData = (url: string) => {
         const isValid = isImage(url) && validator.isURL(url);
         setCanSendForm(isValid);
         setPictureUrl(url);
     }
 
+    // Check if image url has valid file type
     const isImage = (url: string) => {
       return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
     }
