@@ -4,17 +4,18 @@ import { KeycloakInstance } from 'keycloak-js';
 import { useQuery } from 'react-query';
 import { UserType } from '../../Types/Data';
 import { getUser } from '../../Queries/User';
+import { useState } from 'react';
 
 const Navbar = () => {
     const { keycloak } = useKeycloak<KeycloakInstance>()
     const token: string | undefined = keycloak?.token
-    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
+    const { data, status } = useQuery<UserType>('currentuser', () => getUser(token), { enabled: !!token })
 
     return(
         <div className="bg-gray-800 px-4 py-6 shadow-md sticky top-0 z-50 mb-8">
             <div className="container flex flex-wrap justify-between items-center mx-auto">
                 <Link href="/">
-                    <a className="flex items-center">
+                    <a className="flex items-center ml-4">
                         <span className="text-white self-center text-xl whitespace-nowrap font-thin">
                             alumni
                         </span>
