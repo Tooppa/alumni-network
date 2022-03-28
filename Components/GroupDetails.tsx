@@ -27,6 +27,7 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
             queryClient.invalidateQueries('topics')
         }
     })
+
     const leave = useMutation(() => leaveGroup(groupId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
@@ -35,6 +36,7 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
             queryClient.invalidateQueries('topics')
         }
     })
+
     const join = useMutation(() => joinGroup(groupId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('group' + groupId)
@@ -49,6 +51,7 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
             setIsjoined(!!(data.groups as Array<number>).find(g => g == groupId))
     }, [status, data, group, groupId])
 
+    // Handle invite menu change
     const handleSelectUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTargetUserId(parseInt(e.target.value));
     }
