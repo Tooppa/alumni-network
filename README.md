@@ -28,6 +28,8 @@ The project is implemented with using following technologies:
 - Next.js
 - Typescript
 - Tailwind CSS
+- React-Modal
+- React-Infinite-Scroll
 
 ## Installation and Usage
 
