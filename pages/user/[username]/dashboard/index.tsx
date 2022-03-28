@@ -21,6 +21,7 @@ const Dashboard: NextPage = () => {
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('profilePosts', () => getPosts(token), { enabled: !!token })
 
     if (status === "success" && currentStatus === "success" && !!token) {
+        //redirects if its not your dashboard
         if(data.id != currentUser.id) {
             router.push(`/user/${username}`)
             return <></>

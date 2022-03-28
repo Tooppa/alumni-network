@@ -17,6 +17,7 @@ const Settings: NextPage = () => {
     const { data: currentUser, status: currentStatus } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
     
     if (status === "success" && currentStatus === "success") {
+        //redirects if not your settings
         if(data.id != currentUser.id) {
             router.push(`/user/${username}`)
             return <></>

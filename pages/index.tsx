@@ -25,6 +25,7 @@ const Timeline: NextPage = () => {
     replies: false
   })
 
+  //this function is called from the filter component and it sets the current filter settings
   const handleFilter = (all: boolean, groups: boolean, topics: boolean, own: boolean, replies: boolean) => {
     setFilter({
       all: all,
@@ -35,6 +36,8 @@ const Timeline: NextPage = () => {
     })
   }
 
+  //handles the filter that has been sent from the filter component
+  //it creates an empty array and concats a filtered part of the fetched array for everytime it has a match
   const filterData = (posts: Array<PostType>) => {
     let newPosts: Array<PostType> = []
     if (userStatus === "success") {
