@@ -26,6 +26,7 @@ The project is implemented with using following technologies:
 
 - React
 - Next.js
+- React-Query
 - Typescript
 - Tailwind CSS
 - React-Modal
