@@ -24,7 +24,8 @@ const Previews = () => {
                 <p className="text-sm text-gray-800 ml-2">Topics</p>
             </div>
             <div className="grid grid-cols-1 gap-4 my-4">
-                {topicStatus === "success" ? 
+                {//makes a fake array with array.from(array(3)) if there is no info yet
+                topicStatus === "success" ? 
                     topics.slice(0, 3).map((t: TopicType) => <TopicPreview key={t.id} topicPreview={t} />):
                     Array.from(Array(3)).map((t,i) => <TopicPreview key={i} topicPreview={t}/>)
                 }
@@ -48,7 +49,8 @@ const Previews = () => {
                 <p className="text-sm text-gray-800 ml-2">Groups</p>
             </div>
             <div className="grid grid-cols-1 gap-4 my-4">
-                {groupStatus === "success" ? 
+                {//makes a fake array with array.from(array(3)) if there is no info yet
+                groupStatus === "success" ? 
                 groups.slice(0, 3).map((g: GroupType) => <GroupPreview key={g.id} groupPreview={g} />):
                     Array.from(Array(3)).map((t,i) => <GroupPreview key={i} groupPreview={t}/>)
                 }

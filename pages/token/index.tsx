@@ -9,6 +9,7 @@ const Token: NextPage = () => {
   const { keycloak } = useKeycloak<KeycloakInstance>()
   const token: string | undefined = keycloak?.token
 
+  //basic page used for getting the token and debugging.
   return (
         <>
             <Head>

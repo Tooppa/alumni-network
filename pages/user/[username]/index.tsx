@@ -17,6 +17,7 @@ const Profile: NextPage = () => {
     const { data: currentUser, status: currentStatus } = useQuery<UserType>('currentuser', () => getUser(token), {enabled: !!token})
 
     if (status === "success" && currentStatus === "success") {
+        //if its id and current user id does match redirects to the dashboard
         if(data.id === currentUser.id) {
             router.push(`/user/${username}/dashboard`)
             return <></>
