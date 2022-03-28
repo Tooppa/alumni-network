@@ -6,14 +6,17 @@ import { PostType } from '../Types/Data';
 const CreateComment: React.FC<{ post: PostType, token: string, postList: string}> = ({ post, token, postList }) => {
     const [comment, setComment] = useState("");
     const queryClient = useQueryClient();
+
     const mutation = useMutation((post: string) => sendPost(post,token), {
         onSuccess: () => { queryClient.invalidateQueries(postList) }
       })
     
-      const onCommentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Handle comment input field change
+    const onCommentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setComment(e.target.value);
 	};
 
+    // Submit new comment
     const onCommentSubmit = () => {
         if (comment === '')
             return
@@ -25,6 +28,7 @@ const CreateComment: React.FC<{ post: PostType, token: string, postList: string}
             console.error('Message sending failed, token is undefined');
     }
 
+    // Get comment body text, parent post, and  target topic, target group or target user 
     const getPostType = () => {
         return {
           title: "",

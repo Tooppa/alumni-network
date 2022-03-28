@@ -8,6 +8,7 @@ const Filter: React.FC<{filter: Function}> = ({filter}) => {
     const [ownPosts, setOwnPosts] = useState<boolean>(false)
     const [postsWithReplies, setPostsWithReplies] = useState<boolean>(false)
 
+    // Apply selected filter options
     const applyFilter = () => {
         filter(all,groups,topics,ownPosts,postsWithReplies)
     }

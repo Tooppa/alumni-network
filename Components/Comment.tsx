@@ -25,13 +25,16 @@ const Comment: React.FC<{ id: number, token: string , postList: string}> = ({ id
     if (userStatus === "success" && showDelete === undefined && status === "success")
         setShowDelete(data.id === post.senderId)
     
+    // Format timestamp
     const formatCommentTimeStamp = (timestamp: Date) => {
+        // The server hosting the API is located in Azure's North Europe data center i.e. Ireland
         return formatDistanceToNow(
             zonedTimeToUtc(new Date(timestamp), "Europe/Dublin"),
             { addSuffix: true, includeSeconds: true }
         )
     }
 
+    // Handle comment deletion
     const handleDelete = () => {
         mutation.mutate()
     }

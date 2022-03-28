@@ -38,6 +38,7 @@ const Previews = () => {
             </div>
         </>
     }
+    
     const GroupElement = () => {
         return <>
             <div className="flex ml-3 items-center">
