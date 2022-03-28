@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { PostType, UserType } from "../Types/Data";
 import Comment from "./Comment";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, parse } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -34,7 +34,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
     const formatTimeStamp = (timestamp: Date) => {
         // The server hosting the API is located in Azure's North Europe data center i.e. Ireland
         return formatDistanceToNow(
-            zonedTimeToUtc(new Date(timestamp), "Europe/Dublin"),
+            zonedTimeToUtc(timestamp, "Etc/GMT+0"),
             { addSuffix: true, includeSeconds: true }
         );
     };
