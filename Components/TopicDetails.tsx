@@ -16,6 +16,7 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
     const { data, status, isFetching } = useQuery<UserType>('currentuser', () => getUser(token))
     const { data: posts, status: postStatus } = useQuery<Array<PostType>>('postsTopic' + topicId, () => getPostsFromTopic(topicId, token))
     const { data: topic, status: topicStatus } = useQuery<TopicType>('topic' + topicId, () => getTopic(topicId, token))
+
     const join = useMutation(() => joinTopic(topicId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('topic' + topicId)
@@ -24,6 +25,7 @@ const TopicDetails: React.FC<{topicId: number, token: string}> = ({ topicId, tok
             queryClient.invalidateQueries('topics')
         }
     })
+    
     const leave = useMutation(() => unsubscribeTopic(topicId, token), {
         onSuccess: () => {
             queryClient.invalidateQueries('topic' + topicId)

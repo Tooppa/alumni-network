@@ -9,6 +9,7 @@ const PostList: React.FC<{data: Array<PostType>, token: string, postList: string
     const [amount, setAmount] = useState<number>(howManyPerFetch)
     const [hasMore, setHasMore] = useState<boolean>(true);
 
+    // Fetch posts
     const fetchData = () => {
         setAmount(amount + howManyPerFetch)
         if (data.length < amount) {

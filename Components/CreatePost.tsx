@@ -26,6 +26,7 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
     }
   })
 
+  // Get post title, body text, parent id, and target topic, target group or target user
   const getPostType = () => {
     return {
       title: postTitle,
@@ -37,6 +38,7 @@ const CreatePost: React.FC<Parameters> = ({ topicId, groupId, parentId, targetUs
     }
   };
 
+  // Submit new post
   const onSendPost = () => {
     if (postTitle === '' || postBody === '')
       return;

@@ -30,6 +30,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
         }
     })
 
+    // Format timestamp
     const formatTimeStamp = (timestamp: Date) => {
         // The server hosting the API is located in Azure's North Europe data center i.e. Ireland
         return formatDistanceToNow(
@@ -38,6 +39,7 @@ const Post: React.FC<{ post: PostType, token: string, postList: string }> = ({ p
         );
     };
 
+    // Handle post deletion
     const handleDelete = () => {
         mutation.mutate()
     }
