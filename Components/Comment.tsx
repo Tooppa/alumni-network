@@ -29,7 +29,7 @@ const Comment: React.FC<{ id: number, token: string , postList: string}> = ({ id
     const formatCommentTimeStamp = (timestamp: Date) => {
         // The server hosting the API is located in Azure's North Europe data center i.e. Ireland
         return formatDistanceToNow(
-            zonedTimeToUtc(new Date(timestamp), "Europe/Dublin"),
+            zonedTimeToUtc(new Date(timestamp), "Etc/GMT+0"),
             { addSuffix: true, includeSeconds: true }
         )
     }
