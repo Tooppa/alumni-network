@@ -2,6 +2,10 @@
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Tooppa/alumni-network)
 
+[User Manual](docs/User%20manual%20-%20Alumni%20network.pdf)
+
+[Component Tree](/docs/alumni-network-ct.pdf)
+
 [Backend repository](https://github.com/fi-dotnet-alumni/AlumniNetworkAPI)
 
 ## Table of Contents
