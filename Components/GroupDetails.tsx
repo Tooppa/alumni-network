@@ -86,30 +86,28 @@ const GroupDetails: React.FC<{groupId: number, token: string}> = ({ groupId, tok
                     <div className="text-sm text-gray-800">
                         {group.description}
                     </div>
-                    {group.isPrivate === false &&
-                        <div className="mt-6">
-                            {isJoined === false &&
-                                <button
-                                    onClick={() => join.mutate()}
-                                    disabled={isFetching}
-                                    type="button"
-                                    className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
-                                >
-                                    Join group
-                                </button>
-                            }
-                            {isJoined === true &&
-                                <button
-                                    onClick={() => leave.mutate()}
-                                    disabled={isFetching}
-                                    type="button"
-                                    className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center"
-                                >
-                                    Leave group
-                                </button>
-                            }
-                        </div>
-                    }
+                    <div className="mt-6">
+                        {isJoined === false &&
+                            <button
+                                onClick={() => join.mutate()}
+                                disabled={isFetching}
+                                type="button"
+                                className="text-white bg-green-400 shadow hover:bg-green-300 rounded-full text-sm px-5 py-1 text-center"
+                            >
+                                Join group
+                            </button>
+                        }
+                        {isJoined === true &&
+                            <button
+                                onClick={() => leave.mutate()}
+                                disabled={isFetching}
+                                type="button"
+                                className="text-white bg-red-400 shadow hover:bg-red-300 rounded-full text-sm px-5 py-1 text-center"
+                            >
+                                Leave group
+                            </button>
+                        }
+                    </div>
                     {group.isPrivate === true &&
                         <div className="flex items-center mt-6">
                             <select onChange={handleSelectUserChange} className="border border-gray-200 text-sm text-gray-800 rounded-sm mr-4 px-5 py-1 focus:outline-none">
