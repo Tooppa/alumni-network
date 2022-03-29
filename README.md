@@ -56,13 +56,15 @@ git clone https://github.com/Tooppa/alumni-network.git
 npm install
 ```
 
-3. Start the development server
+3. Go to queries folder and update querys to match your backend solutions.
+
+4. Start the development server
 
 ```sh
 npm run dev
 ```
 
-4. To see the application, open your browser and navigate to
+5. To see application open your browser and navigate to
 
 ```sh
 localhost:3000
